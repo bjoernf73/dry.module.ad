@@ -24,22 +24,22 @@
     RootModule            = 'dry.module.ad.psm1'
 
     # Version number of this module.
-    ModuleVersion         = '1.1.2'
+    ModuleVersion         = '0.0.3'
 
     # Supported PSEditions
     CompatiblePSEditions  = @('Desktop')
 
     # ID used to uniquely identify this module
-    GUID                  = '11b81488-8867-49fa-9191-ac5ffd505d25'
+    GUID                  = '6a25025f-77d4-4989-8033-6fa2d0276b99'
 
     # Author of this module
-    Author = 'bjoernf73@github.com'
+    Author = 'bjoernf73'
 
     # Company or vendor of this module
     # CompanyName = ''
 
     # Copyright statement for this module
-    Copyright = '(c) 2021 bjoernf73@github.com. All rights reserved.'
+    Copyright = '(c) 2021 bjoernf73. All rights reserved.'
 
     # Description of the functionality provided by this module
     Description           = "Creates and configures Active Directory objects. Supports creation of OUs, creation of groups and user accounts, users' and groups' group memberships, adding ACLs to AD objects, import, migration and linking of backup-GPOs, import, linking and migration of json-formatted-GPOs (requires the 'GPOManagement' module which is not openly available), import and linking of WMIFilters, copying of administrative templates to the central PolicyDefinitions folder, copying NETLOGON files, AD schema extensions (from .ldf's). If you pass in a PSSession to a domain controller to Import-DryADConfiguration, all scriptblocks will execute in that session. If not, scriptblocks will run on the local system in context of the executing user."
@@ -72,6 +72,10 @@
         @{
             ModuleName    = "ActiveDirectory"; 
             ModuleVersion = "1.0.1.0"
+        },
+        @{
+            ModuleName    = "GroupPolicy"; 
+            ModuleVersion = "1.0.0.0"
         }
     )
 
