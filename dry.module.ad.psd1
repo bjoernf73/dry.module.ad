@@ -66,8 +66,7 @@
     RequiredModules       = @(
         @{
             ModuleName    = "dry.module.log"; 
-            ModuleVersion = "0.0.2"; 
-            Guid          = "267d805a-196e-4d87-8d73-4ef45df727c3"
+            ModuleVersion = "0.0.2"
         },
         @{
             ModuleName    = "ActiveDirectory"; 
