@@ -66,6 +66,7 @@
     RequiredModules       = @(
         @{
             ModuleName    = "dry.module.log"
+            ModuleVersion = '0.0.3'
         }
     )
 
