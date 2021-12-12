@@ -24,7 +24,7 @@
     RootModule            = 'dry.module.ad.psm1'
 
     # Version number of this module.
-    ModuleVersion         = '0.0.3'
+    ModuleVersion         = '0.0.4'
 
     # Supported PSEditions
     CompatiblePSEditions  = @('Desktop')
@@ -65,16 +65,7 @@
     # Modules that must be imported into the global environment prior to importing this module
     RequiredModules       = @(
         @{
-            ModuleName    = "dry.module.log"; 
-            ModuleVersion = "0.0.2"
-        },
-        @{
-            ModuleName    = "ActiveDirectory"; 
-            ModuleVersion = "1.0.1.0"
-        },
-        @{
-            ModuleName    = "GroupPolicy"; 
-            ModuleVersion = "1.0.0.0"
+            ModuleName    = "dry.module.log"
         }
     )
 
@@ -119,7 +110,7 @@
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
     PrivateData           = @{
-
+        ExternalModuleDependencies = @("ActiveDirectory", "GroupPolicy")
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
@@ -135,7 +126,7 @@
             # IconUri = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = "Creates and configures Active Directory objects. Supports creation of OUs, creation of groups and user accounts, users' and groups' group memberships, adding ACLs to AD objects, import, migration and linking of backup-GPOs, import, linking and migration of json-formatted-GPOs (requires the 'GPOManagement' module which is not openly available), import and linking of WMIFilters, copying of administrative templates to the central PolicyDefinitions folder, copying NETLOGON files, AD schema extensions (from .ldf's). If you pass in a PSSession to a domain controller to Import-DryADConfiguration, all scriptblocks will execute in that session. If not, scriptblocks will run on the local system in context of the executing user."
+            ReleaseNotes = "Publishing with newest PowershellGet to not include .git in the package"
 
         } # End of PSData hashtable
 
