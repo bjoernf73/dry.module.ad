@@ -147,10 +147,12 @@ function Import-DryADConfiguration {
         
         # For debug
         $Variables.ForEach({
-            ol i @("Var: $($_.name)","$($_.Value)")
+            Param($x)
+            ol i @("Var: $($x.name)","$($x.Value)")
         })
 
-        ol i 'Domain', "$DomainFQDN"
+        ol i 'Domain FQDN', "$DomainFQDN"
+        ol i 'Domain NB', "$DomainNB"
         if ($ADSite) {
             ol i 'ADSite', "$ADSite"
         }
@@ -205,10 +207,10 @@ function Import-DryADConfiguration {
         #   to ignore
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        [String]$OUCase = 'ignore'
-        [String]$GPOCase = 'ignore'
+        [String]$OUCase    = 'ignore'
+        [String]$GPOCase   = 'ignore'
         [String]$GroupCase = 'ignore'
-        [String]$UserCase = 'ignore'
+        [String]$UserCase  = 'ignore'
 
         if ($RoleConfiguration.casing.ad_organizational_unit_case) {
             [String]$OUCase = $RoleConfiguration.casing.ad_organizational_unit_case
@@ -223,10 +225,10 @@ function Import-DryADConfiguration {
             [String]$UserCase = $RoleConfiguration.casing.ad_user_case
         }
 
-        ol v 'Casing - OUs', "$OUCase"
-        ol v 'Casing - GPOs', "$GPOCase"
+        ol v 'Casing - OUs',    "$OUCase"
+        ol v 'Casing - GPOs',   "$GPOCase"
         ol v 'Casing - Groups', "$GroupCase"
-        ol v 'Casing - Users', "$UserCase"
+        ol v 'Casing - Users',  "$UserCase"
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
