@@ -144,6 +144,11 @@ function Import-DryADConfiguration {
                     }
                 }
             })
+        
+        # For debug
+        $Variables.ForEach({
+            ol i @("Var: $($_.name)","$($_.Value)")
+        })
 
         ol i 'Domain', "$DomainFQDN"
         if ($ADSite) {
