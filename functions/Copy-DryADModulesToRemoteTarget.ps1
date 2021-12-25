@@ -79,6 +79,9 @@ Function Copy-DryADModulesToRemoteTarget {
                     Force       = $True
                 }
                 ol d @("Copying module to '($PSSession.ComputerName)'", "'$ModuleFolder'")
+                try {
+                    
+                }
                 Copy-Item @CopyItemsParams
             }
         }
