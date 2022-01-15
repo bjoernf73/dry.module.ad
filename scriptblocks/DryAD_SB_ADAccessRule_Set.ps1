@@ -19,6 +19,7 @@
 #>
 
 [ScriptBlock]$DryAD_SB_ADAccessRule_Set = {
+    [CmdletBinding(DefaultParameterSetName = 'ActualRight')]
     param (
         [String]
         $Path,
@@ -29,8 +30,13 @@
         [String]
         $TargetType,
 
+        [Parameter(ParameterSetName = 'ActualRight',HelpMessage = "A right of type System.DirectoryServices.ActiveDirectoryRights")]
         [System.DirectoryServices.ActiveDirectoryRights[]]
         $ActiveDirectoryRights,
+
+        [Parameter(ParameterSetName = 'SpecialRight',HelpMessage = "For instance 'ControlAccess'")]
+        [String[]]
+        $ActiveDirectorySpecialRights,
 
         [System.Security.AccessControl.AccessControlType]
         $AccessControlType,
@@ -53,6 +59,9 @@
     try {
         $ReturnError = $Null
         $ReturnValue = $False
+        if ($ActiveDirectorySpecialRights) {
+            $ActiveDirectoryRights = $ActiveDirectorySpecialRights
+        }
         $DebugReturnStrings = @("Entered Scriptblock")
         
         $DebugReturnStrings += @("'Path'                               = '$Path'")
