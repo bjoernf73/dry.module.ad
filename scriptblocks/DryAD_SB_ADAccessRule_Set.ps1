@@ -21,38 +21,47 @@
 [ScriptBlock]$DryAD_SB_ADAccessRule_Set = {
     [CmdletBinding(DefaultParameterSetName = 'ActualRight')]
     param (
+        [Parameter(Position = 0)]
         [String]
         $Path,
 
+        [Parameter(Position = 1)]
         [String]
         $TargetName,
 
+        [Parameter(Position = 2)]
         [String]
         $TargetType,
 
-        [Parameter(ParameterSetName = 'ActualRight',HelpMessage = "A right of type System.DirectoryServices.ActiveDirectoryRights")]
+        [Parameter(ParameterSetName = 'ActualRight', Position = 3,HelpMessage = "A right of type System.DirectoryServices.ActiveDirectoryRights")]
         [System.DirectoryServices.ActiveDirectoryRights[]]
         $ActiveDirectoryRights,
 
-        [Parameter(ParameterSetName = 'SpecialRight',HelpMessage = "For instance 'ControlAccess'")]
+        [Parameter(ParameterSetName = 'SpecialRight',Position = 3, HelpMessage = "For instance 'ControlAccess'")]
         [String[]]
         $ActiveDirectorySpecialRights,
 
+        [Parameter(Position = 4)]
         [System.Security.AccessControl.AccessControlType]
         $AccessControlType,
 
+        [Parameter(Position = 5)]
         [String]
         $ObjectType,
 
+        [Parameter(Position = 6)]
         [String]
         $InheritedObjectType,
 
+        [Parameter(Position = 7)]
         [String]
         $ActiveDirectorySecurityInheritance,
 
+        [Parameter(Position = 8)]
         [String]
         $ExecutionType,
 
+        [Parameter(Position = 9)]
         [String]
         $Server
     )
