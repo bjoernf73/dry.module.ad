@@ -930,7 +930,7 @@ function Import-DryADConfiguration {
             }
 
             foreach ($SiteRightsGroup in $SiteRightsGroups) {
-                $NumberOfSiteMemberAndMemberOf += $SiteRightsroup.Member.Count
+                $NumberOfSiteMemberAndMemberOf += $SiteRightsGroup.Member.Count
                 $NumberOfSiteMemberAndMemberOf += $SiteRightsGroup.MemberOf.Count
             }
             $NumberOfElementsToProcess += $NumberOfSiteMemberAndMemberOf
