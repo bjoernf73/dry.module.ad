@@ -1305,7 +1305,7 @@ function Import-DryADConfiguration {
         
         switch ($ExecutionType) {
             'Remote' {
-                ol i "Configuring AD Drive on $DomainController" -sh
+                ol i "Configuring AD Drive on $($PSSession.ComputerName)" -sh
                 Set-DryADDrive -PSSession $PSSession
             }
             'Local' {
