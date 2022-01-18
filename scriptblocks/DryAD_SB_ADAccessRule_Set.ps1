@@ -19,69 +19,53 @@
 #>
 
 [ScriptBlock]$DryAD_SB_ADAccessRule_Set = {
-    [CmdletBinding(DefaultParameterSetName = 'ActualRight')]
+    [CmdletBinding()]
     param (
-        [Parameter(Position = 0,ParameterSetName = 'SpecialRight')]
-        [Parameter(Position = 0,ParameterSetName = 'ActualRight')]
+       
+        [Parameter(Position = 0)]
         [String]
         $Path,
-
-        [Parameter(Position = 1,ParameterSetName = 'SpecialRight')]
-        [Parameter(Position = 1,ParameterSetName = 'ActualRight')]
+     
+        [Parameter(Position = 1)]
         [String]
         $TargetName,
 
-        [Parameter(Position = 2,ParameterSetName = 'SpecialRight')]
-        [Parameter(Position = 2,ParameterSetName = 'ActualRight')]
+        [Parameter(Position = 2)]
         [String]
         $TargetType,
 
-        [Parameter(ParameterSetName = 'ActualRight', Position = 3,HelpMessage = "A right of type System.DirectoryServices.ActiveDirectoryRights")]
-        [System.DirectoryServices.ActiveDirectoryRights[]]
+        [Parameter(Position = 3)]
+        [String[]]
         $ActiveDirectoryRights,
 
-        [Parameter(ParameterSetName = 'SpecialRight',Position = 3, HelpMessage = "For instance 'ControlAccess'")]
-        [String[]]
-        $ActiveDirectorySpecialRights,
-
-        [Parameter(Position = 4,ParameterSetName = 'SpecialRight')]
-        [Parameter(Position = 4,ParameterSetName = 'ActualRight')]
+        [Parameter(Position = 4)]
         [System.Security.AccessControl.AccessControlType]
         $AccessControlType,
 
-        [Parameter(Position = 5,ParameterSetName = 'SpecialRight')]
-        [Parameter(Position = 5,ParameterSetName = 'ActualRight')]
+        [Parameter(Position = 5)]
         [String]
         $ObjectType,
 
-        [Parameter(Position = 6,ParameterSetName = 'SpecialRight')]
-        [Parameter(Position = 6,ParameterSetName = 'ActualRight')]
+        [Parameter(Position = 6)]
         [String]
         $InheritedObjectType,
 
-        [Parameter(Position = 7,ParameterSetName = 'SpecialRight')]
-        [Parameter(Position = 7,ParameterSetName = 'ActualRight')]
+        [Parameter(Position = 7)]
         [String]
         $ActiveDirectorySecurityInheritance,
 
-        [Parameter(Position = 8,ParameterSetName = 'SpecialRight')]
-        [Parameter(Position = 8,ParameterSetName = 'ActualRight')]
+        [Parameter(Position = 8)]
         [String]
         $ExecutionType,
 
-        [Parameter(Position = 9,ParameterSetName = 'SpecialRight')]
-        [Parameter(Position = 9,ParameterSetName = 'ActualRight')]
+        [Parameter(Position = 9)]
         [String]
         $Server
     )
     try {
         $ReturnError = $Null
         $ReturnValue = $False
-        if ($ActiveDirectorySpecialRights) {
-            $ActiveDirectoryRights = $ActiveDirectorySpecialRights
-        }
         $DebugReturnStrings = @("Entered Scriptblock")
-        $DebugReturnStrings += @("ParameterSetName                     = $($PSCmdlet.ParameterSetName)")
         $DebugReturnStrings += @("'Path'                               = '$Path'")
         $DebugReturnStrings += @("'TargetName'                         = '$TargetName'")
         $DebugReturnStrings += @("'TargetType'                         = '$TargetType'")
@@ -232,6 +216,7 @@
             }
             else {
                 $DebugReturnStrings += "'$ActiveDirectoryRight' is a Standard Right"
+                [System.DirectoryServices.ActiveDirectoryRights]$ActiveDirectoryRight = $ActiveDirectoryRight
             }
 
             # Convert to proper types
