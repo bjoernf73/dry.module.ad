@@ -84,9 +84,10 @@ Function Set-DryADAccessRule {
             Throw "Specify either a Group or a User to delegate permissions to - and not both"
         }
         
-        ol v @('Target', "$TargetName")
-        ol v @('Type', "$TargetType")
-        ol v @('TargetPath', "$Path")
+        ol v @('Path', "$Path")
+        ol v @('TargetName', "$TargetName")
+        ol v @('TargetType', "$TargetType")
+        
 
         If ($PSCmdlet.ParameterSetName -eq 'Remote') {
             $Server = 'localhost'

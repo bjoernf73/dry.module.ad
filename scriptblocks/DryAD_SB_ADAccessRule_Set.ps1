@@ -21,15 +21,18 @@
 [ScriptBlock]$DryAD_SB_ADAccessRule_Set = {
     [CmdletBinding(DefaultParameterSetName = 'ActualRight')]
     param (
-        [Parameter(Position = 0)]
+        [Parameter(Position = 0,ParameterSetName = 'SpecialRight')]
+        [Parameter(Position = 0,ParameterSetName = 'ActualRight')]
         [String]
         $Path,
 
-        [Parameter(Position = 1)]
+        [Parameter(Position = 1,ParameterSetName = 'SpecialRight')]
+        [Parameter(Position = 1,ParameterSetName = 'ActualRight')]
         [String]
         $TargetName,
 
-        [Parameter(Position = 2)]
+        [Parameter(Position = 2,ParameterSetName = 'SpecialRight')]
+        [Parameter(Position = 2,ParameterSetName = 'ActualRight')]
         [String]
         $TargetType,
 
@@ -41,27 +44,33 @@
         [String[]]
         $ActiveDirectorySpecialRights,
 
-        [Parameter(Position = 4)]
+        [Parameter(Position = 4,ParameterSetName = 'SpecialRight')]
+        [Parameter(Position = 4,ParameterSetName = 'ActualRight')]
         [System.Security.AccessControl.AccessControlType]
         $AccessControlType,
 
-        [Parameter(Position = 5)]
+        [Parameter(Position = 5,ParameterSetName = 'SpecialRight')]
+        [Parameter(Position = 5,ParameterSetName = 'ActualRight')]
         [String]
         $ObjectType,
 
-        [Parameter(Position = 6)]
+        [Parameter(Position = 6,ParameterSetName = 'SpecialRight')]
+        [Parameter(Position = 6,ParameterSetName = 'ActualRight')]
         [String]
         $InheritedObjectType,
 
-        [Parameter(Position = 7)]
+        [Parameter(Position = 7,ParameterSetName = 'SpecialRight')]
+        [Parameter(Position = 7,ParameterSetName = 'ActualRight')]
         [String]
         $ActiveDirectorySecurityInheritance,
 
-        [Parameter(Position = 8)]
+        [Parameter(Position = 8,ParameterSetName = 'SpecialRight')]
+        [Parameter(Position = 8,ParameterSetName = 'ActualRight')]
         [String]
         $ExecutionType,
 
-        [Parameter(Position = 9)]
+        [Parameter(Position = 9,ParameterSetName = 'SpecialRight')]
+        [Parameter(Position = 9,ParameterSetName = 'ActualRight')]
         [String]
         $Server
     )
@@ -72,7 +81,7 @@
             $ActiveDirectoryRights = $ActiveDirectorySpecialRights
         }
         $DebugReturnStrings = @("Entered Scriptblock")
-        
+        $DebugReturnStrings += @("ParameterSetName                     = $($PSCmdlet.ParameterSetName)")
         $DebugReturnStrings += @("'Path'                               = '$Path'")
         $DebugReturnStrings += @("'TargetName'                         = '$TargetName'")
         $DebugReturnStrings += @("'TargetType'                         = '$TargetType'")
