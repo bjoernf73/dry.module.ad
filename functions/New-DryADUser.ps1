@@ -143,7 +143,7 @@ Function New-DryADUser {
 
                 If ($DryDeploy) {
                     # This sessions is running from DryDeploy - so add to DryDeploy Credential Store
-                    Add-DryCredential -Name $User.Name -Credential $UserCredential
+                    Add-DryCredential -Alias $User.Name -Credential $UserCredential
                 }
             }
             Else {
