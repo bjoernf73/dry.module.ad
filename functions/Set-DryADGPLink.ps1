@@ -112,12 +112,16 @@ Function Set-DryADGPLink {
                 # ex V1.45.9
                 "v[0-9]{1,5}\.[0-9]{1,5}\.[0-9]{1,5}$" {
                     $LinkBaseName = ($LinkName).TrimEnd($($matches[0]))
-                    $LinkVersion = $matches[0]
+                    #$LinkVersion = $matches[0]
+                    $v = $matches[0]
+                    $LinkVersion = [system.version]"$($v.Trim('V').Trim('v'))"
                 }
                 # ex v3r9 (like DoD Baselines)
                 "v[0-9]{1,5}r[0-9]{1,5}$" {
                     $LinkBaseName = ($LinkName).TrimEnd($($matches[0]))
-                    $LinkVersion = $matches[0]
+                    #$LinkVersion = $matches[0]
+                    $v = $matches[0]
+                    $LinkVersion = [system.version]"$($(($v -isplit 'v') -isplit 'r')[1]).$($(($v -isplit 'v') -isplit 'r')[2])"
                 }
                 # no versioning
                 Default {
@@ -141,12 +145,16 @@ Function Set-DryADGPLink {
                     # ex V1.45.9
                     "v[0-9]{1,5}\.[0-9]{1,5}\.[0-9]{1,5}$" {
                         $BaseName = ($GPLink.Name).TrimEnd($($matches[0]))
-                        $Version = $matches[0]
+                        #$Version = $matches[0]
+                        $v = $matches[0]
+                        $Version = [system.version]"$($v.Trim('V').Trim('v'))"
                     }
                     # ex v3r9 (like DoD Baselines)
                     "v[0-9]{1,5}r[0-9]{1,5}$" {
                         $BaseName = ($GPLink.Name).TrimEnd($($matches[0]))
-                        $Version = $matches[0]
+                        #$Version = $matches[0]
+                        $v = $matches[0]
+                        $Version = [system.version]"$($(($v -isplit 'v') -isplit 'r')[1]).$($(($v -isplit 'v') -isplit 'r')[2])"
                     }
                     # no versioning
                     Default {
