@@ -19,7 +19,7 @@
 #>
 
 [ScriptBlock]$DryAD_SB_User_Set = { 
-    Param (
+    param (
         $UserSpec,
         $ExecutionType,
         $Server,
@@ -28,10 +28,10 @@
     
     try {
         # The function that finds certificate, decrypts, converts to secure string
-        Function Convert-DryADEncryptedBase64ToSecureString {
+        function Convert-DryADEncryptedBase64ToSecureString {
             [CmdletBinding()]
             [OutputType([System.Security.SecureString])]
-            Param(
+            param (
                 [Parameter(Mandatory)]
                 [ValidateNotNullOrEmpty()]
                 [String] $EncryptedBase64String
@@ -43,29 +43,29 @@
                 #   - 'Server Authentiaction' as part of the Enhanced Key Usage
                 $Cert = Get-ChildItem -Path Cert:\LocalMachine\My -ErrorAction Stop | 
                     Where-Object { 
-                    ($_.HasPrivateKey -eq $True) -and 
+                    ($_.HasPrivateKey -eq $true) -and 
                     ($_.SignatureAlgorithm.FriendlyName -eq 'SHA256RSA') -and
                     (@(($_.EnhancedKeyUsageList).FriendlyName) -contains 'Server Authentication')  
                     }
         
                 # If multiple, use first
-                If ($Cert -is [Array]) {
+                if ($Cert -is [Array]) {
                     $Cert = $Cert[0]
                 }
                 
-                If ($Cert) {
+                if ($Cert) {
                     $EncryptedByteArray = [Convert]::FromBase64String($EncryptedBase64String)
-                    $ClearText = [System.Text.Encoding]::UTF8.GetString($Cert.PrivateKey.Decrypt($EncryptedByteArray, $True))
+                    $ClearText = [System.Text.Encoding]::UTF8.GetString($Cert.PrivateKey.Decrypt($EncryptedByteArray, $true))
                 }
-                Else {
-                    Throw "Server Authentication Certificate with Private Key not found!"
+                else {
+                    throw "Server Authentication Certificate with Private Key not found!"
                 }
-                Return (ConvertTo-SecureString -String $ClearText -AsPlainText -Force)
+                return (ConvertTo-SecureString -String $ClearText -AsPlainText -Force)
             }
-            Catch {
+            catch {
                 $PSCmdlet.ThrowTerminatingError($_)
             }
-            Finally {
+            finally {
                 Remove-Variable -Name ClearText -ErrorAction Continue
             }
         }
@@ -75,10 +75,10 @@
         $DomainDN = $ADRootDSE.DefaultNamingContext
         
         # Add DomainDN to path if not already added
-        If ($UserSpec['Path'] -notmatch "$DomainDN$") {
+        if ($UserSpec['Path'] -notmatch "$DomainDN$") {
             $UserSpec['Path'] = $UserSpec['Path'] + ",$DomainDN"
         }
-        Switch ($ExecutionType) {
+        switch ($ExecutionType) {
             'Remote' {
                 # Decrypt the encypted password, and create a SecureString
                 [System.Security.SecureString]$SecureStringPassword = Convert-DryADEncryptedBase64ToSecureString -EncryptedBase64String $Secret
@@ -91,9 +91,9 @@
         $UserSpec += @{'AccountPassword' = $SecureStringPassword }
 
         New-ADUser @UserSpec -Server $Server -ErrorAction Stop
-        $True, ''
+        $true, ''
     }
-    Catch {
-        $False, "$($_.ToString())"
+    catch {
+        $false, "$($_.ToString())"
     }
 }

@@ -18,9 +18,9 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-Function Wait-DryADForADWebServices {
+function Wait-DryADForADWebServices {
     [CmdletBinding()]
-    Param (
+    param (
         [Parameter(Mandatory)]
         [String]
         $DomainDN,
@@ -34,35 +34,35 @@ Function Wait-DryADForADWebServices {
         $WaitMinutes = 20
   
     )
-    [Boolean]$ADWebServicesUp = $False
+    [Boolean]$ADWebServicesUp = $false
     [String]$DomainControllersOUDN = "OU=Domain Controllers,$DomainDN"
     [DateTime]$StartTime = Get-Date
     Do {
         $TestResult = Invoke-Command -Session $PSSession -ScriptBlock { 
-            Param ($DomainControllersOUDN); 
+            param ($DomainControllersOUDN); 
             try {
                 # If this works, return true
                 Get-ADObject -Identity $DomainControllersOUDN | Out-Null
-                $True
+                $true
             } 
-            Catch {
-                $False
+            catch {
+                $false
             }
         } -ArgumentList $DomainControllersOUDN
         
-        Switch ($TestResult) {
-            $True {
+        switch ($TestResult) {
+            $true {
                 ol i "Active Directory Web Services is now up and reachable."
-                $ADWebServicesUp = $True
+                $ADWebServicesUp = $true
             }
-            $False {
+            $false {
                 #! should Out-DryLog have a wait-option?
                 ol i "Waiting for Active Directory Web Services to become available...."
                 Start-Sleep -Seconds 30
             }
-            Default {
+            default {
                 ol e "Error testing Active Directory Web Services"
-                Throw $TestResult
+                throw $TestResult
             }
         } 
     }
@@ -71,12 +71,12 @@ Function Wait-DryADForADWebServices {
         (Get-Date -lt ($StartTime.AddMinutes($WaitMinutes)))
     )
 
-    Switch ($ADWebServicesUp) {
-        $False {
+    switch ($ADWebServicesUp) {
+        $false {
             ol e "AD Webservices wasn't ready after waiting the configured $WaitMinutes minutes"
-            Throw "AD Webservices wasn't ready after waiting the configured $WaitMinutes minutes"
+            throw "AD Webservices wasn't ready after waiting the configured $WaitMinutes minutes"
         }
-        Default {
+        default {
         }
     }
 }

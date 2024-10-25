@@ -19,9 +19,9 @@ Using NameSpace System.Management.Automation.Runspaces
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-Function Copy-DryADFilesToRemoteTarget {
+function Copy-DryADFilesToRemoteTarget {
     [CmdletBinding(DefaultParameterSetName = 'Local')]
-    Param (
+    param (
         [Parameter(Mandatory)]
         [String]
         $TargetPath,
@@ -37,28 +37,59 @@ Function Copy-DryADFilesToRemoteTarget {
     
     try {
         ol v @('Copy Type', "$($PSCmdlet.ParameterSetName)")
-        ol d @('Source Path', "$SourcePath")
-        ol d @('Target Path', "$TargetPath")
+        ol v @('Source Path', "$SourcePath")
+        ol v @('Target Path', "$TargetPath")
         # The PS Progress Bar is astonsishingly uninformative when copying multiple small 
         # files - suppress, and bring it back to the original $ProgressPreference in Finally  
         $OriginalProgressPreference = $ProgressPreference
         
-        # Remove any double backslashes and wildcards
-        $TargetPath = $TargetPath -Replace '\\\\', '\'
+        # Remove any double backslashes and wildcards from target
+        while ($TargetPath -match '\\\\') {
+            $TargetPath = $TargetPath -Replace '\\\\', '\'
+        }
         $TargetPathTrimmed = $TargetPath.TrimEnd('*')
         $TargetPathTrimmed = $TargetPathTrimmed.TrimEnd('\')
         $TargetPathTrimmed = $TargetPathTrimmed + '\'
-        ol d @('Trimmed Target Path', "$TargetPathTrimmed")
+        ol v @('Trimmed Target Path', "$TargetPathTrimmed")
         
-        $SourcePath = $SourcePath -Replace '\\\\', '\'
+        # Remove any double backslashes and wildcards from source
+        while ($SourcePath -match '\\\\') {
+            $SourcePath = $SourcePath -Replace '\\\\', '\'
+        }
         $SourcePathTrimmed = $SourcePath.TrimEnd('*')
         $SourcePathTrimmed = $SourcePathTrimmed.TrimEnd('\')
         $SourcePathTrimmed = $SourcePathTrimmed + ('\')
-        ol d @('Trimmed Source Path', "$SourcePathTrimmed")
+        ol v @('Trimmed Source Path', "$SourcePathTrimmed")
 
-        # Make sure the directory structure exists in the target. 
+        # Make sure the root folder exists. Copy-Item is deviously unpredictable
+        $TargetDirectory = $TargetPathTrimmed.Trim('\')
+        ol v @('Trying to create directory', $TargetDirectory)
+        $InvokeCommandParams = @{
+            ScriptBlock  = $DryAD_SB_CreateDir
+            ArgumentList = @($TargetDirectory)
+        }
+        if ($PSSession) {
+            $InvokeCommandParams += @{
+                Session = $PSSession
+            }
+        }
+
+        $Result = Invoke-Command @InvokeCommandParams
+        switch ($Result) {
+            $true {
+                ol v @('Successfully created directory', $TargetDirectory)
+            }
+            { $Result -is [ErrorRecord] } {
+                $PSCmdlet.ThrowTerminatingError($Result)
+            }
+            default {
+                throw "Failed to create directory '$TargetDirectory'", $Result.ToString()
+            }
+        }
+
+        <#
         $SourceDirectories = Get-ChildItem -Path $SourcePathTrimmed -Recurse -Directory -ErrorAction Stop
-        ForEach ($SourceDirectory in $SourceDirectories) {
+        foreach ($SourceDirectory in $SourceDirectories) {
             $TargetDirectory = $TargetPathTrimmed + $($SourceDirectory.FullName).SubString($SourcePathTrimmed.Length)
             ol d @('Trying to create directory', $TargetDirectory)
             
@@ -66,48 +97,49 @@ Function Copy-DryADFilesToRemoteTarget {
                 ScriptBlock  = $DryAD_SB_CreateDir
                 ArgumentList = @($TargetDirectory)
             }
-            If ($PSSession) {
+            if ($PSSession) {
                 $InvokeCommandParams += @{
                     Session = $PSSession
                 }
             }
 
             $Result = Invoke-Command @InvokeCommandParams
-            Switch ($Result) {
-                $True {
+            switch ($Result) {
+                $true {
                     ol v @('Successfully created directory', $TargetDirectory)
                 }
                 { $Result -is [ErrorRecord] } {
                     $PSCmdlet.ThrowTerminatingError($Result)
                 }
-                Default {
-                    Throw "Failed to create directory '$TargetDirectory'", $Result.ToString()
+                default {
+                    throw "Failed to create directory '$TargetDirectory'", $Result.ToString()
                 }
             }
         }
+        #>
         
         $ProgressPreference = 'SilentlyContinue'
         $CopyItemParams = @{
-            Path        = $SourcePath
-            Destination = $TargetPath
-            Recurse     = $True
-            Container   = $True
-            Force       = $True
+            Path        = $SourcePathTrimmed
+            Destination = $TargetPathTrimmed
+            Recurse     = $true
+            Container   = $true
+            Force       = $true
             ErrorAction = 'Stop'
         }
-        If ($PSSession) {
+        if ($PSSession) {
             $CopyItemParams += @{
                 ToSession = $PSSession
             }
         }
          
         Copy-Item @CopyItemParams
-        ol v @('Successfully copied files to directory', $TargetPath)
+        ol v @('Successfully copied files to directory', $TargetPathTrimmed)
     }
-    Catch {
+    catch {
         $PSCmdlet.ThrowTerminatingError($_)
     }
-    Finally {
+    finally {
         $ProgressPreference = $OriginalProgressPreference
         
         @('TargetPath',
@@ -119,6 +151,6 @@ Function Copy-DryADFilesToRemoteTarget {
             'InvokeCommandParams',
             'Result',
             'CopyItemParams'
-        ).ForEach({ Remove-Variable -Name $_ -ErrorAction 'Ignore' })
+        ).foreach({ Remove-Variable -Name $_ -ErrorAction 'Ignore' })
     }
 }

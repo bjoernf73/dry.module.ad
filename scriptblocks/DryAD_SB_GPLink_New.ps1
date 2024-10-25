@@ -19,7 +19,7 @@
 #>
 
 [ScriptBlock]$DryAD_SB_GPLink_New = {
-    Param (
+    param (
         $OU,
         $GPO,
         $Order,
@@ -28,7 +28,7 @@
         $DomainController
     ) 
     
-    $Status = $False
+    $Status = $false
     $ErrorString = ''
     try {
         $NewLinkParams = @{
@@ -42,12 +42,12 @@
         }
         New-GPLink @NewLinkParams | 
             Out-Null
-        $Status = $True
-        Return @($Status, $ErrorString)
+        $Status = $true
+        return @($Status, $ErrorString)
     }
-    Catch {
+    catch {
         # If caught, get the string
         $ErrorString = $_.ToString()
-        Return @($Status, $ErrorString)
+        return @($Status, $ErrorString)
     }
 }

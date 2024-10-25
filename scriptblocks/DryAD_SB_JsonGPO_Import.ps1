@@ -20,7 +20,7 @@
 
 [ScriptBlock]$DryAD_SB_JsonGPO_Import = {
     [CmdLetBinding()] 
-    Param (
+    param (
         [String]
         $Name,
 
@@ -39,11 +39,10 @@
         [HashTable]
         $Replacements
     )
-    $Result = @($False, $Null, '')
+    $Result = @($false, $Null, '')
     
     try {
-        # To import json-gpos, you must have access to the GPOManagement module
-        Import-Module -Name 'GPOManagement' -Force -ErrorAction 'Stop' | Out-Null
+        Import-Module -Name 'dry.ad.gpohelper' -Force -ErrorAction 'Stop' | Out-Null
         
         $GPOExistsAlreadyParams = @{
             Name             = $Name
@@ -51,11 +50,11 @@
         }
         [Bool]$GPOExistsAlready = Test-GroupPolicyExistenceInAD @GPOExistsAlreadyParams
     
-        If ($GPOExistsAlready -and (-not $Force)) {
+        if ($GPOExistsAlready -and (-not $Force)) {
             $Result[2] = 'GPO exists already and you didn''t -force (no change)'
-            $Result[0] = $True
+            $Result[0] = $true
         }
-        Else {
+        else {
             $ImportGroupPolicyToADParams = @{
                 Name                    = $Name
                 FileName                = $FileName
@@ -63,33 +62,33 @@
                 DefaultPermissions      = $DefaultPermissions
                 Replacements            = $Replacements
                 PerformBackup           = $Force # If we overwrite, we also perform a backup of the existing GPO
-                RemoveLinks             = $True
-                DoNotLinkGPO            = $True
+                RemoveLinks             = $true
+                DoNotLinkGPO            = $true
             }
             
             Import-GroupPolicyToAD @ImportGroupPolicyToADParams
-            $Result[0] = $True
+            $Result[0] = $true
             
-            If ($GPOExistsAlready -and $Force) {
+            if ($GPOExistsAlready -and $Force) {
                 $Result[2] = 'An existing GPO was replaced (original renamed)'
             }
-            Else {
+            else {
                 $Result[2] = 'The GPO was imported'
             }
         }
-        Return $Result
+        return $Result
     }
-    Catch {
-        $Result[0] = $False
+    catch {
+        $Result[0] = $false
         $Result[1] = $_
         $Result[2] = 'The GPO import failed'
-        Return $Result    
+        return $Result    
     }
-    Finally {
+    finally {
         @('GPOExistsAlreadyParams',
             'ImportGroupPolicyToADParams',
             'GPOExistsAlready'
-        ).ForEach({
+        ).foreach({
                 Remove-Variable -Name $_ -ErrorAction Ignore | Out-Null
             })
     }

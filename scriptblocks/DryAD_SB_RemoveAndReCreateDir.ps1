@@ -19,16 +19,16 @@
 #>
 
 [ScriptBlock] $DryAD_SB_RemoveAndRecreateDir = {
-    Param (
+    param (
         $Path
     )
     try {
-        If (Test-Path -Path $Path -ErrorAction Ignore) {
+        if (Test-Path -Path $Path -ErrorAction Ignore) {
             $RemoveItemParams = @{
                 Path        = "$Path*" 
-                Recurse     = $True
-                Force       = $True
-                Confirm     = $False 
+                Recurse     = $true
+                Force       = $true
+                Confirm     = $false 
                 ErrorAction = 'Stop'
             }
             Remove-Item @RemoveItemParams
@@ -36,17 +36,17 @@
         $NewItemParams = @{
             Path        = $Path 
             ItemType    = 'Directory' 
-            Force       = $True
+            Force       = $true
             ErrorAction = 'Stop'
         }
         New-Item @NewItemParams | Out-Null
-        $True
+        $true
     }
-    Catch {
+    catch {
         $_
     }
-    Finally {
-        @('RemoveItemParams', 'NewItemParams').ForEach({
+    finally {
+        @('RemoveItemParams', 'NewItemParams').foreach({
                 Remove-Variable -Name $_ -ErrorAction Ignore | Out-Null
             }) 
     }

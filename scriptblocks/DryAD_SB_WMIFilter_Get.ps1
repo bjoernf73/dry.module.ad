@@ -19,7 +19,7 @@
 #>
 
 [ScriptBlock]$DryAD_SB_WMIFilter_Get = {
-    Param (
+    param (
         $Name,
         $Server
     ) 
@@ -34,14 +34,14 @@
             Server      = $Server
             ErrorAction = 'Stop'
         }
-        If (Get-ADObject @GetADObjectParams ) {
-            $True
+        if (Get-ADObject @GetADObjectParams ) {
+            $true
         } 
-        Else {
-            $False
+        else {
+            $false
         }
     }
-    Catch {
+    catch {
         $_
     }
 }

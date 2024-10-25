@@ -19,7 +19,7 @@
 #>
 
 [ScriptBlock]$DryAD_SB_RemoveItem = {
-    Param (
+    param (
         [Parameter(Mandatory)]
         [String]
         $Path,
@@ -29,9 +29,9 @@
         $ErrorAction = 'Stop'
     )
     try {
-        Remove-Item -Path $Path -Confirm:$False -ErrorAction $ErrorAction
+        Remove-Item -Path $Path -Confirm:$false -ErrorAction $ErrorAction
     }
-    Catch {
+    catch {
         $_
     }
 }

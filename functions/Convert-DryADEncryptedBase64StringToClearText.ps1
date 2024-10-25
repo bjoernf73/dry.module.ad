@@ -17,10 +17,10 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-Function Convert-DryADEncryptedBase64StringToClearText {
+function Convert-DryADEncryptedBase64StringToClearText {
     [CmdletBinding()]
     [OutputType([System.String])]
-    Param(
+    param (
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
         [String] $EncryptedBase64String
@@ -32,26 +32,26 @@ Function Convert-DryADEncryptedBase64StringToClearText {
         #   - 'Server Authentiaction' as part of the Enhanced Key Usage
         $Cert = Get-ChildItem -Path Cert:\LocalMachine\My -ErrorAction Stop | 
             Where-Object { 
-            ($_.HasPrivateKey -eq $True) -and 
+            ($_.HasPrivateKey -eq $true) -and 
             ($_.SignatureAlgorithm.FriendlyName -eq 'SHA256RSA') -and
             (@(($_.EnhancedKeyUsageList).FriendlyName) -contains 'Server Authentication')  
             }
 
         # If multiple, use first
-        If ($Cert -is [Array]) {
+        if ($Cert -is [Array]) {
             $Cert = $Cert[0]
         }
         
-        If ($Cert) {
+        if ($Cert) {
             $EncryptedByteArray = [Convert]::FromBase64String($EncryptedBase64String)
             $ClearText = [System.Text.Encoding]::UTF8.GetString($Cert.PrivateKey.Decrypt($EncryptedByteArray, $true))
         }
-        Else {
-            Throw "Server Authentication Certificate with Private Key not found!"
+        else {
+            throw "Server Authentication Certificate with Private Key not found!"
         }
-        Return $ClearText
+        return $ClearText
     }
-    Catch {
+    catch {
         $PSCmdlet.ThrowTerminatingError($_)
     }
 }

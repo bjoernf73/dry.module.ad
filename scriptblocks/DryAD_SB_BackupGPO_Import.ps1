@@ -20,7 +20,7 @@
 
 [ScriptBlock] $DryAD_SB_BackupGPO_Import = {
     [CmdletBinding()]
-    Param (
+    param (
         [String]
         $BackupName,
 
@@ -40,31 +40,31 @@
         $Force
     )    
     try {
-        $Status = $False
-        $DoImport = $False
+        $Status = $false
+        $DoImport = $false
         
-        [Bool]$GPOExists = $False  # only true if so proven during the calling of ImportGPO()
+        [Bool]$GPOExists = $false  # only true if so proven during the calling of ImportGPO()
         [Array]$RemoteMessages = @("Importing Backup-GPO '$BackupName' as target '$TargetName'")
 
-        Function Get-RandomHex {
+        function Get-RandomHex {
             [CmdletBinding()]   
-            Param ([int]$Length)
+            param ([int]$Length)
             try {
                 $Hex = '0123456789ABCDEF'
-                [string]$Return = $null
-                For ($i = 1; $i -le $Length; $i++) {
-                    $Return += $Hex.Substring((Get-Random -Minimum 0 -Maximum 16), 1)
+                [string]$return = $null
+                for ($i = 1; $i -le $Length; $i++) {
+                    $return += $Hex.Substring((Get-Random -Minimum 0 -Maximum 15), 1)
                 }
-                Return $Return
+                return $Return
             }
-            Catch {
+            catch {
                 $PSCmdlet.ThrowTerminatingError($_)
             }
         }
 
-        Function Get-RandomPath {
+        function Get-RandomPath {
             [CmdletBinding()]
-            Param (
+            param (
                 [Parameter()]
                 [String]
                 $FolderPath = $ENV:TEMP,
@@ -79,14 +79,14 @@
             )
             try {
                 $RandomString = Get-RandomHex -Length $Length
-                If ($Extension) {
-                    Return (Join-Path -Path $FolderPath -ChildPath $($RandomString + ".$Extension"))
+                if ($Extension) {
+                    return (Join-Path -Path $FolderPath -ChildPath $($RandomString + ".$Extension"))
                 } 
-                Else {
-                    Return (Join-Path -Path $FolderPath -ChildPath $RandomString)
+                else {
+                    return (Join-Path -Path $FolderPath -ChildPath $RandomString)
                 }
             }
-            Catch {
+            catch {
                 $PSCmdlet.ThrowTerminatingError($_)
             }
             
@@ -94,61 +94,61 @@
 
         try {
             Get-GPO -Name $TargetName -Server $Server -ErrorAction Stop | Out-Null
-            $GPOExists = $True
+            $GPOExists = $true
             $RemoteMessages += "Target Backup-GPO '$TargetName' exists already"
-            If ($Force) {
+            if ($Force) {
                 $RenamedGPO = "$($TargetName)-OLD-$((Get-Date -Format s).Replace(':','-'))" 
                 $GPO = Get-GPO -Name $TargetName -Server $Server -ErrorAction 'Stop'
                 Rename-GPO -Guid $GPO.ID -TargetName $RenamedGPO  -Server $Server -ErrorAction 'Stop' | Out-Null
-                # Set this to $False so it will be imported later
-                $GPOExists = $False
-                $DoImport = $True
+                # Set this to $false so it will be imported later
+                $GPOExists = $false
+                $DoImport = $true
             } 
-            Else {
+            else {
                 $RemoteMessages += "-Force not passed, so I will do nothing"
-                $Status = $True
-                $DoImport = $False
+                $Status = $true
+                $DoImport = $false
             }
             
         } 
-        Catch { 
-            If ("$($_.ToString())" -match "GPO was not found") {
-                $GPOExists = $False
-                $DoImport = $True
+        catch { 
+            if ("$($_.ToString())" -match "GPO was not found") {
+                $GPOExists = $false
+                $DoImport = $true
                 $RemoteMessages += "Target Backup-GPO '$TargetName' does not exist - importing it."
             } 
-            Else {
+            else {
                 $RemoteMessages += "Unexpected error running Get-GPO -Name '$TargetName' "
                 $RemoteMessages += "Error: $($_.ToString()) "
-                $DoImport = $False
+                $DoImport = $false
                 # Some other error record - throw a terminating error
-                $Status = $False
+                $Status = $false
                 # $PSCmdlet.ThrowTerminatingError($_)
             } 
         } 
 
-        If (
-            ($GPOExists -eq $False) -and 
-            ($DoImport -eq $True)
+        if (
+            ($GPOExists -eq $false) -and 
+            ($DoImport -eq $true)
         ) { 
             $ImportGPOParams = @{          
                 BackupGpoName  = $BackupName
                 TargetName     = $TargetName
                 Server         = $Server
-                CreateIfNeeded = $True
+                CreateIfNeeded = $true
                 Path           = $Path
                 ErrorAction    = 'Stop'
             }
             $MigTablePath = Join-Path -Path $Path -ChildPath ($BackupName + '.migtable')
             $RemoteMessages += "If migtable exists, it's path should be '$MigTablePath'"
             $TempMigTable = $Null
-            If (Test-Path -Path $MigTablePath) {
+            if (Test-Path -Path $MigTablePath) {
                 $RemoteMessages += "The migtable '$MigTablePath' exists!"
                 $TempMigTable = Get-RandomPath -extension 'migtable'
                 $RemoteMessages += "Creating temporary migtable clone '$TempMigTable'"
 
                 $MigTableContent = Get-Content -Path $MigTablePath -Raw -ErrorAction Stop
-                ForEach ($Key in $Replacements.Keys) {
+                foreach ($Key in $Replacements.Keys) {
                     $MigTableContent = $MigTableContent -replace $Key, $Replacements["$Key"]  
                 }
                 $MigTableContent | Out-File -FilePath $TempMigTable -Encoding unicode -Force -ErrorAction Stop
@@ -162,10 +162,10 @@
                    
             try {
                 Import-GPO @ImportGPOParams | Out-Null
-                $Status = $True
+                $Status = $true
                 $RemoteMessages += "Success importing GPO '$TargetName'"
             } 
-            Catch {
+            catch {
                 $RemoteMessages += "Error importing GPO '$TargetName' using migtable '$TempMigTable'"
                 Start-Sleep -Seconds 2
                 # If import fails, the GPO may have been created as an  
@@ -176,24 +176,24 @@
                     ErrorAction = 'Ignore'
                 }
                 $RemoveGPOParams = @{
-                    Confirm     = $False
+                    Confirm     = $false
                     ErrorAction = 'Ignore'
                 }
                 Get-GPO @GetGPOParams | Remove-GPO @RemoveGPOParams | Out-Null
-                Throw $_
+                throw $_
             }
-            Finally {
-                If ($TempMigTable) {
-                    Remove-Item -Path $TempMigTable -Confirm:$False -Force -ErrorAction Ignore | Out-Null
+            finally {
+                if ($TempMigTable) {
+                    Remove-Item -Path $TempMigTable -Confirm:$false -Force -ErrorAction Ignore | Out-Null
                 }
             }
         }
         @($Status, $Null, $RemoteMessages)
     }
-    Catch {
+    catch {
         @($Status, $_, $RemoteMessages)
     }
-    Finally {
+    finally {
     }  
 }
 

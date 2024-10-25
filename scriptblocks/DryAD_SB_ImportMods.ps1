@@ -19,21 +19,21 @@
 #>
 
 [ScriptBlock]$DryAD_SB_ImportMods = {
-    Param (
-        $Modules
+    param (
+        [array]$Modules
     )
     try {
-        $Modules.ForEach({
+        $Modules.foreach({
                 $ImportParams = @{
-                    Name        = $_.name
-                    Force       = $True 
+                    Name        = $_
+                    Force       = $true 
                     ErrorAction = 'Stop'
                 }
                 Import-Module @ImportParams
             })
-        $True
+        $true
     }
-    Catch {
-        $False
+    catch {
+        $false
     }
 }

@@ -19,7 +19,7 @@
 #>
 
 [ScriptBlock] $DryAD_SB_GroupMember_Get = {
-    Param (
+    param (
         $Group,
         $Member,
         $Server
@@ -30,14 +30,14 @@
             Server      = $Server
             ErrorAction = 'Stop'
         }
-        If ((Get-ADGroupMember @GetADGroupMemberParams | Select-Object -Property Name).Name -Contains $Member) {
-            $True
+        if ((Get-ADGroupMember @GetADGroupMemberParams | Select-Object -Property Name).Name -Contains $Member) {
+            $true
         } 
-        Else {
-            $False
+        else {
+            $false
         }
     }
-    Catch {
+    catch {
         $_
     }
 }
