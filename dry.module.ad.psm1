@@ -1,4 +1,3 @@
-Using Module ActiveDirectory
 Using Namespace System.Management.Automation.Runspaces
 <#  
     This is an AD Config module for use with DryDeploy, or by itself.
@@ -44,3 +43,7 @@ foreach ($Class in $Classes) {
 foreach ($Exportedfunction in $ExportedFunctions) {
     . $ExportedFunction.Path
 }
+
+Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\dry.module.log\dry.module.log.psd1')
+Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\GPRegistryPolicyParser\GPRegistryPolicyParser.psm1')
+Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\dry.ad.gpohelper\dry.ad.gpohelper.psm1')

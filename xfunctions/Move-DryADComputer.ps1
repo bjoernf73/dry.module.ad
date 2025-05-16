@@ -23,11 +23,11 @@ function Move-DryADComputer {
     [CmdletBinding(DefaultParameterSetName = 'Local')] 
     param (
         [Parameter(Mandatory)]
-        [String]
+        [string]
         $ComputerName,
 
         [Parameter(Mandatory)]
-        [String]
+        [string]
         $TargetOU,
 
         [Parameter(HelpMessage = "Only test, and return true or false")]
@@ -35,13 +35,13 @@ function Move-DryADComputer {
         $Test,
 
         [Parameter(Mandatory, ParameterSetName = 'Remote',
-            HelpMessage = "PSSession to run the script blocks in")]
+        HelpMessage = "PSSession to run the script blocks in")]
         [System.Management.Automation.Runspaces.PSSession] 
         $PSSession,
 
         [Parameter(Mandatory, ParameterSetName = 'Local',
-            HelpMessage = "For 'Local' sessions, specify the Domain Controller to use")]
-        [String] 
+        HelpMessage = "For 'Local' sessions, specify the Domain Controller to use")]
+        [string] 
         $DomainController
     )
     ol v @("Moving: '$ComputerName' to OU", "$TargetOU")

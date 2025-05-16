@@ -24,7 +24,7 @@
     RootModule            = 'dry.module.ad.psm1'
 
     # Version number of this module.
-    ModuleVersion         = '0.1.0'
+    ModuleVersion         = '0.0.4'
 
     # Supported PSEditions
     CompatiblePSEditions  = @('Desktop')
@@ -124,7 +124,7 @@
             # IconUri = ''
 
             # ReleaseNotes of this module
-            #ReleaseNotes = ""
+            ReleaseNotes = "Publishing with newest PowershellGet to not include .git in the package"
 
         } # End of PSData hashtable
 

@@ -1,5 +1,6 @@
-Using Module ActiveDirectory
 Using Namespace System.Management.Automation.Runspaces
+# removed: 
+# Using Module ActiveDirectory
 # dry.module.ad is an AD config module for use with DryDeploy, or by itself.
 #
 # Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
@@ -20,19 +21,19 @@ Using Namespace System.Management.Automation.Runspaces
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 Class OU {
-    [String]       $OUDN
-    [String]       $ObjectType
-    [String]       $DomainFQDN
-    [String]       $DomainDN
+    [string]       $OUDN
+    [string]       $ObjectType
+    [string]       $DomainFQDN
+    [string]       $DomainDN
     [PSSession]    $PSSession
-    [String]       $DomainController
+    [string]       $DomainController
     [PSCredential] $Credential
-    [String]       $ExecutionType
+    [string]       $ExecutionType
 
     # Overload for CN or OU creation in a PSSession
     OU(
-        [String]    $OUDN,
-        [String]    $DomainFQDN,
+        [string]    $OUDN,
+        [string]    $DomainFQDN,
         [PSSession] $PSSession
     )
     {
@@ -59,9 +60,9 @@ Class OU {
 
     # Overload for CN or OU creation locally with PSCredential
     OU(
-        [String]       $OUDN,
-        [String]       $DomainFQDN,
-        [String]       $DomainController,
+        [string]       $OUDN,
+        [string]       $DomainFQDN,
+        [string]       $DomainController,
         [PSCredential] $Credential
     )
     {
@@ -88,9 +89,9 @@ Class OU {
 
     # Overload for CN or OU creation locally using privileges of the executing user
     OU(
-        [String]       $OUDN,
-        [String]       $DomainFQDN,
-        [String]       $DomainController
+        [string]       $OUDN,
+        [string]       $DomainFQDN,
+        [string]       $DomainController
     )
     {
         $This.OUDN = $OUDN
@@ -109,7 +110,7 @@ Class OU {
         } 
         $This.DomainFQDN       = $DomainFQDN 
         $This.DomainDN         = "DC=" + $($This.DomainFQDN.replace(".",",DC="))
-        $This.Credential       = $Null
+        $This.Credential       = $null
         $This.ExecutionType    = 'Local'
         $This.DomainController = $DomainController
     } 
@@ -124,7 +125,7 @@ Class OU {
             $DNParts = $This.OUDN.Split(',')
             for ($c = ($DNParts.Count -1); $c -ge 0; $c--) {    
                 
-                $CurrentDN             = [String]::Join(',', ($DNParts[$c..($DNParts.Count -1)]))
+                $CurrentDN             = [string]::Join(',', ($DNParts[$c..($DNParts.Count -1)]))
                 $CurrentDomainDN       = ($CurrentDN + ',' + $This.DomainDN).TrimStart(',')
                 $CurrentName           = (($CurrentDN -split (",",2))[0]).SubString(3)
                 $CurrentParent         = ($currentDN -split (",",2))[1]
@@ -165,12 +166,25 @@ Class OU {
                             # The Object exists already
                             $true
                         }
-                        Catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException] {
-                            # The Object does not exist
-                            $false
-                        }
                         catch {
-                            $PSCmdlet.ThrowTerminatingError($_)
+                            if($_.CategoryInfo.Reason -eq 'ADIdentityNotFoundException') {
+                                # The Object does not exist
+                                $false
+                            }
+                            else {
+                                # The Object does not exist
+                                ol e "Error trying to get OU '$CurrentName' in parent '$CurrentParent'"
+                                ol e $_.Exception.Message
+                                ol e $_.InvocationInfo
+                                ol e $_.ScriptStackTrace
+                                ol e $_.ScriptName
+                                ol e $_.TargetObject
+                                ol e $_.FullyQualifiedErrorId
+                                ol e $_.ErrorRecord
+                                
+                                # Throw the error to the caller
+                                $PSCmdlet.ThrowTerminatingError($_)
+                            }
                         }
                     } 
 
