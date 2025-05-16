@@ -30,10 +30,8 @@ You may run the `Import-DryADConfiguration` either
 
 Remote-run requires you to establish a PSSession to the target, and passing the session to `Import-DryADConfiguration`:
 ```powershell
-@('dry.module.log','dry.module.ad').foreach({
-    Import-module -Name $_
-})
-# The ActiveDirectory module will warn about unable to connect the AD drive - don't mind that.
+Import-Module dry.module.ad
+# The ActiveDirectory module wmay warn about unable to connect the AD drive - don't mind that.
 
 $cred = Get-Credential -UserName 'dom\admin' -Message 'enter dom\admin`s password'
 $sess = New-PSSession -Credential $cred -ComputerName 10.0.5.6
@@ -42,9 +40,8 @@ Import-DryADConfiguration -PSSession $sess -ConfigurationPath ..\Some\Folder -Va
 ```
 
 ## Installation
-dry.module.ad requires dry.module.log, so 
+
 ```
-Install-Module -Name dry.module.log 
 Install-Module -Name dry.module.ad
 ```
 
@@ -58,7 +55,7 @@ The module contains an example configuration in the `example` folder. The exampl
 # On DryDeploy
 The dry.module.ad module is made for *DryDeploy*, more than it is made for standalone use. It is a submodule of a couple of standard action modules of DryDeploy, namely [dry.action.ad.import](https://github.com/bjoernf73/dry.action.ad.import) and [dry.action.ad.move](https://github.com/bjoernf73/dry.action.ad.move). 
 
-*DryDeploy* aspires to do all aspects of automated deployment and configuration of Windows and Linux resources 
+*DryDeploy* aspires to do all aspects of automated deployment and configuration of Windows resources 
  - *using*, and not *competing with*, frameworks like Desired State Configuration, Terraform, Ansible, SaltStack, and so on. 
 
 Check out the project [here](https://github.com/bjoernf73/DryDeploy), or clone recursively with 

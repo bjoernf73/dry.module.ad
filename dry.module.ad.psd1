@@ -19,18 +19,17 @@
 #>
 
 @{
-
     # Script module or binary module file associated with this manifest.
-    RootModule            = 'dry.module.ad.psm1'
+    RootModule = 'dry.module.ad.psm1'
 
     # Version number of this module.
-    ModuleVersion         = '0.0.4'
+    ModuleVersion = '0.1.0'
 
     # Supported PSEditions
     CompatiblePSEditions  = @('Desktop')
 
     # ID used to uniquely identify this module
-    GUID                  = '6a25025f-77d4-4989-8033-6fa2d0276b99'
+    GUID = '6a25025f-77d4-4989-8033-6fa2d0276b99'
 
     # Author of this module
     Author = 'bjoernf73'
@@ -63,12 +62,12 @@
     ProcessorArchitecture = 'Amd64'
 
     # Modules that must be imported into the global environment prior to importing this module
-    RequiredModules       = @(
-        @{
-            ModuleName    = "dry.module.log"
-            ModuleVersion = '0.0.3'
-        }
-    )
+    # RequiredModules       = @(
+    #     @{
+    #         ModuleName    = "dry.module.log"
+    #         ModuleVersion = '0.0.3'
+    #     }
+    # )
 
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @()
