@@ -24,22 +24,13 @@ function Get-DryADOUPathFromAlias {
         [string]$Alias,
 
         [Parameter(Mandatory)]
-        [Array]$OUs,
-
-        [Parameter(Mandatory)]
-        [string]$Scope,
-
-        [Parameter()]
-        [string]$Child
+        [Array]$OUs
     )
 
     $ReferencedOU = $OUs | Where-Object {  
         $_.Alias -eq $Alias
     }
-
     ol d 'Alias', "$Alias"
-    ol d 'Scope', "$Scope"
-    ol d 'Child', "$Child"
 
     if ($null -eq $ReferencedOU) {
         ol e @('Unable to resolve OU from Alias', 'No OUs found')
@@ -55,11 +46,6 @@ function Get-DryADOUPathFromAlias {
     if ($null -eq $Path) {
         ol e "Found OU '$($OU.Alias)', but it contains no path"
         throw "Found OU '$($OU.Alias)', but it contains no path"
-    }
-
-    # If child, add that
-    if ($Child) {
-        $Path = $Path + '/' + $Child -replace '//', '/'
     }
 
     ol v @("Alias '$Alias'", "$Path")

@@ -49,11 +49,6 @@ function Import-DryADConfiguration {
         'wmi_filters', 'wmi_filters_links', 'ad_schema', 'netlogon', 'adm_templates', 'users', 'users_memberof')] 
         [string[]]$Types,
 
-        [Parameter(HelpMessage = "NOT IMPLEMENTED YET. Objects may be defined with an array of tags to group them logically. 
-        The Tags parameter allows you to filter on objects, so only objects that have a tag defined corresponding to an 
-        element in `$Tags, are processed. If `$Tags is `$null, Tags are ignored")]
-        [string[]]$Tags,
-
         [Parameter(Mandatory, ParameterSetName = 'Local', HelpMessage = "Specify a resolvable name or IP to a Domain Controller to perform AD actions on")]
         [string]$DomainController,
 
@@ -106,11 +101,6 @@ function Import-DryADConfiguration {
             $SchemaMaster = Get-DryADServiceProperty -Service 'forest' -Property 'SchemaMaster' -DomainController $DomainController
         }
 
-        # ! remove this when Tags are implemented
-        if ($Tags) {
-            ol w "Parameter 'Tags' is not implemented yet!"
-        }
-
         $SourceGPOsPath = Join-Path -Path $ConfigurationPath -ChildPath "gpo_imports"
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
@@ -131,14 +121,14 @@ function Import-DryADConfiguration {
         if ($ComputerName) { $DefaultVariables += 'ComputerName' }
         
         $DefaultVariables.foreach({
-                $CurrentDefaultVariable = $_
-                if ($null -eq ($Variables | Where-Object { $_.Name -eq $CurrentDefaultVariable })) {
-                    $Variables += New-Object -TypeName PSObject -Property @{
-                        Name  = "$CurrentDefaultVariable"
-                        Value = Get-Variable -Name $CurrentDefaultVariable -Value
-                    }
+            $CurrentDefaultVariable = $_
+            if ($null -eq ($Variables | Where-Object { $_.Name -eq $CurrentDefaultVariable })) {
+                $Variables += New-Object -TypeName PSObject -Property @{
+                    Name  = "$CurrentDefaultVariable"
+                    Value = Get-Variable -Name $CurrentDefaultVariable -Value
                 }
-            })
+            }
+        })
         
         # For debug
         $Variables.foreach({
@@ -241,9 +231,7 @@ function Import-DryADConfiguration {
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if (Test-Path -Path "$ConfigurationPath\ad_schema" -ErrorAction Ignore) {
-            if (($Types -icontains 'ad_schema') -or 
-                ($null -eq $Types)
-            ) { 
+            if (($Types -icontains 'ad_schema') -or ($null -eq $Types)){ 
                 $ProcessADSchema = $true
                 $ADSchemaExtensions = @(Get-ChildItem -Path "$ConfigurationPath\ad_schema\*" -Include "*.ldf")
                 $NumberOfElementsToProcess += $ADSchemaExtensions.Count
@@ -259,8 +247,8 @@ function Import-DryADConfiguration {
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if (Test-Path -Path "$ConfigurationPath\netlogon" -ErrorAction Ignore) {  
             if (($Types -icontains 'netlogon') -or 
-                ($null -eq $Types)
-            ) { 
+                ($null -eq $Types)) {
+
                 $ProcessNETLOGON = $true
                 $NumberOfElementsToProcess++
                 $NumberOfNETLOGONs = 1
@@ -287,27 +275,10 @@ function Import-DryADConfiguration {
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($RoleConfiguration.ou_schema) {
-
-            [array]$DomainOUs += @($RoleConfiguration.ou_schema | 
-                    Where-Object {  
-                        $_.scope -contains 'domain' 
-                    } )
-           
-            [array]$SiteOUs += @($RoleConfiguration.ou_schema | 
-                    Where-Object {  
-                        $_.scope -contains 'site'
-                    } )
-
-            [array]$ComputerOUs += @($RoleConfiguration.ou_schema | 
-                    Where-Object {  
-                        $_.scope -contains 'computer'
-                    } )
-
+            [array]$DomainOUs = @($RoleConfiguration.ou_schema)
             if (($Types -icontains 'ou_schema') -or ($null -eq $Types)) { 
                 $ProcessOUs = $true 
-                $NumberOfElementsToProcess += (
-                    $DomainOUs.Count + $SiteOUs.Count + $ComputerOUs.Count
-                )
+                $NumberOfElementsToProcess += $DomainOUs.Count
             }
         }
 
@@ -315,91 +286,12 @@ function Import-DryADConfiguration {
         if ($DomainOUs) {
             $DomainOUs = Resolve-DryADReplacementPatterns -inputobject $DomainOUs -Variables $Variables
         }
-        if ($SiteOUs) {
-            $SiteOUs = Resolve-DryADReplacementPatterns -inputobject $SiteOUs -Variables $Variables
-        }
-        if ($ComputerOUs) {
-            $ComputerOUs = Resolve-DryADReplacementPatterns -inputobject $ComputerOUs -Variables $Variables
-        }
-        $NumberOfOUs = $DomainOUs.Count + $SiteOUs.Count + $ComputerOUs.Count
+        $NumberOfOUs = $DomainOUs.Count
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
         #   ORGANIZATIONAL UNITS PATHS
-        #   Action: Resolve Path from Paths
-        #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-        # DomainOUs that are missing 'path'-property must resolve it from 'paths'
-        foreach ($OU in $DomainOUs | Where-Object { ($null -eq $_.Path) -and ($null -ne $_.Paths) }) {
-
-            Remove-Variable -Name Path -ErrorAction Ignore
-            $Path = $OU.paths.domain
-
-            if ($null -eq $Path) {
-                ol e "Unable to find `$OU.paths.domain on '$($OU.alias)'"
-                throw "Unable to find `$OU.paths.domain on '$($OU.alias)'"
-            }
-            elseif ($Path -is [array]) {
-                ol e "Multiple definitions `$OU.paths.domain on '$($OU.alias)'"
-                throw "Multiple definitions `$OU.paths.domain on '$($OU.alias)'"
-            }
-            
-            # Add Path property, then remove .paths 
-            $OU | Add-Member -MemberType NoteProperty -Name 'Path' -Value $Path -Force
-            $OU.PSObject.Properties.Remove('paths')
-            
-            Remove-Variable -Name Path -ErrorAction Ignore
-        }
-
-        # SiteOUs that are missing 'path'-property must resolve it from 'paths'
-        foreach ($OU in $SiteOUs | Where-Object { ($null -eq $_.Path) -and ($null -ne $_.Paths) }) {
-
-            Remove-Variable -Name Path -ErrorAction Ignore
-            $Path = $OU.paths.site
-
-            if ($null -eq $Path) {
-                ol e "Unable to find `$OU.paths.Site on '$($OU.alias)'"
-                throw "Unable to find `$OU.paths.Site on '$($OU.alias)'"
-            }
-            elseif ($Path -is [array]) {
-                ol e "Multiple definitions `$OU.paths.Site on '$($OU.alias)'"
-                throw "Multiple definitions `$OU.paths.Site on '$($OU.alias)'"
-            }
-            
-            # Add Path property, then remove .paths 
-            $OU | Add-Member -MemberType NoteProperty -Name 'Path' -Value $Path -Force
-            $OU.PSObject.Properties.Remove('paths')
-            
-            Remove-Variable -Name Path -ErrorAction Ignore
-        }
-
-        # ComputerOUs that are missing 'path'-property must resolve it from 'paths'
-        foreach ($OU in $ComputerOUs | Where-Object { ($null -eq $_.Path) -and ($null -ne $_.Paths) }) {
-
-            Remove-Variable -Name Path -ErrorAction Ignore
-            $Path = $OU.paths.computer
-
-            if ($null -eq $Path) {
-                ol e "Unable to find `$OU.paths.computer on '$($OU.alias)'"
-                throw "Unable to find `$OU.paths.computer on '$($OU.alias)'"
-            }
-            elseif ($Path -is [array]) {
-                ol e "Multiple definitions `$OU.paths.computer on '$($OU.alias)'"
-                throw "Multiple definitions `$OU.paths.computer on '$($OU.alias)'"
-            }
-            
-            # Add Path property, then remove .paths 
-            $OU | Add-Member -MemberType NoteProperty -Name 'Path' -Value $Path -Force
-            $OU.PSObject.Properties.Remove('paths')
-            
-            Remove-Variable -Name Path -ErrorAction Ignore
-        }
-
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   ORGANIZATIONAL UNITS PATHS
-        #   Action: Resolve Child Paths from Parents
+        #   Action: Resolve .path from .parent_alias and .child_path
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         
@@ -407,210 +299,29 @@ function Import-DryADConfiguration {
         do {
             $AnOUWasResolved = $false 
             # Loop through DomainOUs that already have a path
-            foreach ($ResolvedOU in $DomainOUs | 
-                    Where-Object { 
-                        $null -ne $_.path 
-                    }) {
+            foreach ($ResolvedOU in $DomainOUs | Where-Object { $null -ne $_.path }) {
                 
                 # Loop through DomainOUs that do not have a path
-                foreach ($UnresolvedOU in $DomainOUs | 
-                        Where-Object { 
-                            $null -eq $_.path 
-                        }) {
+                foreach ($UnresolvedOU in $DomainOUs | Where-Object { $null -eq $_.path }) {
                     try {
-                        Remove-Variable -Name Parent -ErrorAction Ignore
-                        $Parent = $UnresolvedOU.parents | 
-                            Where-Object { 
-                            ($_.parentscope -eq 'domain') -and
-                            ($_.scope -eq 'domain') -and
-                            ($_.alias -eq $ResolvedOU.alias) 
-                            }
-                        
-                        if ($Parent) {
-                            $Path = Get-DryADOUPathFromAlias -Alias $Parent.alias -OUs $DomainOUs -Scope 'domain' -Child $Parent.child
-                            $AnOUWasResolved = $true
-                            # Add Path property 
+                        if ($UnresolvedOU.parent_alias -eq $ResolvedOU.alias) {
+                            $Path = ($ResolvedOU.path + '/' + $UnresolvedOU.child_path) -replace '//', '/'
+                            $AnOUWasResolved = $true #keeps the loop going
+                            
+                            # Add Path property and remove parent_alias and child_path
                             $UnresolvedOU | Add-Member -MemberType NoteProperty -Name 'Path' -Value $Path -Force
-                            # Once resolved, remove parents 
-                            $UnresolvedOU.PSObject.Properties.Remove('parents')
+                            $UnresolvedOU.PSObject.Properties.Remove('parent_alias')
+                            $UnresolvedOU.PSObject.Properties.Remove('child_path')
                         }
                     }
                     catch {
                         $PSCmdLet.ThrowTerminatingError($_)
                     }
                     finally {
-                        Remove-Variable -Name Path, Parent -ErrorAction Ignore
-                    }
-                }
-
-                # Loop through SiteOUs that do not have a path
-                foreach ($UnresolvedOU in $SiteOUs | 
-                        Where-Object { 
-                            $null -eq $_.path 
-                        }) {
-                    try {
-                        Remove-Variable -Name Parent -ErrorAction Ignore
-                        $Parent = $UnresolvedOU.parents | 
-                            Where-Object { 
-                            ($_.parentscope -eq 'domain') -and
-                            ($_.scope -eq 'site') -and
-                            ($_.alias -eq $ResolvedOU.alias) 
-                            }
-                        
-                        if ($Parent) {
-                            $Path = Get-DryADOUPathFromAlias -Alias $Parent.alias -OUs $DomainOUs -Scope 'site' -Child $Parent.child
-                            $AnOUWasResolved = $true
-                            # Add Path property 
-                            $UnresolvedOU | Add-Member -MemberType NoteProperty -Name 'Path' -Value $Path -Force
-                            # Once resolved, remove parents 
-                            $UnresolvedOU.PSObject.Properties.Remove('parents')
-                        }
-                    }
-                    catch {
-                        $PSCmdLet.ThrowTerminatingError($_)
-                    }
-                    finally {
-                        Remove-Variable -Name Path, Parent -ErrorAction Ignore
-                    }
-                }
-
-                # Loop through ComputerOUs that do not have a path
-                foreach ($UnresolvedOU in $ComputerOUs | 
-                        Where-Object { 
-                            $null -eq $_.path 
-                        }) {
-                    try {
-                        Remove-Variable -Name Parent -ErrorAction Ignore
-                        $Parent = $UnresolvedOU.parents | 
-                            Where-Object { 
-                            ($_.parentscope -eq 'domain') -and
-                            ($_.scope -eq 'computer') -and
-                            ($_.alias -eq $ResolvedOU.alias) 
-                            }
-                        
-                        if ($Parent) {
-                            $Path = Get-DryADOUPathFromAlias -Alias $Parent.alias -OUs $DomainOUs -Scope 'computer' -Child $Parent.child
-                            $AnOUWasResolved = $true
-                            # Add Path property 
-                            $UnresolvedOU | Add-Member -MemberType NoteProperty -Name 'Path' -Value $Path -Force
-                            # Once resolved, remove parents 
-                            $UnresolvedOU.PSObject.Properties.Remove('parents')
-                        }
-                    }
-                    catch {
-                        $PSCmdLet.ThrowTerminatingError($_)
-                    }
-                    finally {
-                        Remove-Variable -Name Path, Parent -ErrorAction Ignore
+                        $Path = $null
                     }
                 }
             }
-
-            # Loop through SiteOUs that already have a path
-            foreach ($ResolvedOU in $SiteOUs | 
-                    Where-Object { 
-                        $null -ne $_.Path 
-                    }) {
-                # Loop through SiteOUs that do not have a path
-                foreach ($UnresolvedOU in $SiteOUs | 
-                        Where-Object { 
-                            $null -eq $_.path 
-                        }) {
-                    try {
-                        Remove-Variable -Name Parent -ErrorAction Ignore
-                        $Parent = $UnresolvedOU.parents | 
-                            Where-Object { 
-                            ($_.parentscope -eq 'site') -and
-                            ($_.scope -eq 'site') -and
-                            ($_.alias -eq $ResolvedOU.alias) 
-                            }
-                        
-                        if ($Parent) {
-                            $Path = Get-DryADOUPathFromAlias -Alias $Parent.alias -OUs $SiteOUs -Scope 'site' -Child $Parent.child
-                            $AnOUWasResolved = $true
-                            # Add Path property 
-                            $UnresolvedOU | Add-Member -MemberType NoteProperty -Name 'Path' -Value $Path -Force
-                            # Once resolved, remove parents 
-                            $UnresolvedOU.PSObject.Properties.Remove('parents')
-                        }
-                    }
-                    catch {
-                        $PSCmdLet.ThrowTerminatingError($_)
-                    }
-                    finally {
-                        Remove-Variable -Name Path, Parent -ErrorAction Ignore
-                    }
-                }
-
-                # Loop through ComputerOUs that do not have a path
-                foreach ($UnresolvedOU in $ComputerOUs | 
-                        Where-Object { 
-                            $null -eq $_.path 
-                        }) {
-                    try {
-                        Remove-Variable -Name Parent -ErrorAction Ignore
-                        $Parent = $UnresolvedOU.parents | 
-                            Where-Object { 
-                            ($_.parentscope -eq 'site') -and
-                            ($_.scope -eq 'computer') -and
-                            ($_.alias -eq $ResolvedOU.alias) 
-                            }
-                        
-                        if ($Parent) {
-                            $Path = Get-DryADOUPathFromAlias -Alias $Parent.alias -OUs $SiteOUs -Scope 'computer' -Child $Parent.child
-                            $AnOUWasResolved = $true
-                            # Add Path property 
-                            $UnresolvedOU | Add-Member -MemberType NoteProperty -Name 'Path' -Value $Path -Force
-                            # Once resolved, remove parents 
-                            $UnresolvedOU.PSObject.Properties.Remove('parents')
-                        }
-                    }
-                    catch {
-                        $PSCmdLet.ThrowTerminatingError($_)
-                    }
-                    finally {
-                        Remove-Variable -Name Path, Parent -ErrorAction Ignore
-                    }
-                }
-            }
-
-            # Loop through ComputerOUs that already have a path
-            foreach ($ResolvedOU in $ComputerOUs | 
-                    Where-Object { 
-                        $null -ne $_.Path 
-                    }) {
-
-                # Loop through ComputerOUs that do not have a path
-                foreach ($UnresolvedOU in $ComputerOUs | 
-                        Where-Object { 
-                            $null -eq $_.path 
-                        }) {
-                    try {
-                        Remove-Variable -Name Parent -ErrorAction Ignore
-                        $Parent = $UnresolvedOU.parents | 
-                            Where-Object { 
-                            ($_.parentscope -eq 'computer') -and
-                            ($_.scope -eq 'computer') -and
-                            ($_.alias -eq $ResolvedOU.alias) 
-                            }
-                        
-                        if ($Parent) {
-                            $Path = Get-DryADOUPathFromAlias -Alias $Parent.Alias -OUs $ComputerOUs -Scope 'computer' -Child $Parent.child
-                            $AnOUWasResolved = $true
-                            # Add Path property 
-                            $UnresolvedOU | Add-Member -MemberType NoteProperty -Name 'Path' -Value $Path -Force
-                            # Once resolved, remove parents 
-                            $UnresolvedOU.PSObject.Properties.Remove('parents')
-                        }
-                    }
-                    catch {
-                        $PSCmdLet.ThrowTerminatingError($_)
-                    }
-                    finally {
-                        Remove-Variable -Name Path, Parent -ErrorAction Ignore
-                    }
-                }
-            }  
         }
         While ($AnOUWasResolved)
 
@@ -621,45 +332,26 @@ function Import-DryADConfiguration {
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($DomainOUs.count -gt 0) {
-            ol i "Resolved Domain OU Aliases" -sh 
+            ol i "Resolved OU Aliases" -sh 
             foreach ($OU in $DomainOUs) {
                 ol i "$($OU.Alias)", "$($OU.Path)"
+                if($null -eq $OU.Path) {
+                    ol e "Unable to resolve OU for '$($OU.Alias)'"
+                    throw "Unable to resolve OU for '$($OU.Alias)'"
+                }
             }
         }
-        
-        if ($SiteOUs.count -gt 0) {
-            ol i "Resolved Site OU Aliases" -sh 
-            foreach ($OU in $SiteOUs) {
-                ol i "$($OU.Alias)", "$($OU.Path)"
-            }
-        }
-        
-        if ($ComputerOUs.count -gt 0) {
-            ol i "Resolved Computer OU Aliases" -sh 
-            foreach ($OU in $ComputerOUs) {
-                ol i "$($OU.Alias)", "$($OU.Path)"
-            }
-        }
-        
+    
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
         #   ORGANIZATIONAL UNITS PATHS
-        #   Action: Convert To 'distinguishedName' and Correct Case
+        #   Action: Convert To 'distinguishedName' 
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         foreach ($OU in $DomainOUs) {
             $OU.Path = ConvertTo-DryADDistinguishedName -Name $OU.Path -Case $OUcase
             ol d "Domain OU dN for $($OU.Alias) is: '$($OU.Path)'" 
         }
-        foreach ($OU in $SiteOUs) {
-            $OU.Path = ConvertTo-DryADDistinguishedName -Name $OU.Path -Case $OUcase
-            ol d "Site OU dN for $($OU.Alias) is: '$($OU.Path)'" 
-        }
-        foreach ($OU in $ComputerOUs) {
-            $OU.Path = ConvertTo-DryADDistinguishedName -Name $OU.Path -Case $OUcase
-            ol d "Site OU dN for $($OU.Alias) is: '$($OU.Path)'" 
-        }
-        
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
@@ -667,45 +359,21 @@ function Import-DryADConfiguration {
         #   Action: Get, Count and String Replacement
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if (
-            ($Types -icontains 'wmi_filters') -or 
+        if (($Types -icontains 'wmi_filters') -or 
             ($Types -icontains 'wmi_filters_links') -or 
-            ($null -eq $Types)
-        ) { 
+            ($null -eq $Types)){ 
             if ($RoleConfiguration.wmi_filters) {
-                
-                # Get the elements
-                [array]$DomainWMIFilters += @($RoleConfiguration.wmi_filters | Where-Object {  
-                        $_.scope -eq 'domain' 
-                    } )
-            
-                [array]$SiteWMIFilters += @($RoleConfiguration.wmi_filters | Where-Object {  
-                        $_.scope -eq 'site'
-                    } )
-
-                [array]$ComputerWMIFilters += @($RoleConfiguration.wmi_filters | Where-Object {  
-                        $_.scope -eq 'computer'
-                    } )
-
-                # Replace any replacement pattern 
+                [array]$DomainWMIFilters += @($RoleConfiguration.wmi_filters)
                 $DomainWMIFilters = Resolve-DryADReplacementPatterns -inputobject $DomainWMIFilters -Variables $Variables
-                $SiteWMIFilters = Resolve-DryADReplacementPatterns -inputobject $SiteWMIFilters -Variables $Variables
-                $ComputerWMIFilters = Resolve-DryADReplacementPatterns -inputobject $ComputerWMIFilters -Variables $Variables
 
                 # Count the wmi_filters, but only if we're actually importing them
-                if (
-                    ($Types -icontains 'wmi_filters') -or 
-                    ($null -eq $Types)
-                ) {
+                if (($Types -icontains 'wmi_filters') -or ($null -eq $Types)){
                     $ProcessWMIFilterImports = $true
-                    $NumberOfElementsToProcess += ($DomainWMIFilters.Count + $SiteWMIFilters.Count + $ComputerWMIFilters.Count)
-                    $NumberOfWMIFilters += ($DomainWMIFilters.Count + $SiteWMIFilters.Count + $ComputerWMIFilters.Count)
+                    $NumberOfElementsToProcess += $DomainWMIFilters.Count
+                    $NumberOfWMIFilters = $DomainWMIFilters.Count
                 }
 
-                if (
-                    ($Types -icontains 'wmi_filters_links') -or 
-                    ($null -eq $Types)
-                ) {
+                if (($Types -icontains 'wmi_filters_links') -or ($null -eq $Types)){
                     $ProcessWMIFilterLinks = $true
                     $DomainWmiFilterLinksCount = 0
                     $DomainWMIFilters.foreach({
@@ -713,25 +381,11 @@ function Import-DryADConfiguration {
                                     $DomainWmiFilterLinksCount++
                                 })
                         })
-
-                    $SiteWmiFilterLinksCount = 0
-                    $SiteWMIFilters.foreach({
-                            $_.links.foreach({
-                                    $SiteWmiFilterLinksCount++
-                                })
-                        })
-                    $ComputerWmiFilterLinksCount = 0
-                    $ComputerWMIFilters.foreach({
-                            $_.links.foreach({
-                                    $ComputerWmiFilterLinksCount++
-                                })
-                        })
-                    $NumberOfWMIFilterLinks = $DomainWmiFilterLinksCount + $SiteWmiFilterLinksCount + $ComputerWmiFilterLinksCount
+                    $NumberOfWMIFilterLinks = $DomainWmiFilterLinksCount
                     $NumberOfElementsToProcess += $NumberOfWMIFilterLinks
                 }
             }
         }
-
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
@@ -741,71 +395,22 @@ function Import-DryADConfiguration {
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
         if ($RoleConfiguration.rights_groups) {
-            
-            # Get domain scoped rights groups
-            $DomainRightsGroups = @($RoleConfiguration.rights_groups | Where-Object {  
-                    $_.scope -eq 'domain' 
-                } )
-            
-            # Get site scoped rights groups
-            $SiteRightsGroups = @($RoleConfiguration.rights_groups | Where-Object {  
-                    $_.scope -eq 'site' 
-                } )
-
-            # Get computer scoped rights groups
-            $ComputerRightsGroups = @($RoleConfiguration.rights_groups | Where-Object {  
-                    $_.scope -eq 'computer' 
-                } )
-
-            # Count
-            if (
-                ($Types -icontains 'rights_groups') -or 
-                ($null -eq $Types)
-            ) { 
+            $DomainRightsGroups = @($RoleConfiguration.rights_groups)
+            if (($Types -icontains 'rights_groups') -or ($null -eq $Types)) { 
                 $ProcessRightsGroups = $true
-                $NumberOfElementsToProcess += ($DomainRightsGroups.Count + $SiteRightsGroups.Count + $ComputerRightsGroups.Count) 
-                $NumberOfRightsGroups = ($DomainRightsGroups.Count + $SiteRightsGroups.Count + $ComputerRightsGroups.Count)
+                $NumberOfElementsToProcess += $DomainRightsGroups.Count
+                $NumberOfRightsGroups = $DomainRightsGroups.Count
             }
-            
-            # Replace any replacement pattern 
             # Replace regardless of $Types -icontains 'rights_groups', since RightsGroups are referenced by Rights, GroupMembers and GPOImports
             $DomainRightsGroups = Resolve-DryADReplacementPatterns -inputobject $DomainRightsGroups -Variables $Variables
-            $SiteRightsGroups = Resolve-DryADReplacementPatterns -inputobject $SiteRightsGroups -Variables $Variables
-            $ComputerRightsGroups = Resolve-DryADReplacementPatterns -inputobject $ComputerRightsGroups -Variables $Variables
 
-            # Resolve Domain OU Paths from schema
+            # Resolve OU from schema
             foreach ($RightsGroup in $DomainRightsGroups) {
-                if ($NULL -eq $RightsGroup.path) {
-
-                    # Resolve domain paths from OU schema
-                    $Path = Get-DryADOUPathFromAlias -Alias $RightsGroup.Alias -OUs $DomainOUs -Scope 'domain'
+                if ($null -eq $RightsGroup.path) {
+                    $Path = Get-DryADOUPathFromAlias -Alias $RightsGroup.Alias -OUs $DomainOUs
                     $RightsGroup | Add-Member -MemberType NoteProperty -Name Path -Value $Path
                 }
                 # Convert to $GroupCase 
-                $RightsGroup.groupname = ConvertTo-DryADCase -Name $RightsGroup.groupname -Case $Groupcase
-            }
-
-            # Resolve Site OU Paths from schema
-            foreach ($RightsGroup in $SiteRightsGroups) {
-                if ($NULL -eq $RightsGroup.path) {
-
-                    # Resolve domain paths from OU schema
-                    $Path = Get-DryADOUPathFromAlias -Alias $RightsGroup.Alias -OUs $SiteOUs -Scope 'site'
-                    $RightsGroup | Add-Member -MemberType NoteProperty -Name Path -Value $Path
-                }
-                # Convert to $GroupCase
-                $RightsGroup.groupname = ConvertTo-DryADCase -Name $RightsGroup.groupname -Case $Groupcase
-            }
-
-            # Resolve Site OU Paths from schema
-            foreach ($RightsGroup in $ComputerRightsGroups) {
-                if ($NULL -eq $RightsGroup.path) {
-
-                    # Resolve domain paths from OU schema
-                    $Path = Get-DryADOUPathFromAlias -Alias $RightsGroup.Alias -OUs $ComputerOUs -Scope 'computer'
-                    $RightsGroup | Add-Member -MemberType NoteProperty -Name Path -Value $Path
-                }
-                # Convert to $GroupCase
                 $RightsGroup.groupname = ConvertTo-DryADCase -Name $RightsGroup.groupname -Case $Groupcase
             }
         }
@@ -817,69 +422,22 @@ function Import-DryADConfiguration {
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($RoleConfiguration.role_groups) {
-            
-            # Get domain scoped rights groups
-            $DomainRoleGroups = @($RoleConfiguration.role_groups | Where-Object {  
-                    $_.scope -eq 'domain' 
-                } )
-            
-            # Get site scoped rights groups
-            $SiteRoleGroups = @($RoleConfiguration.role_groups | Where-Object {  
-                    $_.scope -eq 'site' 
-                } )
-
-            # Get computer scoped rights groups
-            $ComputerRoleGroups = @($RoleConfiguration.role_groups | Where-Object {  
-                    $_.scope -eq 'computer' 
-                } )
-
-            # Count
-            if (
-                ($Types -icontains 'role_groups') -or 
-                ($null -eq $Types)
-            ) { 
+            $DomainRoleGroups = @($RoleConfiguration.role_groups)
+            if (($Types -icontains 'role_groups') -or ($null -eq $Types)){ 
                 $ProcessRoleGroups = $true
-                $NumberOfElementsToProcess += ($DomainRoleGroups.Count + $SiteRoleGroups.Count + $ComputerRoleGroups.Count)
-                $NumberOfRoleGroups = ($DomainRoleGroups.Count + $SiteRoleGroups.Count + $ComputerRoleGroups.Count) 
+                $NumberOfElementsToProcess += $DomainRoleGroups.Count
+                $NumberOfRoleGroups = $DomainRoleGroups.Count
             }
-
-            # Replace any replacement pattern 
             # Replace regardless of $Types -icontains 'rights_groups', since groups are referenced by -component GroupMembers
             $DomainRoleGroups = @(Resolve-DryADReplacementPatterns -inputobject $DomainRoleGroups -Variables $Variables)
-            $SiteRoleGroups = @(Resolve-DryADReplacementPatterns -inputobject $SiteRoleGroups -Variables $Variables)
-            $ComputerRoleGroups = @(Resolve-DryADReplacementPatterns -inputobject $ComputerRoleGroups -Variables $Variables)
-
 
             # Resolve domain OU paths from schema
             foreach ($RoleGroup in $DomainRoleGroups) {
-                if ($NULL -eq $RoleGroup.path) {
-                    # Resolve domain paths from OU schema
-                    $Path = Get-DryADOUPathFromAlias -Alias $RoleGroup.Alias -OUs $DomainOUs -Scope 'domain'
+                if ($null -eq $RoleGroup.path) {
+                    $Path = Get-DryADOUPathFromAlias -Alias $RoleGroup.Alias -OUs $DomainOUs
                     $RoleGroup | Add-Member -MemberType NoteProperty -Name Path -Value $Path
                 }
                 # Convert to $GroupCase 
-                $RoleGroup.groupname = ConvertTo-DryADCase -Name $RoleGroup.groupname -Case $Groupcase
-            }
-
-            # Resolve site OU paths from schema
-            foreach ($RoleGroup in $SiteRoleGroups) {
-                if ($NULL -eq $RoleGroup.path) {
-                    # Resolve site paths from OU schema
-                    $Path = Get-DryADOUPathFromAlias -Alias $RoleGroup.Alias -OUs $SiteOUs -Scope 'site'
-                    $RoleGroup | Add-Member -MemberType NoteProperty -Name Path -Value $Path
-                }
-                # Convert to $GroupCase
-                $RoleGroup.groupname = ConvertTo-DryADCase -Name $RoleGroup.groupname -Case $Groupcase
-            }
-
-            # Resolve computer OU paths from schema
-            foreach ($RoleGroup in $ComputerRoleGroups) {
-                if ($NULL -eq $RoleGroup.path) {
-                    # Resolve site paths from OU schema
-                    $Path = Get-DryADOUPathFromAlias -Alias $RoleGroup.Alias -OUs $ComputerOUs -Scope 'computer'
-                    $RoleGroup | Add-Member -MemberType NoteProperty -Name Path -Value $Path
-                }
-                # Convert to $GroupCase
                 $RoleGroup.groupname = ConvertTo-DryADCase -Name $RoleGroup.groupname -Case $Groupcase
             }
         }
@@ -890,19 +448,12 @@ function Import-DryADConfiguration {
         #   Action: Count
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-        # Count Members and MemberOfs
-        $NumberOfMemberAndMemberOf = 0
         $NumberOfDomainMemberAndMemberOf = 0
-        $NumberOfSiteMemberAndMemberOf = 0
-        $NumberOfComputerMemberAndMemberOf = 0
-        if (
-            ($Types -icontains 'group_members') -or 
-            ($null -eq $Types)
-        ) { 
+       
+        if (($Types -icontains 'group_members') -or ($null -eq $Types)){ 
             $ProcessGroupMembers = $true
-            
-            # Domain Scope - Both Role and Rights groups may have .member and .memberof 
+
+            # Both Role and Rights groups may have .member and .memberof 
             foreach ($DomainRoleGroup in $DomainRoleGroups) {
                 $NumberOfDomainMemberAndMemberOf += $DomainRoleGroup.Member.Count
                 $NumberOfDomainMemberAndMemberOf += $DomainRoleGroup.MemberOf.Count
@@ -913,37 +464,7 @@ function Import-DryADConfiguration {
                 $NumberOfDomainMemberAndMemberOf += $DomainRightsGroup.MemberOf.Count
             }
             $NumberOfElementsToProcess += $NumberOfDomainMemberAndMemberOf
-            $NumberOfMemberAndMemberOf += $NumberOfDomainMemberAndMemberOf
-            
-            # Site Scope - Both Role and Rights groups may have .member and .memberof 
-            foreach ($SiteRoleGroup in $SiteRoleGroups) {
-                $NumberOfSiteMemberAndMemberOf += $SiteRoleGroup.Member.Count
-                $NumberOfSiteMemberAndMemberOf += $SiteRoleGroup.MemberOf.Count
-            }
-
-            foreach ($SiteRightsGroup in $SiteRightsGroups) {
-                $NumberOfSiteMemberAndMemberOf += $SiteRightsGroup.Member.Count
-                $NumberOfSiteMemberAndMemberOf += $SiteRightsGroup.MemberOf.Count
-            }
-            $NumberOfElementsToProcess += $NumberOfSiteMemberAndMemberOf
-            $NumberOfMemberAndMemberOf += $NumberOfSiteMemberAndMemberOf
-
-            # Computer Scope - Both Role and Rights groups may have .member and .memberof 
-            foreach ($ComputerRoleGroup in $ComputerRoleGroups) {
-                $NumberOfComputerMemberAndMemberOf += $ComputerRoleGroup.Member.Count
-                $NumberOfComputerMemberAndMemberOf += $ComputerRoleGroup.MemberOf.Count
-
-            }
-
-            foreach ($ComputerRightsGroup in $ComputerRightsGroups) {
-                $NumberOfComputerMemberAndMemberOf += $ComputerRightsGroup.Member.Count
-                $NumberOfComputerMemberAndMemberOf += $ComputerRightsGroup.MemberOf.Count
-
-            }
-            $NumberOfElementsToProcess += $NumberOfComputerMemberAndMemberOf
-            $NumberOfMemberAndMemberOf += $NumberOfComputerMemberAndMemberOf
         }
-
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
@@ -951,114 +472,26 @@ function Import-DryADConfiguration {
         #   Action: Count and Resolve Paths
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if (
-            ($Types -icontains 'rights') -or 
-            ($null -eq $Types)
-        ) { 
+        if (($Types -icontains 'rights') -or ($null -eq $Types)) { 
             $ProcessRights = $true
-            
-            # Count and resolve domain Path
-            $NumberOfRights = 0 
             $NumberOfDomainRights = 0
-            $NumberOfSiteRights = 0
-            $NumberOfComputerRights = 0
 
             foreach ($DomainRightsGroup in $DomainRightsGroups) {
                 foreach ($DomainRight in $DomainRightsGroup.Rights) {
                     $NumberOfElementsToProcess++
                     # Update the debug counter as well
-                    $NumberOfRights++
                     $NumberOfDomainRights++
                     # Resolve Path
                     if ($null -eq $DomainRight.Path) {
-
-                        # Resolve paths from OU schema. It is possible to set a domain right 
-                        # at a site- or computer-scoped OU  
-                        switch ($DomainRight.Scope) {
-                            'domain' {
-                                $Path = Get-DryADOUPathFromAlias -Alias $DomainRight.Alias -OUs $DomainOUs -Scope 'domain'
-                            }
-                            'site' {
-                                $Path = Get-DryADOUPathFromAlias -Alias $DomainRight.Alias -OUs $SiteOUs -Scope 'site'
-                            }
-                            'computer' {
-                                $Path = Get-DryADOUPathFromAlias -Alias $DomainRight.Alias -OUs $ComputerOUs -Scope 'computer'
-                            }
-                        }
+                        $Path = Get-DryADOUPathFromAlias -Alias $DomainRight.Alias -OUs $DomainOUs
                         $DomainRight | Add-Member -MemberType NoteProperty -Name Path -Value $Path
 
-                        # Once resolved, remove Alias. Keep scope - we need that to determine if the target scope, or
-                        # IdentityReeference, is a site or domain path
+                        # Once resolved, remove Alias. 
                         $DomainRight.PSObject.Properties.Remove('Alias')
                     }
                 }
             }
-
-            # Count and resolve site Path
-            foreach ($SiteRightsGroup in $SiteRightsGroups) {
-                foreach ($SiteRight in $SiteRightsGroup.Rights) {
-                    $NumberOfElementsToProcess++
-                    $NumberOfRights++
-                    $NumberOfSiteRights++
-            
-                    # Resolve Path
-                    if ($null -eq $SiteRight.Path) {
-                        
-                        # Resolve domain paths from OU schema. A right for a site group may 
-                        # reference an OU in the domain scope, site scope or computer scope
-                        switch ($SiteRight.Scope) {
-                            'domain' {
-                                $Path = Get-DryADOUPathFromAlias -Alias $SiteRight.Alias -OUs $DomainOUs -Scope 'domain'
-                            }
-                            'site' {
-                                $Path = Get-DryADOUPathFromAlias -Alias $SiteRight.Alias -OUs $SiteOUs -Scope 'site'
-                            }
-                            'computer' {
-                                $Path = Get-DryADOUPathFromAlias -Alias $SiteRight.Alias -OUs $ComputerOUs -Scope 'computer'
-                            }
-                        }
-                        
-                        $SiteRight | Add-Member -MemberType NoteProperty -Name Path -Value $Path
-                        
-                        # Once resolved, remove Alias. Leave Scope, we may need that
-                        $SiteRight.PSObject.Properties.Remove('Alias')
-                    }
-                }
-            }
-
-            # Count and resolve computer Path
-            foreach ($ComputerRightsGroup in $ComputerRightsGroups) {
-                foreach ($ComputerRight in $ComputerRightsGroup.Rights) {
-                    $NumberOfElementsToProcess++
-                    $NumberOfRights++
-                    $NumberOfComputerRights++
-            
-                    # Resolve Path
-                    if ($null -eq $ComputerRight.Path) {
-                        
-                        # Resolve domain paths from OU schema. A right for a computer group may 
-                        # reference an OU in the domain scope, or in the site scope
-                        switch ($ComputerRight.Scope) {
-                            'domain' {
-                                $Path = Get-DryADOUPathFromAlias -Alias $ComputerRight.Alias -OUs $DomainOUs -Scope 'domain'
-                            }
-                            'site' {
-                                $Path = Get-DryADOUPathFromAlias -Alias $ComputerRight.Alias -OUs $SiteOUs -Scope 'site'
-                            }
-                            'computer' {
-                                $Path = Get-DryADOUPathFromAlias -Alias $ComputerRight.Alias -OUs $ComputerOUs -Scope 'computer'
-                            }
-                        }
-                        
-                        $ComputerRight | Add-Member -MemberType NoteProperty -Name Path -Value $Path
-                        
-                        # Once resolved, remove Alias. Leave Scope, we may need that
-                        $ComputerRight.PSObject.Properties.Remove('Alias')
-                    }
-                }
-            }
         }
-
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
@@ -1066,39 +499,21 @@ function Import-DryADConfiguration {
         #   Action: Count and String replacement
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if (
-            ($Types -icontains 'gpo_imports') -or 
-            ($null -eq $Types)
-        ) {  
-            
-            if ($RoleConfiguration.gpo_imports) {   
+        if (($Types -icontains 'gpo_imports') -or ($null -eq $Types)){  
+            if ($RoleConfiguration.gpo_imports){   
                 $ProcessGPOImports = $true   
-                $DomainGPOImports = @($RoleConfiguration.gpo_imports | Where-Object {  
-                        $_.scope -eq 'domain' 
-                    })
+                $DomainGPOImports = @($RoleConfiguration.gpo_imports)
                 
-                $SiteGPOImports = @($RoleConfiguration.gpo_imports | Where-Object {  
-                        $_.scope -eq 'site' 
-                    })
-
-                $ComputerGPOImports = @($RoleConfiguration.gpo_imports | Where-Object {  
-                        $_.scope -eq 'computer' 
-                    })
-
-                # If the configuration set contains json-gpos, 
-                $JsonGPOImports = @($RoleConfiguration.gpo_imports | Where-Object {  
-                        $_.type -eq 'json' 
-                    })
+                # If the configuration set contains json-gpos... 
+                $JsonGPOImports = @($RoleConfiguration.gpo_imports | Where-Object {$_.type -eq 'json'})
                 $RequiresGPOHelper = $false
                 if ($JsonGPOImports.count -gt 0) {
                     $RequiresGPOHelper = $true
                 }
  
-                $NumberOfElementsToProcess += ($DomainGPOImports.Count + $SiteGPOImports.Count + $ComputerGPOImports.Count)
-                $NumberOfGPOImports += ($DomainGPOImports.Count + $SiteGPOImports.Count + $ComputerGPOImports.Count)
+                $NumberOfElementsToProcess += $DomainGPOImports.Count
+                $NumberOfGPOImports += $DomainGPOImports.Count 
                 $DomainGPOImports = Resolve-DryADReplacementPatterns -inputobject $DomainGPOImports -Variables $Variables
-                $SiteGPOImports = Resolve-DryADReplacementPatterns -inputobject $SiteGPOImports -Variables $Variables
-                $ComputerGPOImports = Resolve-DryADReplacementPatterns -inputobject $ComputerGPOImports -Variables $Variables
             }
         }
 
@@ -1108,55 +523,22 @@ function Import-DryADConfiguration {
         #   Action: Count, String replacement and Resolve paths from aliases
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if (
-            ($Types -icontains 'gpo_links') -or
-            ($null -eq $Types)
-        ) {  
+        if (($Types -icontains 'gpo_links') -or ($null -eq $Types)){  
             if ($RoleConfiguration.gpo_links) {  
 
                 $ProcessGPOLinks = $true
-                
-                $DomainGPOLinks = @($RoleConfiguration.gpo_links | Where-Object {  
-                        $_.scope -eq 'domain' 
-                    } )
-                
-                $SiteGPOLinks = @($RoleConfiguration.gpo_links | Where-Object {  
-                        $_.scope -eq 'site' 
-                    } )
-
-                $ComputerGPOLinks = @($RoleConfiguration.gpo_links | Where-Object {  
-                        $_.scope -eq 'computer' 
-                    } )
-                
-                $NumberOfElementsToProcess += ($DomainGPOLinks.Count + $SiteGPOLinks.Count + $ComputerGPOLinks.Count)
-                $NumberOfGPOLinks = ($DomainGPOLinks.Count + $SiteGPOLinks.Count + $ComputerGPOLinks.Count)
+                $DomainGPOLinks = @($RoleConfiguration.gpo_links)
+                $NumberOfElementsToProcess += $DomainGPOLinks.Count
+                $NumberOfGPOLinks = $DomainGPOLinks.Count
 
                 # String Replacements
                 $DomainGPOLinks = Resolve-DryADReplacementPatterns -inputobject $DomainGPOLinks -Variables $Variables
-                $SiteGPOLinks = Resolve-DryADReplacementPatterns -inputobject $SiteGPOLinks -Variables $Variables
-                $ComputerGPOLinks = Resolve-DryADReplacementPatterns -inputobject $ComputerGPOLinks -Variables $Variables 
                 
                 # Resolve Domain Paths from OU schema
                 foreach ($DomainGPOLink in $DomainGPOLinks) {
-                    if ($NULL -eq $DomainGPOLink.path) {
-                        $Path = Get-DryADOUPathFromAlias -Alias $DomainGPOLink.Alias -OUs $DomainOUs -Scope 'domain'
+                    if ($null -eq $DomainGPOLink.path) {
+                        $Path = Get-DryADOUPathFromAlias -Alias $DomainGPOLink.Alias -OUs $DomainOUs
                         $DomainGPOLink | Add-Member -MemberType NoteProperty -Name Path -Value $Path
-                    }
-                }
-
-                # Resolve Site Paths from OU schema
-                foreach ($SiteGPOLink in $SiteGPOLinks) {
-                    if ($NULL -eq $SiteGPOLink.path) {
-                        $Path = Get-DryADOUPathFromAlias -Alias $SiteGPOLink.Alias -OUs $SiteOUs -Scope 'site'
-                        $SiteGPOLink | Add-Member -MemberType NoteProperty -Name Path -Value $Path
-                    }
-                }
-
-                # Resolve Computer Paths from OU schema
-                foreach ($ComputerGPOLink in $ComputerGPOLinks) {
-                    if ($NULL -eq $ComputerGPOLink.path) {
-                        $Path = Get-DryADOUPathFromAlias -Alias $ComputerGPOLink.Alias -OUs $ComputerOUs -Scope 'computer'
-                        $ComputerGPOLink | Add-Member -MemberType NoteProperty -Name Path -Value $Path
                     }
                 }
             } 
@@ -1168,75 +550,26 @@ function Import-DryADConfiguration {
         #   Action: Count, String replacement, resolve OUs
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if (
-            ($Types -icontains 'users') -or 
-            ($null -eq $Types)
-        ) {  
+        if (($Types -icontains 'users') -or ($null -eq $Types)){  
             if ($RoleConfiguration.users) {
                 
-                # Get domain scoped users
-                $DomainUsers = @($RoleConfiguration.users | Where-Object {  
-                        $_.scope -eq 'domain' 
-                    } )
-                
-                # Get site scoped users
-                $SiteUsers = @($RoleConfiguration.users | Where-Object {  
-                        $_.scope -eq 'site' 
-                    } )
-
-                # Get computer scoped users
-                $ComputerUsers = @($RoleConfiguration.users | Where-Object {  
-                        $_.scope -eq 'computer' 
-                    } )
-
-                # Count
-                if (
-                    ($Types -icontains 'users') -or 
-                    ($null -eq $Types)
-                ) { 
+                $DomainUsers = @($RoleConfiguration.users)
+                if (($Types -icontains 'users') -or ($null -eq $Types)){ 
                     $ProcessUsers = $true
-                    $NumberOfElementsToProcess += ($DomainUsers.Count + $SiteUsers.Count + $ComputerUsers.Count)
-                    $NumberOfUsers = ($DomainUsers.Count + $SiteUsers.Count + $ComputerUsers.Count) 
+                    $NumberOfElementsToProcess += $DomainUsers.Count
+                    $NumberOfUsers = $DomainUsers.Count
                 }
 
                 # Replace any replacement pattern 
                 if ($DomainUsers.count -gt 0) {
                     $DomainUsers = @(Resolve-DryADReplacementPatterns -inputobject $DomainUsers -Variables $Variables)
                 }
-                if ($SiteUsers.count -gt 0) {
-                    $SiteUsers = @(Resolve-DryADReplacementPatterns -inputobject $SiteUsers -Variables $Variables)
-                }
-                if ($ComputerUsers.count -gt 0) {
-                    $ComputerUsers = @(Resolve-DryADReplacementPatterns -inputobject $ComputerUsers -Variables $Variables)
-                }
 
                 # Resolve domain OU paths from schema
                 foreach ($User in $DomainUsers) {
-                    if ($NULL -eq $User.path) {
+                    if ($null -eq $User.path) {
                         # Resolve domain paths from OU schema
-                        $Path = Get-DryADOUPathFromAlias -Alias $User.Alias -OUs $DomainOUs -Scope 'domain'
-                        $User | Add-Member -MemberType NoteProperty -Name Path -Value $Path
-                    }
-                    # Convert to $GroupCase
-                    $User.name = ConvertTo-DryADCase -Name $User.name -Case $UserCase
-                }
-
-                # Resolve site OU paths from schema
-                foreach ($User in $SiteUsers) {
-                    if ($NULL -eq $User.path) {
-                        # Resolve site paths from OU schema
-                        $Path = Get-DryADOUPathFromAlias -Alias $User.Alias -OUs $SiteOUs -Scope 'site'
-                        $User | Add-Member -MemberType NoteProperty -Name Path -Value $Path
-                    }
-                    # Convert to $GroupCase
-                    $User.name = ConvertTo-DryADCase -Name $User.name -Case $UserCase
-                }
-
-                # Resolve computer OU paths from schema
-                foreach ($User in $ComputerUsers) {
-                    if ($NULL -eq $User.path) {
-                        # Resolve site paths from OU schema
-                        $Path = Get-DryADOUPathFromAlias -Alias $User.Alias -OUs $ComputerOUs -Scope 'computer'
+                        $Path = Get-DryADOUPathFromAlias -Alias $User.Alias -OUs $DomainOUs
                         $User | Add-Member -MemberType NoteProperty -Name Path -Value $Path
                     }
                     # Convert to $GroupCase
@@ -1251,35 +584,15 @@ function Import-DryADConfiguration {
         #   Action: Count
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if (($Types -icontains 'users_memberof') -or 
-            ($null -eq $types)) {  
+        if (($Types -icontains 'users_memberof') -or ($null -eq $types)) {  
             
             $ProcessUserMemberOf = $true
             # Count User's MemberOfs
             $NumberOfDomainUserMemberOf = 0
-            $NumberOfSiteUserMemberOf = 0
-            $NumberOfComputerUserMemberOf = 0
-                 
-            # Domain Scope 
             foreach ($DomainUser in $DomainUsers) {
                 $NumberOfDomainUserMemberOf += $DomainUser.MemberOf.Count
             }
             $NumberOfElementsToProcess += $NumberOfDomainUserMemberOf
-            
-            # Site Scope 
-            foreach ($SiteUser in $SiteUsers) {
-                $NumberOfSiteUserMemberOf += $SiteUser.MemberOf.Count
-            }
-            $NumberOfElementsToProcess += $NumberOfSiteUserMemberOf
-
-            # Computer Scope 
-            foreach ($ComputerUser in $ComputerUsers) {
-                $NumberOfComputerUserMemberOf += $ComputerUser.MemberOf.Count
-
-            }
-            $NumberOfElementsToProcess += $NumberOfComputerUserMemberOf
-            
-            $NumberOfUserMemberOf = $NumberOfDomainUserMemberOf + $NumberOfSiteUserMemberOf + $NumberOfComputerUserMemberOf
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -1293,7 +606,6 @@ function Import-DryADConfiguration {
         #   - If Local execution, the AD Drive should point to $DomainController
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        
         switch ($ExecutionType) {
             'Remote' {
                 ol i "Configuring AD Drive on $($PSSession.ComputerName)" -sh
@@ -1364,8 +676,6 @@ function Import-DryADConfiguration {
                 throw "Elementscounter is $ElementsCounter, but was supposed to be $DebugCounter"
             }
         } # if ($ProcessSchema)
-
-
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
@@ -1474,7 +784,7 @@ function Import-DryADConfiguration {
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($ProcessOUs) {
 
-            ol i "OUs - Domain scope ($($DomainOUs.count))" -sh
+            ol i "OUs ($($DomainOUs.count))" -sh
             foreach ($OU in $DomainOUs) {
 
                 # increment the element counter and update progress
@@ -1487,7 +797,7 @@ function Import-DryADConfiguration {
                 Write-Progress @WriteProgressParameters
     
                 # Create instance of class OU and invoke method CreateOU()
-                ol i "Creating OU (domain '$DomainFQDN')", "$($OU.path)"
+                ol i "Creating OU", "$($OU.path)"
                 
                 switch ($ExecutionType) {
                     'Local' {
@@ -1500,62 +810,6 @@ function Import-DryADConfiguration {
                 $OUObject.CreateOU()
                 
                 Remove-Variable -Name OUObject -ErrorAction Ignore            
-            }
-            
-            # loop through site OUs
-            ol i "OUs - Site scope ($($SiteOUs.count))" -sh
-            foreach ($OU in $SiteOUs) { 
-                
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Creating OU: $($OU.Path)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-                
-                ol i "Creating OU (site '$adsite')", "$($OU.Path)"
-                switch ($ExecutionType) {
-                    'Local' {
-                        [OU]$OUObject = [OU]::new("$($OU.path)", "$DomainFQDN", $DomainController)
-                    }
-                    'Remote' {
-                        [OU]$OUObject = [OU]::new("$($OU.path)", "$DomainFQDN", $PSSession)
-                    }
-                }
-                $OUObject.CreateOU()
-                
-                # clean up
-                Remove-Variable -Name CopyOU -ErrorAction Ignore
-            }
-
-            # loop through site OUs
-            ol i "OUs - Computer scope ($($ComputerOUs.count))" -sh
-            foreach ($OU in $ComputerOUs) { 
-                
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Creating OU: $($OU.Path)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-                
-                ol i "Creating OU (computer '$ComputerName')", "$($OU.Path)"
-                switch ($ExecutionType) {
-                    'Local' {
-                        [OU]$OUObject = [OU]::new("$($OU.path)", "$DomainFQDN", $DomainController)
-                    }
-                    'Remote' {
-                        [OU]$OUObject = [OU]::new("$($OU.path)", "$DomainFQDN", $PSSession)
-                    }
-                }
-                $OUObject.CreateOU()
-                
-                # clean up
-                Remove-Variable -Name CopyOU -ErrorAction Ignore
             }
 
             $DebugCounter += $NumberOfOUs
@@ -1575,7 +829,7 @@ function Import-DryADConfiguration {
 
         if ($ProcessWMIFilterImports) {
             # WMIfilters. Log some info, then loop through each
-            ol i "WMIFilters - Domain scope ($($DomainWMIfilters.count))" -sh
+            ol i "WMIFilters ($($DomainWMIfilters.count))" -sh
 
             # Make sure 'Allow System Only Change' in registry on domain controller is 1
             # If it isn't, WMIFilter creation will fail with access denied
@@ -1623,78 +877,10 @@ function Import-DryADConfiguration {
                         }
                     }
                 }
-                ol i "Importing WMI Filter (domain '$DomainFQDN')", "$($GPOWMIFilter.Name)"
+                ol i "Importing WMI Filter", "$($GPOWMIFilter.Name)"
                 New-DryADWmiFilter @NewDryWmiFilterParameters
             }
 
-            # $SiteWMIfilters
-            ol i "WMIFilters - Site scope ($($SiteWMIfilters.count))" -sh
-            
-            foreach ($GPOWMIFilter in $SiteWMIfilters) {
-                # Progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Importing WMIFilter '$($GPOWMIFilter.Name)'"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
-                }
-                Write-Progress @WriteProgressParameters
-            
-                # Any GPMC command must run in a remote session, since the cmdlets lack the -credentials parameter
-                $NewDryWmiFilterParameters = @{
-                    Name        = $GPOWMIFilter.Name 
-                    Description = $GPOWMIFilter.Description 
-                    Query       = [array]$GPOWMIFilter.Queries 
-                }
-                switch ($ExecutionType) {
-                    'Local' {
-                        $NewDryWmiFilterParameters += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $NewDryWmiFilterParameters += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-                ol i "Importing WMI Filter (site '$adsite')", "$($GPOWMIFilter.Name)"
-                New-DryADWmiFilter @NewDryWmiFilterParameters
-            }
-
-            # $ComputerWMIfilters
-            ol i "WMIFilters - Computer scope ($($ComputerWMIfilters.count))" -sh
-            
-            foreach ($GPOWMIFilter in $ComputerWMIfilters) {
-                # Progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Importing WMIFilter '$($GPOWMIFilter.Name)'"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
-                }
-                Write-Progress @WriteProgressParameters
-            
-                $NewDryWmiFilterParameters = @{
-                    Name        = $GPOWMIFilter.Name 
-                    Description = $GPOWMIFilter.Description 
-                    Query       = [array]$GPOWMIFilter.Queries
-                }
-                switch ($ExecutionType) {
-                    'Local' {
-                        $NewDryWmiFilterParameters += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $NewDryWmiFilterParameters += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-                ol i "Importing WMI Filter (computer '$ComputerName')", "$($GPOWMIFilter.Name)"
-                New-DryADWmiFilter @NewDryWmiFilterParameters
-            }
 
             $DebugCounter += $NumberOfWMIFilters
             if ($ElementsCounter -ne $DebugCounter) {
@@ -1709,7 +895,7 @@ function Import-DryADConfiguration {
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($ProcessRightsGroups) {
-            ol i "Rights Groups - Domain scope ($($DomainRightsGroups.count))" -sh
+            ol i "Rights Groups ($($DomainRightsGroups.count))" -sh
  
             # loop through domain Rights
             foreach ($RightsGroup in $DomainRightsGroups) {
@@ -1742,86 +928,8 @@ function Import-DryADConfiguration {
                         }
                     }
                 }
-                ol i "Creating Rights Group (domain '$DomainFQDN')", "$($RightsGroup.groupname)" 
+                ol i "Creating Rights Group", "$($RightsGroup.groupname)" 
                 New-DryADSecurityGroup @NewDryADSecurityGroupParams
-            }
-
-            # loop through site Rights
-            ol i "Rights Groups - Site scope ($($SiteRightsGroups.count))" -sh
-        
-            foreach ($RightsGroup in $SiteRightsGroups) { 
-                
-                # Add site to the description
-                $RightsGroup.groupdescription = $RightsGroup.groupdescription + " (site '$adsite')"
-
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Rights Group: $($RightsGroup.groupname)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-
-                $NewDryADSecurityGroupParams = @{
-                    Name        = $RightsGroup.groupname
-                    Path        = $RightsGroup.path
-                    Description = $RightsGroup.groupdescription
-                    Type        = $RightsGroup.grouptype
-                }
-                switch ($ExecutionType) {
-                    'Local' {
-                        $NewDryADSecurityGroupParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $NewDryADSecurityGroupParams += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-                ol i "Creating Rights Group (site '$adsite')", "$($RightsGroup.groupname)"
-                New-DryADSecurityGroup @NewDryADSecurityGroupParams   
-            }
-
-            # loop through site Rights
-            ol i "Rights Groups - Computer scope ($($ComputerRightsGroups.count))" -sh
-        
-            foreach ($RightsGroup in $ComputerRightsGroups) { 
-                
-                # Add site to the description
-                $RightsGroup.groupdescription = $RightsGroup.groupdescription + " (computer '$ComputerName')"
-
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Rights Group: $($RightsGroup.groupname)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-
-                $NewDryADSecurityGroupParams = @{
-                    Name        = $RightsGroup.groupname
-                    Path        = $RightsGroup.path
-                    Description = $RightsGroup.groupdescription
-                    Type        = $RightsGroup.grouptype
-                }
-                switch ($ExecutionType) {
-                    'Local' {
-                        $NewDryADSecurityGroupParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $NewDryADSecurityGroupParams += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-                ol i "Creating Rights Group (computer '$ComputerName')", "$($RightsGroup.groupname)"
-                New-DryADSecurityGroup @NewDryADSecurityGroupParams   
             }
 
             $DebugCounter += $NumberOfRightsGroups
@@ -1838,10 +946,10 @@ function Import-DryADConfiguration {
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($ProcessRoleGroups) {
-            ol i "Role Groups - Domain scope ($($DomainRoleGroups.count))" -sh
+            ol i "Role Groups ($($DomainRoleGroups.count))" -sh
  
-            # loop through domain Role  Groups
             foreach ($RoleGroup in $DomainRoleGroups) {
+                
                 # increment the element counter and update progress
                 $ElementsCounter++
                 $WriteProgressParameters = @{
@@ -1870,86 +978,8 @@ function Import-DryADConfiguration {
                         }
                     }
                 }
-                ol i "Creating Role Group (domain '$DomainFQDN')", "$($RoleGroup.groupname)" 
+                ol i "Creating Role Group", "$($RoleGroup.groupname)" 
                 New-DryADSecurityGroup @NewDryADSecurityGroupParams
-            }
-
-            # loop through site Role Groups
-            ol i "Role Groups - Site scope ($($SiteRoleGroups.count))" -sh
-
-            foreach ($RoleGroup in $SiteRoleGroups) { 
-                
-                # Add site to the description
-                $RoleGroup.groupdescription = $RoleGroup.groupdescription + " (site '$adsite')"
-
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Role Group: $($RoleGroup.groupname)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-
-                $NewDryADSecurityGroupParams = @{
-                    Name        = $RoleGroup.groupname
-                    Path        = $RoleGroup.path
-                    Description = $RoleGroup.groupdescription
-                    Type        = $RoleGroup.grouptype
-                }
-                switch ($ExecutionType) {
-                    'Local' {
-                        $NewDryADSecurityGroupParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $NewDryADSecurityGroupParams += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-                ol i "Creating Role Group (site '$adsite')", "$($RoleGroup.groupname)"
-                New-DryADSecurityGroup @NewDryADSecurityGroupParams   
-            }
-
-            # loop through site Role Groups
-            ol i "Role Groups - Computer scope ($($ComputerRoleGroups.count))" -sh
-
-            foreach ($RoleGroup in $ComputerRoleGroups) { 
-                
-                # Add computername to the description
-                $RoleGroup.groupdescription = $RoleGroup.groupdescription + " (computer '$ComputerName')"
-
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Role Group: $($RoleGroup.groupname)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-
-                $NewDryADSecurityGroupParams = @{
-                    Name        = $RoleGroup.groupname
-                    Path        = $RoleGroup.path
-                    Description = $RoleGroup.groupdescription
-                    Type        = $RoleGroup.grouptype
-                }
-                switch ($ExecutionType) {
-                    'Local' {
-                        $NewDryADSecurityGroupParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $NewDryADSecurityGroupParams += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-                ol i "Creating Role Group (computer '$ComputerName')", "$($RoleGroup.groupname)"
-                New-DryADSecurityGroup @NewDryADSecurityGroupParams   
             }
 
             $DebugCounter += $NumberOfRoleGroups
@@ -1959,7 +989,6 @@ function Import-DryADConfiguration {
                  
         } # if ($ProcessRoleGroups)
 
-
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
         #   GROUP'S GROUP MEMBERS 
@@ -1967,7 +996,7 @@ function Import-DryADConfiguration {
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($ProcessGroupMembers) {
-            ol i "Group Members - Domain scope ($NumberOfDomainMemberAndMemberOf)" -sh
+            ol i "Group Members - ($NumberOfDomainMemberAndMemberOf)" -sh
             
             # Both Role and Rights groups may have .member and .memberof 
             foreach ($DomainRoleGroup in $DomainRoleGroups) {
@@ -1998,7 +1027,7 @@ function Import-DryADConfiguration {
                             }
                         }
                     }
-                    ol i "Group Members (domain '$DomainFQDN')", "Adding '$DomainRoleGroupMember' to '$($DomainRoleGroup.groupname)'"
+                    ol i "Group Members", "Adding '$DomainRoleGroupMember' to '$($DomainRoleGroup.groupname)'"
                     Add-DryADGroupMember @AddDryADGroupMemberParams
                     Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
                 }
@@ -2030,7 +1059,7 @@ function Import-DryADConfiguration {
                             }
                         }
                     }
-                    ol i "Group Members (domain '$DomainFQDN')", "Adding '$($DomainRoleGroup.groupname)' to '$DomainRoleGroupMemberOf'"
+                    ol i "Group Members", "Adding '$($DomainRoleGroup.groupname)' to '$DomainRoleGroupMemberOf'"
                     Add-DryADGroupMember @AddDryADGroupMemberParams
                     Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
                 }
@@ -2040,6 +1069,7 @@ function Import-DryADConfiguration {
             foreach ($DomainRightsGroup in $DomainRightsGroups) {
                 foreach ($DomainRightsGroupMember in $DomainRightsGroup.Member) {
                     # increment the element counter and update progress
+                    
                     $ElementsCounter++
                     $WriteProgressParameters = @{
                         Activity        = 'Configuring Active Directory'
@@ -2048,7 +1078,6 @@ function Import-DryADConfiguration {
                     }
                     Write-Progress @WriteProgressParameters
 
-                    # Add Members to $DomainRightsGroup
                     $AddDryADGroupMemberParams = @{
                         Group  = $DomainRightsGroup.groupname
                         Member = $DomainRightsGroupMember
@@ -2065,12 +1094,13 @@ function Import-DryADConfiguration {
                             }
                         }
                     }
-                    ol i "Group Members (domain '$DomainFQDN')", "Adding '$DomainRightsGroupMember' to '$($DomainRightsGroup.groupname)'"
+                    ol i "Group Members", "Adding '$DomainRightsGroupMember' to '$($DomainRightsGroup.groupname)'"
                     Add-DryADGroupMember @AddDryADGroupMemberParams
                     Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
                 }
                 foreach ($DomainRightsGroupMemberOf in $DomainRightsGroup.MemberOf) {
                     # increment the element counter and update progress
+                    
                     $ElementsCounter++
                     $WriteProgressParameters = @{
                         Activity        = 'Configuring Active Directory'
@@ -2096,276 +1126,13 @@ function Import-DryADConfiguration {
                             }
                         }
                     }
-                    ol i "Group Members (domain '$DomainFQDN')", "Adding '$($DomainRightsGroup.groupname)' to '$DomainRightsGroupMemberOf'"
+                    ol i "Group Members", "Adding '$($DomainRightsGroup.groupname)' to '$DomainRightsGroupMemberOf'"
                     Add-DryADGroupMember @AddDryADGroupMemberParams
                     Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
                 }
             }
 
-            ol i "Group Members - Site scope ($NumberOfSiteMemberAndMemberOf)" -sh
-            
-            foreach ($SiteRoleGroup in $SiteRoleGroups) {
-                foreach ($SiteRoleGroupMember in $SiteRoleGroup.Member) {
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Group Member: $($SiteRoleGroup.groupname)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
-
-                    # Add Members to $SiteRoleGroup
-                    $AddDryADGroupMemberParams = @{
-                        Group  = $SiteRoleGroup.groupname
-                        Member = $SiteRoleGroupMember
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $AddDryADGroupMemberParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $AddDryADGroupMemberParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Group Members (site '$adsite')", "Adding '$SiteRoleGroupMember' to '$($SiteRoleGroup.groupname)'"
-                    Add-DryADGroupMember @AddDryADGroupMemberParams
-                    Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
-                }
-                foreach ($SiteRoleGroupMemberOf in $SiteRoleGroup.MemberOf) {
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Group Member Of: $($SiteRoleGroup.groupname)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
-
-                    # Add $SiteRoleGroup to each MemberOf
-                    $AddDryADGroupMemberParams = @{
-                        Group  = $SiteRoleGroupMemberOf
-                        Member = $SiteRoleGroup.groupname
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $AddDryADGroupMemberParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $AddDryADGroupMemberParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Group Members (site '$adsite')", "Adding '$($SiteRoleGroup.groupname)' to '$SiteRoleGroupMemberOf'"
-                    Add-DryADGroupMember @AddDryADGroupMemberParams
-                    Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
-                }
-            }
-
-            foreach ($SiteRightsGroup in $SiteRightsGroups) { 
-                foreach ($SiteRightsGroupMember in $SiteRightsGroup.Member) {
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Group Member: $($SiteRightsGroup.groupname)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
-
-                    # Add Members to $SiteRightsGroup
-                    $AddDryADGroupMemberParams = @{
-                        Group  = $SiteRightsGroup.groupname
-                        Member = $SiteRightsGroupMember
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $AddDryADGroupMemberParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $AddDryADGroupMemberParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Group Members (site '$adsite')", "Add '$SiteRightsGroupMember' to '$($SiteRightsGroup.groupname)'"
-                    Add-DryADGroupMember @AddDryADGroupMemberParams
-                    Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
-                }
-                foreach ($SiteRightsGroupMemberOf in $SiteRightsGroup.MemberOf) {
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Group Member Of: $($SiteRightsGroup.groupname)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
-
-                    # Add $SiteRightsGroup to each MemberOf
-                    $AddDryADGroupMemberParams = @{
-                        Group  = $SiteRightsGroupMemberOf
-                        Member = $SiteRightsGroup.groupname
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $AddDryADGroupMemberParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $AddDryADGroupMemberParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Group Members (site '$adsite')", "Add '$($SiteRightsGroup.groupname)' to '$SiteRightsGroupMemberOf'"
-                    Add-DryADGroupMember @AddDryADGroupMemberParams
-                    Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
-                }
-            }
-
-            ol i "Group Members - Computer scope ($NumberOfComputerMemberAndMemberOf)" -sh
-            foreach ($ComputerRoleGroup in $ComputerRoleGroups) {
-                foreach ($ComputerRoleGroupMember in $ComputerRoleGroup.Member) {
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Group Member: $($ComputerRoleGroup.groupname)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
-
-                    # Add Members to $ComputerRoleGroup
-                    $AddDryADGroupMemberParams = @{
-                        Group  = $ComputerRoleGroup.groupname
-                        Member = $ComputerRoleGroupMember
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $AddDryADGroupMemberParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $AddDryADGroupMemberParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Group Members (Computer '$ComputerName')", "Add '$ComputerRoleGroupMember' to '$($ComputerRoleGroup.groupname)'"
-                    Add-DryADGroupMember @AddDryADGroupMemberParams
-                    Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
-                }
-                foreach ($ComputerRoleGroupMemberOf in $ComputerRoleGroup.MemberOf) {
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Group Member Of: $($ComputerRoleGroup.groupname)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
-
-                    # Add $ComputerRoleGroup to each MemberOf
-                    $AddDryADGroupMemberParams = @{
-                        Group  = $ComputerRoleGroupMemberOf
-                        Member = $ComputerRoleGroup.groupname
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $AddDryADGroupMemberParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $AddDryADGroupMemberParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Group Members (Computer '$ComputerName')", "Add '$($ComputerRoleGroup.groupname)' to '$ComputerRoleGroupMemberOf'"
-                    Add-DryADGroupMember @AddDryADGroupMemberParams
-                    Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
-                }
-            }
-
-            foreach ($ComputerRightsGroup in $ComputerRightsGroups) {  
-                foreach ($ComputerRightsGroupMember in $ComputerRightsGroup.Member) {
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Group Member: $($ComputerRightsGroup.groupname)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
-
-                    # Add Members to $ComputerRightsGroup
-                    $AddDryADGroupMemberParams = @{
-                        Group  = $ComputerRightsGroup.groupname
-                        Member = $ComputerRightsGroupMember
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $AddDryADGroupMemberParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $AddDryADGroupMemberParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Group Members (Computer '$ComputerName'): Add '$ComputerRightsGroupMember' to '$($ComputerRightsGroup.groupname)'"
-                    Add-DryADGroupMember @AddDryADGroupMemberParams
-                    Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
-                }
-                foreach ($ComputerRightsGroupMemberOf in $ComputerRightsGroup.MemberOf) {
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Group Member Of: $($ComputerRightsGroup.groupname)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
-
-                    # Add $ComputerRightsGroup to each MemberOf
-                    $AddDryADGroupMemberParams = @{
-                        Group  = $ComputerRightsGroupMemberOf
-                        Member = $ComputerRightsGroup.groupname
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $AddDryADGroupMemberParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $AddDryADGroupMemberParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Group Members (Computer '$CompterName')", "Add '$($ComputerRightsGroup.groupname)' to '$ComputerRightsGroupMemberOf'"
-                    Add-DryADGroupMember @AddDryADGroupMemberParams
-                    Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
-                }
-            }
-
-            $DebugCounter += $NumberOfMemberAndMemberOf
+            $DebugCounter += $NumberOfDomainMemberAndMemberOf
             if ($ElementsCounter -ne $DebugCounter) {
                 throw "Elementscounter is $ElementsCounter, but was supposed to be $DebugCounter"
             }
@@ -2378,10 +1145,7 @@ function Import-DryADConfiguration {
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($ProcessUsers) {
-            if (
-                ($NumberOfUsers.Count -gt 0) -and 
-                ($ExecutionType -eq 'Remote')
-            ) {
+            if (($NumberOfUsers.Count -gt 0) -and ($ExecutionType -eq 'Remote')){
                 ol i "Users - Getting the Connection Point's public certificate" -sh
                 try {
                     Get-DryADRemotePublicCertificate -PSSession $PSSession -CertificateFile $ConfigurationPublicCertificatePath
@@ -2390,7 +1154,6 @@ function Import-DryADConfiguration {
                     $PSCmdLet.ThrowTerminatingError($_)
                 }
             }
-            
 
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
             # 
@@ -2398,9 +1161,8 @@ function Import-DryADConfiguration {
             #   Action: Create
             #
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-            ol i "Users - Domain scope ($($DomainUsers.count))" -sh
- 
-            # loop through domain Users
+            ol i "Users ($($DomainUsers.count))" -sh
+
             foreach ($User in $DomainUsers) {
 
                 # increment the element counter and update progress
@@ -2431,85 +1193,7 @@ function Import-DryADConfiguration {
                         }
                     }
                 }
-                ol i "Creating User (domain '$DomainFQDN')", "$($User.name)" 
-                New-DryADUser @NewDryADUserParams
-            }
-
-            # loop through site Users
-            ol i "Users - Site scope ($($SiteUsers.count))" -sh
-        
-            foreach ($User in $SiteUsers) { 
-
-                # Add site to the description
-                $User.description = $User.description + " (site '$adsite')"
-
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): User: $($User.name)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-
-                $NewDryADUserParams = @{
-                    User      = $User
-                    DomainNB  = $DomainNB
-                    DryDeploy = $DryDeploy
-                }
-                switch ($ExecutionType) {
-                    'Local' {
-                        $NewDryADUserParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $NewDryADUserParams += @{
-                            PSSession                   = $PSSession
-                            DCPublicCertificateFilePath = $ConfigurationPublicCertificatePath
-                        }
-                    }
-                }
-                ol i "Creating User (site '$adsite')", "$($User.name)"
-                New-DryADUser @NewDryADUserParams
-            }
-
-            # loop through site Users
-            ol i "Users - Computer scope ($($ComputerUsers.count))" -sh
-        
-            foreach ($User in $ComputerUsers) { 
-                
-                # Add site to the description
-                $User.description = $User.description + " (computer '$ComputerName')"
-
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): User: $($User.name)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-
-                $NewDryADUserParams = @{
-                    User      = $User
-                    DomainNB  = $DomainNB
-                    DryDeploy = $DryDeploy
-                }
-                switch ($ExecutionType) {
-                    'Local' {
-                        $NewDryADUserParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $NewDryADUserParams += @{
-                            PSSession                   = $PSSession
-                            DCPublicCertificateFilePath = $ConfigurationPublicCertificatePath
-                        }
-                    }
-                }
-                ol i "Creating User (computer '$ComputerName')", "$($User.name)"
+                ol i "Creating User", "$($User.name)" 
                 New-DryADUser @NewDryADUserParams
             }
 
@@ -2527,7 +1211,7 @@ function Import-DryADConfiguration {
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($ProcessUserMemberOf) {
-            ol i "User Group Memberships Domain scope ($NumberOfDomainUserMemberOf)" -sh
+            ol i "User Group Memberships ($NumberOfDomainUserMemberOf)" -sh
             
             # Both Role and Rights groups may have .member and .memberof 
             foreach ($DomainUser in $DomainUsers) {
@@ -2559,84 +1243,14 @@ function Import-DryADConfiguration {
                             }
                         }
                     }
-                    ol i "Group Members (domain '$DomainFQDN')", "Adding '$($DomainUser.name)' to '$DomainUserMemberOf'"
+                    ol i "Group Members", "Adding '$($DomainUser.name)' to '$DomainUserMemberOf'"
                     Add-DryADGroupMember @AddDryADGroupMemberParams
                     Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
                 }
             }
         
-            ol i "User Group Memberships Site scope ($NumberOfSiteUserMemberOf)" -sh
-            
-            foreach ($SiteUser in $SiteUsers) {
-                foreach ($SiteUserMemberOf in $SiteUser.MemberOf) {
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): $($SiteUser.name) member of: $SiteUserMemberOf"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
         
-                    # Add $SiteUser to each MemberOf
-                    $AddDryADGroupMemberParams = @{
-                        Group  = $SiteUserMemberOf
-                        Member = $SiteUser.name
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $AddDryADGroupMemberParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $AddDryADGroupMemberParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Group Members (site '$adsite')", "Adding '$($SiteUser.name)' to '$SiteUserMemberOf'"
-                    Add-DryADGroupMember @AddDryADGroupMemberParams
-                    Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
-                }
-            }
-        
-            ol i "User Group Memberships Computer scope ($NumberOfComputerUserMemberOf)" -sh
-            foreach ($ComputerUser in $ComputerUsers) {
-                foreach ($ComputerUserMemberOf in $ComputerUser.MemberOf) {
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess):  $($ComputerUser.name) member of: $ComputerUserMemberOf"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
-        
-                    # Add $ComputerUser to each MemberOf
-                    $AddDryADGroupMemberParams = @{
-                        Group  = $ComputerUserMemberOf
-                        Member = $ComputerUser.name
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $AddDryADGroupMemberParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $AddDryADGroupMemberParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Group Members (computer '$ComputerName')", "Add '$($ComputerUser.name)' to '$ComputerUserMemberOf'"
-                    Add-DryADGroupMember @AddDryADGroupMemberParams
-                    Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
-                }
-            }
-        
-            $DebugCounter += $NumberOfUserMemberOf
+            $DebugCounter += $NumberOfDomainUserMemberOf
             if ($ElementsCounter -ne $DebugCounter) {
                 throw "Elementscounter is $ElementsCounter, but was supposed to be $DebugCounter"
             }
@@ -2649,7 +1263,7 @@ function Import-DryADConfiguration {
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
         if ($ProcessRights) {
-            ol i "Rights - Domain scope ($NumberOfDomainRights)" -sh
+            ol i "Rights ($NumberOfDomainRights)" -sh
 
             # Domain Rights
             foreach ($DomainRightsGroup in $DomainRightsGroups) {
@@ -2660,11 +1274,9 @@ function Import-DryADConfiguration {
                     Remove-Variable -Name SetDryADAccessRuleParams -ErrorAction Ignore
                     $SetDryADAccessRuleParams = @{}
                     
-                    # Add all properties but site and scope to the rights hash
+                    # Add all properties to the rights hash
                     $DomainRight.PSObject.Properties | foreach-Object {
-                        if ($_.Name -notin @('scope')) {
-                            $SetDryADAccessRuleParams.Add($_.Name, $_.Value)
-                        }
+                        $SetDryADAccessRuleParams.Add($_.Name, $_.Value)
                     }
 
                     # Add the groupname as 'Group' - the owner of the right
@@ -2696,14 +1308,14 @@ function Import-DryADConfiguration {
                     Write-Progress @WriteProgressParameters
                     
                     # Set the right
-                    ol i "Rights (domain '$DomainFQDN')", "Group '$($DomainRightsGroup.groupname)'"
-                    ol i "Rights (domain '$DomainFQDN')", "Target '$($DomainRight.Path)'"
+                    ol i "Rights", "Group '$($DomainRightsGroup.groupname)'"
+                    ol i "Rights", "Target '$($DomainRight.Path)'"
                     if ((Set-DryADAccessRule @SetDryADAccessRuleParams) -eq $true) {
                         ol i "Rights (domain '$DomainFQDN')", ''
                     } 
                     else {
-                        ol e @("Rights (domain '$DomainFQDN')", "Group '$($DomainRightsGroup.groupname)', Target '$($DomainRight.Path)'")
-                        throw "Failed: domain '$DomainFQDN'): Group '$($DomainRightsGroup.groupname)', Target '$($DomainRight.Path)'"
+                        ol e @("Rights", "Group '$($DomainRightsGroup.groupname)', Target '$($DomainRight.Path)'")
+                        throw "Failed: domain '$DomainFQDN': Group '$($DomainRightsGroup.groupname)', Target '$($DomainRight.Path)'"
                     }
 
                     # Clean up
@@ -2711,127 +1323,7 @@ function Import-DryADConfiguration {
                 }
             }
 
-            # Site Rights
-            ol i "Rights - Site scope ($NumberOfSiteRights)" -sh
-            foreach ($SiteRightsGroup in $SiteRightsGroups) {
-                foreach ($SiteRight in $SiteRightsGroup.Rights) {
-
-                    # create hash from properties of the object 
-                    Remove-Variable -Name SetDryADAccessRuleParams -ErrorAction Ignore
-                    $SetDryADAccessRuleParams = @{}
-                    
-                    # Add all properties but site and scope to the rights hash
-                    $SiteRight.PSObject.Properties | foreach-Object {
-                        if ($_.Name -notin @('scope')) {
-                            $SetDryADAccessRuleParams.Add($_.Name, $_.Value)
-                        }
-                    }
-
-                    # Add the groupname as 'Group' - the owner of the right
-                    $SetDryADAccessRuleParams.Add('Group', $SiteRightsGroup.groupname)
-
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $SetDryADAccessRuleParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $SetDryADAccessRuleParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    
-                    # Debug logging
-                    ol d -hash $SetDryADAccessRuleParams 
-
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Site Right: $($SiteRight.Path)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
-                    
-                    # Set the right
-                    ol i "Rights (site '$adsite')", "Group '$($SiteRightsGroup.groupname)'"
-                    ol i "Rights (site '$adsite')", "Target '$($SiteRight.Path)'"
-                    if ((Set-DryADAccessRule @SetDryADAccessRuleParams) -eq $true) {
-                        ol i "Rights (site '$adsite')", ''
-                    }
-                    else {
-                        ol e @("Rights (site '$adsite')", "Group '$($SiteRightsGroup.groupname)', Target '$($SiteRight.Path)'")
-                        throw "Failed: Rights (site '$adsite'): Group '$($SiteRightsGroup.groupname)', Target '$($SiteRight.Path)'"
-                    }
-
-                    # Clean up
-                    Remove-Variable -Name SetDryADAccessRuleParams, WriteProgressParameters -ErrorAction Ignore
-                }
-            }
-
-            # Computer scoped Rights
-            ol i "Rights - Computer scope ($NumberOfComputerRights)" -sh
-            foreach ($ComputerRightsGroup in $ComputerRightsGroups) {
-                foreach ($ComputerRight in $ComputerRightsGroup.Rights) {
-
-                    # create hash from properties of the object 
-                    Remove-Variable -Name SetDryADAccessRuleParams -ErrorAction Ignore
-                    $SetDryADAccessRuleParams = @{}
-                    
-                    # Add all properties but site and scope to the rights hash
-                    $ComputerRight.PSObject.Properties | foreach-Object {
-                        if ($_.Name -notin @('scope')) {
-                            $SetDryADAccessRuleParams.Add($_.Name, $_.Value)
-                        }
-                    }
-
-                    # Add the groupname as 'Group' - the owner of the right
-                    $SetDryADAccessRuleParams.Add('Group', $ComputerRightsGroup.groupname)
-
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $SetDryADAccessRuleParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $SetDryADAccessRuleParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    
-                    # Debug logging
-                    ol d -hash $SetDryADAccessRuleParams 
-
-                    # increment the element counter and update progress
-                    $ElementsCounter++
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Computer Right: $($ComputerRight.Path)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                    }
-                    Write-Progress @WriteProgressParameters
-                    
-                    # Set the right
-                    ol i "Rights (Computer '$ComputerName')", "Group '$($ComputerRightsGroup.groupname)' =>"
-                    ol i "Rights (Computer '$ComputerName')", "Target '$($ComputerRight.Path)'"
-                    if ((Set-DryADAccessRule @SetDryADAccessRuleParams) -eq $true) {
-                        ol i "Rights (Computer '$ComputerName')", ''
-                    } 
-                    else {
-                        ol e @("Rights (Computer '$ComputerName')", "Group '$($ComputerRightsGroup.groupname)', Target '$($ComputerRight.Path)'")
-                        throw "Failed: Rights (Computer '$ComputerName')", "Group '$($ComputerRightsGroup.groupname)', Target '$($ComputerRight.Path)'"
-                    }
-
-                    # Clean up
-                    Remove-Variable -Name SetDryADAccessRuleParams, WriteProgressParameters -ErrorAction Ignore
-                }
-            }
-            
-            $DebugCounter += $NumberOfRights
+            $DebugCounter += $NumberOfDomainRights
             if ($ElementsCounter -ne $DebugCounter) {
                 throw "Elementscounter is $ElementsCounter, but was supposed to be $DebugCounter"
             }
@@ -2881,12 +1373,11 @@ function Import-DryADConfiguration {
             #
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-            ol i "GPO Imports - Domain scope ($($DomainGPOImports.count))" -sh
+            ol i "GPO Imports ($($DomainGPOImports.count))" -sh
             foreach ($GPO in $DomainGPOImports) {
                 # Ensure TargetName exists, and is converted to the desired case
                 if ($null -eq $GPO.TargetName) { 
-                    $GPO | 
-                        Add-Member -MemberType NoteProperty -Name 'TargetName' -Value $(ConvertTo-DryADCase -Name $GPO.Name -Case $GPOcase)
+                    $GPO | Add-Member -MemberType NoteProperty -Name 'TargetName' -Value $(ConvertTo-DryADCase -Name $GPO.Name -Case $GPOcase)
                 }
                 else {
                     $GPO.TargetName = ConvertTo-DryADCase -Name $GPO.TargetName -Case $GPOcase
@@ -2904,7 +1395,6 @@ function Import-DryADConfiguration {
                 $ImportDryADGPOParams = @{
                     GPO             = $GPO 
                     GPOsPath        = $GPOsPath 
-                    Scope           = 'domain'
                     ReplacementHash = $ReplacementHash
                 }
 
@@ -2920,93 +1410,8 @@ function Import-DryADConfiguration {
                         }
                     }
                 }
-                ol i "GPO Import (domain '$DomainFQDN')", "Importing '$($GPO.Name)'"
+                ol i "GPO Import", "Importing '$($GPO.Name)'"
                 Import-DryADGPO @ImportDryADGPOParams      
-            }
-
-            ol i "GPO Imports - Site scope ($($SiteGPOImports.count))" -sh
-            foreach ($GPO in $SiteGPOImports) {
-                # Ensure TargetName exists, and is converted to the desired case
-                if ($null -eq $GPO.TargetName) { 
-                    $GPO | 
-                        Add-Member -MemberType NoteProperty -Name 'TargetName' -Value $(ConvertTo-DryADCase -Name $GPO.Name -Case $GPOcase)
-                }
-                else {
-                    $GPO.TargetName = ConvertTo-DryADCase -Name $GPO.TargetName -Case $GPOcase
-                }
-                
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Importing GPO '$($GPO.Name)'"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-
-                $ImportDryADGPOParams = @{
-                    GPO             = $GPO 
-                    GPOsPath        = $GPOsPath 
-                    Scope           = 'site'
-                    ReplacementHash = $ReplacementHash
-                }
-                switch ($ExecutionType) {
-                    'Local' {
-                        $ImportDryADGPOParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $ImportDryADGPOParams += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-                ol i "GPO Import (site '$ADSite')", "Importing '$($GPO.Name)'"
-                Import-DryADGPO @ImportDryADGPOParams
-            }
-
-            ol i "GPO Imports - Computer scope ($($ComputerGPOImports.count))" -sh
-            foreach ($GPO in $ComputerGPOImports) {
-                # Ensure TargetName exists, and is converted to the desired case
-                if ($null -eq $GPO.TargetName) { 
-                    $GPO | 
-                        Add-Member -MemberType NoteProperty -Name 'TargetName' -Value $(ConvertTo-DryADCase -Name $GPO.Name -Case $GPOcase)
-                }
-                else {
-                    $GPO.TargetName = ConvertTo-DryADCase -Name $GPO.TargetName -Case $GPOcase
-                }
-                
-                # Increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Importing GPO '$($GPO.Name)'"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-
-                $ImportDryADGPOParams = @{
-                    GPO             = $GPO 
-                    GPOsPath        = $GPOsPath 
-                    Scope           = 'computer'
-                    ReplacementHash = $ReplacementHash
-                }
-                switch ($ExecutionType) {
-                    'Local' {
-                        $ImportDryADGPOParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $ImportDryADGPOParams += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-
-                ol i "GPO Import (Computer '$ComputerName')", "Importing '$($GPO.Name)'"
-                Import-DryADGPO @ImportDryADGPOParams     
             }
 
             $DebugCounter += $NumberOfGPOImports
@@ -3025,7 +1430,7 @@ function Import-DryADConfiguration {
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
         if ($ProcessGPOLinks) {
-            ol i "GPO Links - Domain scope ($($DomainGPOLinks.count))" -sh
+            ol i "GPO Links ($($DomainGPOLinks.count))" -sh
 
             foreach ($DomainGPOLink in $DomainGPOLinks | Where-Object { $_.defined_in -eq 'OS' }) {
                 # increment the element counter and update progress
@@ -3057,10 +1462,10 @@ function Import-DryADConfiguration {
                 }
 
                 if (($DomainGPOLink.Path).Trim() -eq '') {
-                    ol i "Link GPOs (domain '$DomainFQDN') to", "(Domain Root)"
+                    ol i "Link GPOs to", "(Domain Root)"
                 } 
                 else {
-                    ol i "Link GPOs (domain '$DomainFQDN') to", "$($DomainGPOLink.Path)"
+                    ol i "Link GPOs to", "$($DomainGPOLink.Path)"
                 }
                 Set-DryADGPLink @SetDryGPLinkParams 
             }
@@ -3094,171 +1499,10 @@ function Import-DryADConfiguration {
                 }
 
                 if (($DomainGPOLink.Path).Trim() -eq '') {
-                    ol i "Link GPOs (domain '$DomainFQDN') to", "(Domain Root)"
+                    ol i "Link GPOs to", "(Domain Root)"
                 } 
                 else {
-                    ol i "Link GPOs (domain '$DomainFQDN') to", "$($DomainGPOLink.Path)"
-                }
-                Set-DryADGPLink @SetDryGPLinkParams 
-            }
-
-           
-            ol i "GPO Links - Site scope ($($SiteGPOLinks.count))" -sh
-            
-            # loop through Site GPOLinks defined by the OS Config
-            foreach ($SiteGPOLink in $SiteGPOLinks | Where-Object { $_.defined_in -eq 'OS' }) {
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Linking GPOs to '$($SiteGPOLink.Path)'"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-                
-                $SetDryGPLinkParams = @{
-                    GPOLinkObject = $SiteGPOLink
-                    DomainDN      = $DomainDN
-                    DomainFQDN    = $DomainFQDN
-                }
-
-                switch ($ExecutionType) {
-                    'Local' {
-                        $SetDryGPLinkParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $SetDryGPLinkParams += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-
-                if (($SiteGPOLink.Path).Trim() -eq '') {
-                    ol i "Link GPOs (site '$adsite') to", "(Root of Domain)"
-                } 
-                else {
-                    ol i "Link GPOs (site '$adsite') to", "$($SiteGPOLink.Path)"
-                }
-                Set-DryADGPLink @SetDryGPLinkParams 
-            }
-
-            # loop through Site GPOLinks defined by the Role
-            foreach ($SiteGPOLink in $SiteGPOLinks | Where-Object { $_.defined_in -ne 'OS' }) {
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Linking GPOs to '$($SiteGPOLink.Path)'"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-                
-                $SetDryGPLinkParams = @{
-                    GPOLinkObject = $SiteGPOLink
-                    DomainDN      = $DomainDN
-                    DomainFQDN    = $DomainFQDN
-                }
-
-                switch ($ExecutionType) {
-                    'Local' {
-                        $SetDryGPLinkParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $SetDryGPLinkParams += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-
-                if (($SiteGPOLink.Path).Trim() -eq '') {
-                    ol i "Link GPOs (site '$adsite') to", "(Root of Domain)"
-                } 
-                else {
-                    ol i "Link GPOs (site '$adsite') to", "$($SiteGPOLink.Path)"
-                }
-                Set-DryADGPLink @SetDryGPLinkParams 
-            }
-            
-            ol i "GPO Links - Computer scope ($($ComputerGPOLinks.count))" -sh
-            
-            # loop through Computer GPOLinks defined by the OS Config
-            foreach ($ComputerGPOLink in $ComputerGPOLinks | Where-Object { $_.defined_in -eq 'OS' }) {
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Linking GPOs to '$($ComputerGPOLink.Path)'"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-                 
-                $SetDryGPLinkParams = @{
-                    GPOLinkObject = $ComputerGPOLink
-                    DomainDN      = $DomainDN
-                    DomainFQDN    = $DomainFQDN
-                }
-
-                switch ($ExecutionType) {
-                    'Local' {
-                        $SetDryGPLinkParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $SetDryGPLinkParams += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-
-                if (($ComputerGPOLink.Path).Trim() -eq '') {
-                    ol i "Link GPOs (Computer '$ComputerName') to", "(Root of Domain)"
-                } 
-                else {
-                    ol i "Link GPOs (Computer '$ComputerName') to", "$($ComputerGPOLink.Path)"
-                }
-                Set-DryADGPLink @SetDryGPLinkParams 
-            }
-
-            # loop through Computer GPOLinks defined by the Role
-            foreach ($ComputerGPOLink in $ComputerGPOLinks | Where-Object { $_.defined_in -ne 'OS' }) {
-                # increment the element counter and update progress
-                $ElementsCounter++
-                $WriteProgressParameters = @{
-                    Activity        = 'Configuring Active Directory'
-                    Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Linking GPOs to '$($ComputerGPOLink.Path)'"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
-                }
-                Write-Progress @WriteProgressParameters
-                
-                $SetDryGPLinkParams = @{
-                    GPOLinkObject = $ComputerGPOLink
-                    DomainDN      = $DomainDN
-                    DomainFQDN    = $DomainFQDN
-                }
-
-                switch ($ExecutionType) {
-                    'Local' {
-                        $SetDryGPLinkParams += @{
-                            DomainController = $DomainController
-                        }
-                    }
-                    'Remote' {
-                        $SetDryGPLinkParams += @{
-                            PSSession = $PSSession
-                        }
-                    }
-                }
-                
-                if (($ComputerGPOLink.Path).Trim() -eq '') {
-                    ol i "Link GPOs (Computer '$ComputerName') to", "(Root of Domain)"
-                } 
-                else {
-                    ol i "Link GPOs (Computer '$ComputerName') to", "$($ComputerGPOLink.Path)"
+                    ol i "Link GPOs to", "$($DomainGPOLink.Path)"
                 }
                 Set-DryADGPLink @SetDryGPLinkParams 
             }
@@ -3278,7 +1522,7 @@ function Import-DryADConfiguration {
 
         if ($ProcessWMIFilterLinks) {
 
-            ol i "WMIFilterLinks - Domain scope ($DomainWmiFilterLinksCount)" -sh
+            ol i "WMIFilterLinks ($DomainWmiFilterLinksCount)" -sh
             foreach ($GPOWMIFilter in $DomainWMIFilters) {
                 foreach ($GPOWMIFilterLink in $GPOWMIFilter.links) {
                     # Progress
@@ -3307,72 +1551,6 @@ function Import-DryADConfiguration {
                         }
                     }
                     ol i "Linking WMI Filter (domain '$DomainFQDN')", "$($GPOWMIFilter.Name)"
-                    Set-DryADWmiFilterLink @SetDryWmiFilterLinkParams
-                }
-            }
-
-            ol i "WMIFilters - Site scope ($SiteWmiFilterLinksCount)" -sh
-            foreach ($GPOWMIFilter in $SiteWMIFilters) {
-                foreach ($GPOWMIFilterLink in $GPOWMIFilter.links) {
-                    # Progress
-                    $ElementsCounter++  
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Linking WMIFilter '$($GPOWMIFilter.Name)'"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
-                    }
-                    Write-Progress @WriteProgressParameters
-                
-                    $SetDryWmiFilterLinkParams = @{
-                        GPOName       = $GPOWMIFilterLink
-                        WMIFilterName = $GPOWMIFilter.Name
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $SetDryWmiFilterLinkParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $SetDryWmiFilterLinkParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Linking WMI Filter (site '$adsite')", "$($GPOWMIFilter.Name)"
-                    Set-DryADWmiFilterLink @SetDryWmiFilterLinkParams
-                }
-            }
-
-            ol i "WMIFilters - Computer scope ($ComputerWmiFilterLinksCount)" -sh
-            foreach ($GPOWMIFilter in $ComputerWMIFilters) {
-                foreach ($GPOWMIFilterLink in $GPOWMIFilter.links) {
-                    # Progress
-                    $ElementsCounter++  
-                    $WriteProgressParameters = @{
-                        Activity        = 'Configuring Active Directory'
-                        Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Linking WMIFilter '$($GPOWMIFilter.Name)'"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
-                    }
-                    Write-Progress @WriteProgressParameters
-                
-                    $SetDryWmiFilterLinkParams = @{
-                        GPOName       = $GPOWMIFilterLink
-                        WMIFilterName = $GPOWMIFilter.Name
-                    }
-                    switch ($ExecutionType) {
-                        'Local' {
-                            $SetDryWmiFilterLinkParams += @{
-                                DomainController = $DomainController
-                            }
-                        }
-                        'Remote' {
-                            $SetDryWmiFilterLinkParams += @{
-                                PSSession = $PSSession
-                            }
-                        }
-                    }
-                    ol i "Linking WMI Filter (computer '$ComputerName')", "$($GPOWMIFilter.Name)"
                     Set-DryADWmiFilterLink @SetDryWmiFilterLinkParams
                 }
             }

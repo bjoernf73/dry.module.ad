@@ -111,7 +111,6 @@ function New-DryADUser {
             $UserSpec = @{}
             $ExcludeProperties = @(
                 'alias',
-                'scope',
                 'memberof',
                 'password'
             )

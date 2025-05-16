@@ -29,11 +29,6 @@ function Import-DryADGPO {
         [string]
         $GPOsPath,
 
-        [Parameter()]
-        [ValidateSet('domain', 'site', 'computer')]
-        [string]
-        $Scope = 'domain',
-
         [Parameter(Mandatory, ParameterSetName = 'Remote')]
         [PSSession]$PSSession,
 
@@ -122,12 +117,12 @@ function Import-DryADGPO {
             }
 
             $GPOImportArgumentList = @(
-                [string]    $GPO.TargetName,
-                [string]    $JsonGPOFilePath,
-                [string]    $Server,
-                [Bool]      $Force,
-                [Bool]      $GPODefaultPermissions,
-                [HashTable] $ReplacementHash
+                [string]$GPO.TargetName,
+                [string]$JsonGPOFilePath,
+                [string]$Server,
+                [Bool]$Force,
+                [Bool]$GPODefaultPermissions,
+                [HashTable]$ReplacementHash
             )
 
             $InvokeCommandParams = @{
