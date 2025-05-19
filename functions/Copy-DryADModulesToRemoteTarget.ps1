@@ -53,10 +53,10 @@ function Copy-DryADModulesToRemoteTarget {
             
             switch ($DirResult) {
                 $true {
-                    ol d 'Created remote directory', "$RemoteRootPath"
+                    olad d 'Created remote directory', "$RemoteRootPath"
                 }
                 { $DirResult -is [ErrorRecord] } {
-                    ol w 'Unable to create remote directory', "$RemoteRootPath"
+                    olad w 'Unable to create remote directory', "$RemoteRootPath"
                     $PSCmdlet.ThrowTerminatingError($DirResult)
                 }
                 default {
@@ -74,11 +74,11 @@ function Copy-DryADModulesToRemoteTarget {
                 $ModuleFolder = Split-Path -Path $ModuleObj.Path
                 try { 
                     [system.version](Split-Path -Path $ModuleFolder -Leaf) | Out-Null
-                    ol v "Module '$Module' is a versioned module, it's root folder must be: '$(Split-Path -Path $ModuleFolder)'"
+                    olad v "Module '$Module' is a versioned module, it's root folder must be: '$(Split-Path -Path $ModuleFolder)'"
                     $ModuleFolder = Split-Path -Path $ModuleFolder
                 } 
                 catch { 
-                    ol v "Module '$Module' is not a versioned module, it's root folder must be: '$ModuleFolder'"
+                    olad v "Module '$Module' is not a versioned module, it's root folder must be: '$ModuleFolder'"
                 }
                 $CopyItemsParams = @{
                     Path        = $ModuleFolder
@@ -88,7 +88,7 @@ function Copy-DryADModulesToRemoteTarget {
                     Recurse     = $true
                     Force       = $true
                 }
-                ol d @("Copying module to '$($PSSession.ComputerName)'", "'$ModuleFolder'")
+                olad d @("Copying module to '$($PSSession.ComputerName)'", "'$ModuleFolder'")
                 Copy-Item @CopyItemsParams
             }
         }
@@ -103,7 +103,7 @@ function Copy-DryADModulesToRemoteTarget {
                     Recurse     = $true
                     Force       = $true
                 }
-                ol d @("Copying module to '$($PSSession.ComputerName)'", "'$ModuleFolder'")
+                olad d @("Copying module to '$($PSSession.ComputerName)'", "'$ModuleFolder'")
                 Copy-Item @CopyItemsParams
             }
             catch {
@@ -127,13 +127,13 @@ function Copy-DryADModulesToRemoteTarget {
         }
         $RemotePSModulePaths = Invoke-Command @InvokePSModPathParams
 
-        ol d @('The PSModulePath on remote system', "'$RemotePSModulePaths'")
+        olad d @('The PSModulePath on remote system', "'$RemotePSModulePaths'")
         switch ($RemotePSModulePaths) {
             { $RemotePSModulePaths -Match $RemoteRootPathRegEx } {
-                ol v @('Successfully added to remote PSModulePath', "'$RemoteRootPath'")
+                olad v @('Successfully added to remote PSModulePath', "'$RemoteRootPath'")
             }
             default {
-                ol w @('Failed to add path to remote PSModulePath', "'$RemoteRootPath'")
+                olad w @('Failed to add path to remote PSModulePath', "'$RemoteRootPath'")
                 throw "The RemoteRootPath '$RemoteRootPath' was not added to the PSModulePath in the remote session"
             }
         }
@@ -149,12 +149,12 @@ function Copy-DryADModulesToRemoteTarget {
     
             switch ($ImportResult) {
                 $true {
-                    ol s "Modules were imported into the session"
-                    ol v "The modules '$Modules' were imported into PSSession to $($PSSession.ComputerName)"
+                    olad s "Modules were imported into the session"
+                    olad v "The modules '$Modules' were imported into PSSession to $($PSSession.ComputerName)"
                 }
                 default {
-                    ol f "Modules were not imported into the session"
-                    ol w "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
+                    olad f "Modules were not imported into the session"
+                    olad w "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
                     throw "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
                 }
             }

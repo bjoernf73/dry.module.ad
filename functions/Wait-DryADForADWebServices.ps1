@@ -52,16 +52,16 @@ function Wait-DryADForADWebServices {
         
         switch ($TestResult) {
             $true {
-                ol i "Active Directory Web Services is now up and reachable."
+                olad i "Active Directory Web Services is now up and reachable."
                 $ADWebServicesUp = $true
             }
             $false {
-                #! should Out-DryLog have a wait-option?
-                ol i "Waiting for Active Directory Web Services to become available...."
+                #! should Out-DryADLog have a wait-option?
+                olad i "Waiting for Active Directory Web Services to become available...."
                 Start-Sleep -Seconds 30
             }
             default {
-                ol e "Error testing Active Directory Web Services"
+                olad e "Error testing Active Directory Web Services"
                 throw $TestResult
             }
         } 
@@ -73,7 +73,7 @@ function Wait-DryADForADWebServices {
 
     switch ($ADWebServicesUp) {
         $false {
-            ol e "AD Webservices wasn't ready after waiting the configured $WaitMinutes minutes"
+            olad e "AD Webservices wasn't ready after waiting the configured $WaitMinutes minutes"
             throw "AD Webservices wasn't ready after waiting the configured $WaitMinutes minutes"
         }
         default {

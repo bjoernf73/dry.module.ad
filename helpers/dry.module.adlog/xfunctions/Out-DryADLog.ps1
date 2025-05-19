@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-A logging and output-to-display module for DryDeploy
+A logging and output-to-display module for dry.module.ad
 
 .DESCRIPTION
-A logging and output-to-display module for DryDeploy
+A logging and output-to-display module for dry.module.ad
 
 .PARAMETER Type
 Types follow Windows Streams, except for stream 1 (output) which isn't
@@ -23,7 +23,7 @@ A hashtable to display and/or log
 
 .PARAMETER MsgArr
 A two-element array; for instance a hashtable key and it's corresponding value.
-Out-DryLog will add whitespaces to the first element until it reaches a length
+Out-DryADLog will add whitespaces to the first element until it reaches a length
 of `$LoggingOptions.array_first_element_length, which orders all second elements
 in a straight vertical line. So basically for readability of a pair
 
@@ -46,47 +46,47 @@ A i r e d   H e a d e r
 
 .PARAMETER Callstacklevel
 This function uses Get-PSCallstack to identify the location of the caller, i.e.
-which function or script, and at what line, Out-DryLog was called. For certain
+which function or script, and at what line, Out-DryADLog was called. For certain
 types (see parameter Type above) the function will then display that location on
 the far right of each displayed line. You may configure for which types the
 calling location should be displayed in `$LoggingOptions. Anyway, if a function
-or many functions call the same proxy function that in turn calls Out-DryLog, it
-may be more informative if the proxy function calls Out-DryLog with '-Callstacklevel 2'.
+or many functions call the same proxy function that in turn calls Out-DryADLog, it
+may be more informative if the proxy function calls Out-DryADLog with '-Callstacklevel 2'.
 The effect is that the Location is no longer the PS Callstack element number 1 (the
 proxy function), but element number 2 (the function that called the proxy function)
 
 .EXAMPLE
-Out-DryLog -Type 6 -Message "This is a type 6 (informational) message"
+Out-DryADLog -Type 6 -Message "This is a type 6 (informational) message"
 
                               This is a type 6 (informational) message
 .EXAMPLE
-Out-DryLog 6 "This is a type 6 (informational) message"
+Out-DryADLog 6 "This is a type 6 (informational) message"
                               This is a type 6 (informational) message
 
 .EXAMPLE
-ol 6 "This is a type 6 (informational) message"
+olad 6 "This is a type 6 (informational) message"
                               This is a type 6 (informational) message
 
 .EXAMPLE
 $GLOBAL:GlobalResourceName = "DC001-S1-D"
 $GLOBAL:GlobalActionName = "ProvisionDsc"
-ol 6 "This is a type 6 (informational) message"
+olad 6 "This is a type 6 (informational) message"
          [DC001-S1-D]:        [ProvisionDsc] This is a type 6 (informational) message
 
 .EXAMPLE
-ol 4 "This is a type 4 (verbose) message which won't display anything"
+olad 4 "This is a type 4 (verbose) message which won't display anything"
 
 
 .EXAMPLE
-ol 4 "This is a type 4 (verbose) message" -Verbose
+olad 4 "This is a type 4 (verbose) message" -Verbose
 VERBOSE: [DC001-S1-D]:        [ProvisionDsc] This is a type 4 (verbose) message               [MyScript.ps1:245 14:25:57]
 
 .EXAMPLE
-ol i 'This is an','arrayed message' ; ol i 'And this is yet another','one'
+olad i 'This is an','arrayed message' ; olad i 'And this is yet another','one'
          [DC001-S1-D]:        This is an                       : arrayed message
          [DC001-S1-D]:        And this is yet another          : one
 #>
-function Out-DryLog {
+function Out-DryADLog {
     [CmdletBinding(DefaultParameterSetName="message")]
     [Alias("ol")]
     param (
@@ -106,7 +106,7 @@ function Out-DryLog {
         [Alias("arr")]
         [Parameter(ParameterSetName="array",Mandatory,Position=1,
         HelpMessage="The 'MsgArr' parameter set expects an array of 2 elements, for instance a name or description of a
-        value of some kind, and the second element is the value. Out-DryLog will add whitespaces to the first element
+        value of some kind, and the second element is the value. Out-DryADLog will add whitespaces to the first element
         until it reaches a length of `$LoggingOptions.array_first_element_length, which orders all second elements in
         a straight vertical line. So basically for readability of a pair")]
         [ValidateScript({"$($_.Count) -le 2"})]
@@ -124,7 +124,7 @@ function Out-DryLog {
         [string]$MsgTitle,
 
         [Parameter(ParameterSetName="object", HelpMessage="Don't use this param. It is only for use in nested calls. 
-        Meaning that the MsgObjLevel will be increased by 1 each time Out-DryLog parameterset 'object' calls itself")]
+        Meaning that the MsgObjLevel will be increased by 1 each time Out-DryADLog parameterset 'object' calls itself")]
         [int]$MsgObjLevel = 1,
 
         [Alias("h")]
@@ -144,8 +144,8 @@ function Out-DryLog {
         [Switch]$Air,
 
         [Alias("cs")]
-        [Parameter(HelpMessage="Normally 1, the direct caller. However, if Out-DryLog is called by a proxy function, you may use
-        2 to point the 'location' (where in your code Out-DryLog was called) to the call before the direct call.")]
+        [Parameter(HelpMessage="Normally 1, the direct caller. However, if Out-DryADLog is called by a proxy function, you may use
+        2 to point the 'location' (where in your code Out-DryADLog was called) to the call before the direct call.")]
         [int]$Callstacklevel = 1,
 
         [Alias("fore")]
@@ -163,7 +163,7 @@ function Out-DryLog {
         if ($null -eq $GLOBAL:LoggingOptions) {
             $GLOBAL:LoggingOptions = [PSCustomObject]@{
                 log_to_file                = $true;
-                path                       = & { if ($PSVersionTable.Platform -eq 'Unix') { "$($env:HOME)/DryDeploy/DryDeploy.log" } else { ("$($env:UserProfile)\DryDeploy\DryDeploy.log").Replace('\','\\')}};
+                path                       = & { if ($PSVersionTable.Platform -eq 'Unix') { "$($env:HOME)/dry.module.ad/dry.module.ad.log" } else { ("$($env:UserProfile)\dry.module.ad\dry.module.ad.log").Replace('\','\\')}};
                 console_width_threshold    = 70;
                 post_buffer                = 3;
                 array_first_element_length = 45;
@@ -321,7 +321,7 @@ function Out-DryLog {
             }
 
             if ($Header) {
-                # New-DryHeader will call Out-DryLog back after making a header
+                # New-DryHeader will call Out-DryADLog back after making a header
                 $HeaderLine,$Message = New-DryHeader -Message $Message -TargetMessageLength $TargetMessageLength -HeaderChars $HeaderChars -Air:$Air
             }
             elseif ($SmallHeader) {
@@ -361,7 +361,7 @@ function Out-DryLog {
                         Callstacklevel  = $($Callstacklevel + 1) 
                         Smallheader     = $true
                     }
-                    Out-DryLog @NestedOutDryLogCallParams
+                    Out-DryADLog @NestedOutDryLogCallParams
                 }
                 $Messages = @()
                 foreach ($Key in $MsgHash.Keys) {
@@ -445,7 +445,7 @@ function Out-DryLog {
                             backgroundcolor = $LOBack
                         }
                     }
-                    Out-DryLog @NestedOutDryLogCallParams
+                    Out-DryADLog @NestedOutDryLogCallParams
                 }
 
                 # Iterate through properties
@@ -467,7 +467,7 @@ function Out-DryLog {
                                 backgroundcolor = $LOBack
                             }
                         }
-                        Out-DryLog @NestedOutDryLogCallParams
+                        Out-DryADLog @NestedOutDryLogCallParams
                     }
                     elseif ($_.Value -is [array]) {
                         $ObjValue = $_.Value
@@ -487,7 +487,7 @@ function Out-DryLog {
                                 backgroundcolor = $LOBack
                             }
                         }
-                        Out-DryLog @NestedOutDryLogCallParams  
+                        Out-DryADLog @NestedOutDryLogCallParams  
                         foreach ($ObjItem in $ObjValue) {
                             if (($ObjItem -is [string]) -or ($ObjItem -is [bool]) -or ($ObjItem.Gettype().Name -match 'byte|short|int32|long|sbyte|ushort|uint32|ulong|float|double|decimal|Version')) {
                                 $NestedOutDryLogCallParams = @{
@@ -505,7 +505,7 @@ function Out-DryLog {
                                         backgroundcolor = $LOBack
                                     }
                                 }
-                                Out-DryLog @NestedOutDryLogCallParams
+                                Out-DryADLog @NestedOutDryLogCallParams
                             }
                             elseif ($ObjItem -is [PSCustomObject]) {
                                 $NestedOutDryLogCallParams = @{
@@ -524,7 +524,7 @@ function Out-DryLog {
                                         backgroundcolor = $LOBack
                                     }
                                 }
-                                Out-DryLog @NestedOutDryLogCallParams
+                                Out-DryADLog @NestedOutDryLogCallParams
                             }
                         }
                     } 
@@ -545,9 +545,9 @@ function Out-DryLog {
                                 backgroundcolor = $LOBack
                             }
                         }
-                        Out-DryLog @NestedOutDryLogCallParams
-                        Out-DryLog -Type $Type -MsgObj $_.Name -Callstacklevel $($Callstacklevel+1) -MsgObjLevel $($MsgObjLevel+1)
-                        Out-DryLog -Type $Type -MsgObj $_.Value -Callstacklevel $($Callstacklevel+1) -MsgObjLevel $($MsgObjLevel+1)
+                        Out-DryADLog @NestedOutDryLogCallParams
+                        Out-DryADLog -Type $Type -MsgObj $_.Name -Callstacklevel $($Callstacklevel+1) -MsgObjLevel $($MsgObjLevel+1)
+                        Out-DryADLog -Type $Type -MsgObj $_.Value -Callstacklevel $($Callstacklevel+1) -MsgObjLevel $($MsgObjLevel+1)
                     }
                 }
             }

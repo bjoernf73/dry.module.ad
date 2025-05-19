@@ -41,7 +41,7 @@ function Set-DryADAccessRule {
         $ActiveDirectoryRights,
         
         [Parameter(Mandatory,
-            HelpMessage = "Access Control Type, either 'Allow' or 'Deny'.")]
+            HelpMessage = "Access Controlad Type, either 'Allow' or 'Deny'.")]
         [ValidateSet("Allow", "Deny")]
         [string]
         $AccessControlType, 
@@ -84,22 +84,22 @@ function Set-DryADAccessRule {
             throw "Specify either a Group or a User to delegate permissions to - and not both"
         }
         
-        ol v @('Path', "$Path")
-        ol v @('TargetName', "$TargetName")
-        ol v @('TargetType', "$TargetType")
+        olad v @('Path', "$Path")
+        olad v @('TargetName', "$TargetName")
+        olad v @('TargetType', "$TargetType")
         
 
         if ($PSCmdlet.ParameterSetName -eq 'Remote') {
             $Server = 'localhost'
             $ExecutionType = 'Remote'
-            ol v @('Session Type', 'Remote')
-            ol v @('Remoting to Domain Controller', $PSSession.ComputerName)
+            olad v @('Session Type', 'Remote')
+            olad v @('Remoting to Domain Controller', $PSSession.ComputerName)
         }
         else {
             $Server = $DomainController
             $ExecutionType = 'Local'
-            ol v @('Session Type', 'Local')
-            ol v @('Using Domain Controller', $Server)
+            olad v @('Session Type', 'Local')
+            olad v @('Using Domain Controller', $Server)
         }
 
         # Since parameters cannot be splatted, or named in -Argumentslist, make sure all exists
@@ -130,20 +130,20 @@ function Set-DryADAccessRule {
         }
         $return = $null; $return = Invoke-Command @InvokeParams
 
-        # Send every string in $Return[0] to Debug via Out-DryLog
+        # Send every string in $Return[0] to Debug via Out-DryADLog
         foreach ($ReturnString in $Return[0]) {
-            ol d "$ReturnString"
+            olad d "$ReturnString"
         }
         
         # Test the ReturnValue in $Return[1]
         if ($Return[1] -eq $true) {
-            ol s 'AD right set'
-            ol v "Successfully configured AD right"
+            olad s 'AD right set'
+            olad v "Successfully configured AD right"
             $true
         } 
         else {
-            ol f 'AD right not set'
-            ol w "Failed to configure AD right"
+            olad f 'AD right not set'
+            olad w "Failed to configure AD right"
             if ($null -ne $Return[2]) {
                 throw ($Return[2]).ToString()
             } 

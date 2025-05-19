@@ -32,7 +32,7 @@ function Convert-DryADClearTextToEncryptedString {
 
     try {
         # Encrypts 
-        ol v @("CertificateFile", $CertificateFile)
+        olad v @("CertificateFile", $CertificateFile)
         $PublicCert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($CertificateFile)
         # System.Security.Cryptography.ECDsa eCDsa = certificate.GetECDsaPublicKey(); // This line causes an exception - the certificate key pair must be RSA
         $ByteArray = [System.Text.Encoding]::UTF8.GetBytes($ClearText)

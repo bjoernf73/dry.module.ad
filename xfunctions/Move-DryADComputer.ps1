@@ -44,21 +44,21 @@ function Move-DryADComputer {
         [string] 
         $DomainController
     )
-    ol v @("Moving: '$ComputerName' to OU", "$TargetOU")
+    olad v @("Moving: '$ComputerName' to OU", "$TargetOU")
 
     # Is the Object already in place??
     try {
         if ($PSCmdlet.ParameterSetName -eq 'Remote') {
             $Server = 'localhost'
             $ExecutionType = 'Remote'
-            ol v @('Session Type', 'Remote')
-            ol v @('Remoting to Domain Controller', $PSSession.ComputerName)
+            olad v @('Session Type', 'Remote')
+            olad v @('Remoting to Domain Controller', $PSSession.ComputerName)
         }
         else {
             $Server = $DomainController
             $ExecutionType = 'Local'
-            ol v @('Session Type', 'Local')
-            ol v @('Using Domain Controller', $Server)
+            olad v @('Session Type', 'Local')
+            olad v @('Using Domain Controller', $Server)
         }
 
         $GetArgumentList = @($ComputerName, $TargetOU, $Server)
@@ -75,11 +75,11 @@ function Move-DryADComputer {
 
         switch ($GetResult) {
             $true {
-                ol s "Computer  is already in correct OU"
-                ol v "'$ComputerName' is already in OU '$TargetOU'"
+                olad s "Computer  is already in correct OU"
+                olad v "'$ComputerName' is already in OU '$TargetOU'"
             }
             $false {
-                ol v "'$ComputerName' is not in OU '$TargetOU' - trying to move it"
+                olad v "'$ComputerName' is not in OU '$TargetOU' - trying to move it"
             }
             { $GetResult -is [System.Management.Automation.ErrorRecord] } {
                 $PSCmdlet.ThrowTerminatingError($GetResult)
@@ -113,8 +113,8 @@ function Move-DryADComputer {
 
             switch ($SetResult) {
                 $true {
-                    ol s "Computer object was moved"
-                    ol v "'$ComputerName' was moved into OU '$TargetOU'"
+                    olad s "Computer object was moved"
+                    olad v "'$ComputerName' was moved into OU '$TargetOU'"
                 }
                 { $SetResult -is [System.Management.Automation.ErrorRecord] } {
                     $PSCmdlet.ThrowTerminatingError($SetResult)

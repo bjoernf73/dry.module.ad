@@ -46,13 +46,13 @@ function New-DryADWmiFilter {
     
     if ($PSCmdlet.ParameterSetName -eq 'Remote') {
         $Server = 'localhost'
-        ol v @('Session Type', 'Remote')
-        ol v @('Remoting to Domain Controller', $PSSession.ComputerName)
+        olad v @('Session Type', 'Remote')
+        olad v @('Remoting to Domain Controller', $PSSession.ComputerName)
     }
     else {
         $Server = $DomainController
-        ol v @('Session Type', 'Local')
-        ol v @('Using Domain Controller', $Server)
+        olad v @('Session Type', 'Local')
+        olad v @('Using Domain Controller', $Server)
     }
    
     # Test if object exists. Currently does not  
@@ -72,14 +72,14 @@ function New-DryADWmiFilter {
 
         switch ($GetResult) {
             $true {
-                ol s 'WMI Filter exists already'
-                ol v "The WMIFilter '$Name' exists already"
+                olad s 'WMI Filter exists already'
+                olad v "The WMIFilter '$Name' exists already"
             }
             $false {
-                ol v "The WMIFilter '$Name' does not exist, must be created"
+                olad v "The WMIFilter '$Name' does not exist, must be created"
             }
             default {
-                ol w "Error trying to get WMIFilter '$Name'"
+                olad w "Error trying to get WMIFilter '$Name'"
                 throw $GetResult.ToString()
             }
         } 
@@ -104,11 +104,11 @@ function New-DryADWmiFilter {
             $SetResult = Invoke-Command @InvokeSetParams
             switch ($SetResult) {
                 $true {
-                    ol s "WMIFilter was created"
-                    ol v "WMIFilter '$Name' was created"
+                    olad s "WMIFilter was created"
+                    olad v "WMIFilter '$Name' was created"
                 }
                 default {
-                    ol f "WMIFilter was not created"
+                    olad f "WMIFilter was not created"
                     throw $SetResult
                 }
             } 

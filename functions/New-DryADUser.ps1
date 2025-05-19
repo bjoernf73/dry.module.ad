@@ -61,14 +61,14 @@ function New-DryADUser {
         if ($PSCmdlet.ParameterSetName -eq 'Remote') {
             $Server = 'localhost'
             $ExecutionType = 'Remote'
-            ol v @('Session Type', 'Remote')
-            ol v @('Remoting to Domain Controller', $PSSession.ComputerName)
+            olad v @('Session Type', 'Remote')
+            olad v @('Remoting to Domain Controller', $PSSession.ComputerName)
         }
         else {
             $Server = $DomainController
             $ExecutionType = 'Local'
-            ol v @('Session Type', 'Local')
-            ol v @('Using Domain Controller', $Server)
+            olad v @('Session Type', 'Local')
+            olad v @('Using Domain Controller', $Server)
         }
 
         $GetArgumentList = @(
@@ -88,14 +88,14 @@ function New-DryADUser {
         
         switch ($GetResult) {
             $true {
-                ol s 'User exists already'
-                ol v @('The User exists already', "$($User.Name)")
+                olad s 'User exists already'
+                olad v @('The User exists already', "$($User.Name)")
             }
             $false {
-                ol v @('The user does not exist', "$($User.Name)")
+                olad v @('The user does not exist', "$($User.Name)")
             }
             default {
-                ol e @('Error trying to get user', "$($User.Name)")
+                olad e @('Error trying to get user', "$($User.Name)")
                 throw $GetResult
             }
         }
@@ -166,7 +166,7 @@ function New-DryADUser {
                         CertificateFile = $DCPublicCertificateFilePath
                     }
                     $Base64EncodedPass = Convert-DryADClearTextToEncryptedString @ConvertPwdParams
-                    ol i @("Encrypted password for $($User.Name)", "$Base64EncodedPass")
+                    olad i @("Encrypted password for $($User.Name)", "$Base64EncodedPass")
                 }
                 'Local' {
                     # If local execution, we must send the password to Invoke-Command. 
@@ -210,12 +210,12 @@ function New-DryADUser {
             $SetResult = Invoke-Command @InvokeSetParams
             
             if ($SetResult[0] -eq $true) {
-                ol s 'User created'
-                ol i @('Successfully created user', "$($User.Name)")
+                olad s 'User created'
+                olad i @('Successfully created user', "$($User.Name)")
             }
             else {
-                ol f 'User not created'
-                ol e "Error creating user $($User.Name): $($SetResult[1])"
+                olad f 'User not created'
+                olad e "Error creating user $($User.Name): $($SetResult[1])"
                 throw "$($SetResult[1])"
             }
         }

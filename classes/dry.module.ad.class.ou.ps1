@@ -48,7 +48,7 @@ Class OU {
             $This.ObjectType   = 'DomainRoot' 
         }
         else { 
-            ol 1 "Unknown Object Type (not CN, OU or Domain Root): $($This.OUDN)"
+            olad 1 "Unknown Object Type (not CN, OU or Domain Root): $($This.OUDN)"
             throw "Unknown Object Type (not CN, OU) or Domain Root: $($This.OUDN)"
         }  
         $This.DomainFQDN       = $DomainFQDN 
@@ -77,7 +77,7 @@ Class OU {
             $This.ObjectType   = 'DomainRoot' 
         }
         else { 
-            ol w "Unknown Object Type (not CN or OU): $($This.OUDN)"
+            olad w "Unknown Object Type (not CN or OU): $($This.OUDN)"
             throw "Unknown Object Type (not CN or OU): $($This.OUDN)"
         } 
         $This.DomainFQDN       = $DomainFQDN 
@@ -105,7 +105,7 @@ Class OU {
             $This.ObjectType   = 'domainRoot' 
         }
         else { 
-            ol 1 "Unknown Object Type (not CN or OU): $($This.OUDN)"
+            olad 1 "Unknown Object Type (not CN or OU): $($This.OUDN)"
             throw "Unknown Object Type (not CN or OU): $($This.OUDN)"
         } 
         $This.DomainFQDN       = $DomainFQDN 
@@ -117,7 +117,7 @@ Class OU {
 
     [void]CreateOU () {
         if ($This.ObjectType -eq 'domainRoot') {
-            ol d "Trying to create root of domain - just return"
+            olad d "Trying to create root of domain - just return"
         } 
         else {
             # Create an array of elements. Start with making sure  
@@ -132,14 +132,14 @@ Class OU {
                 $CurrentParentDomainDN = ($CurrentParent + ',' + $This.DomainDN).TrimStart(',')
                 
                 if ($CurrentParent -eq '') {
-                    ol d "'$CurrentName'. The parent domainDN is $CurrentParentDomainDN"
+                    olad d "'$CurrentName'. The parent domainDN is $CurrentParentDomainDN"
                 }
                 
                 else {
-                    ol d 'LeafOU (CurrentName)',"'$CurrentName'" 
-                    ol d 'Parent (CurrentParent)',"'$CurrentParent'"
-                    ol d 'Parent domainDN (CurrentParentDomainDN)',"'$CurrentParentDomainDN'"
-                    ol d 'CurrentDomainDN',"'$CurrentDomainDN'"
+                    olad d 'LeafOU (CurrentName)',"'$CurrentName'" 
+                    olad d 'Parent (CurrentParent)',"'$CurrentParent'"
+                    olad d 'Parent domainDN (CurrentParentDomainDN)',"'$CurrentParentDomainDN'"
+                    olad d 'CurrentDomainDN',"'$CurrentDomainDN'"
                 }
                 
                 # Test if object exists
@@ -173,14 +173,14 @@ Class OU {
                             }
                             else {
                                 # The Object does not exist
-                                ol e "Error trying to get OU '$CurrentName' in parent '$CurrentParent'"
-                                ol e $_.Exception.Message
-                                ol e $_.InvocationInfo
-                                ol e $_.ScriptStackTrace
-                                ol e $_.ScriptName
-                                ol e $_.TargetObject
-                                ol e $_.FullyQualifiedErrorId
-                                ol e $_.ErrorRecord
+                                olad e "Error trying to get OU '$CurrentName' in parent '$CurrentParent'"
+                                olad e $_.Exception.Message
+                                olad e $_.InvocationInfo
+                                olad e $_.ScriptStackTrace
+                                olad e $_.ScriptName
+                                olad e $_.TargetObject
+                                olad e $_.FullyQualifiedErrorId
+                                olad e $_.ErrorRecord
                                 
                                 # Throw the error to the caller
                                 $PSCmdlet.ThrowTerminatingError($_)
@@ -202,20 +202,20 @@ Class OU {
 
                     switch ($GetResult) {
                         $true {
-                            ol s "The OU exists already"
-                            ol d "The OU '$CurrentName' in parent '$CurrentParent' exists already."
+                            olad s "The OU exists already"
+                            olad d "The OU '$CurrentName' in parent '$CurrentParent' exists already."
                         }
                         $false {
-                            ol d "The OU '$CurrentName' in parent '$CurrentParent' does not exist, must be created"
+                            olad d "The OU '$CurrentName' in parent '$CurrentParent' does not exist, must be created"
                         }
                         default {
-                            ol e "Error trying to get OU '$CurrentName' in parent '$CurrentParent'"
+                            olad e "Error trying to get OU '$CurrentName' in parent '$CurrentParent'"
                             throw $GetResult
                         }
                     } 
                 }
                 catch {
-                    ol e "Failed to test '$CurrentDomainDN'" 
+                    olad e "Failed to test '$CurrentDomainDN'" 
                     throw $_
                 }  
 
@@ -265,14 +265,14 @@ Class OU {
 
                     switch ($SetResult) {
                         $true {
-                            ol s "The OU was created"
-                            ol d "OU '$CurrentName' in parent '$CurrentParent' was created"
+                            olad s "The OU was created"
+                            olad d "OU '$CurrentName' in parent '$CurrentParent' was created"
                             $OUsWasCreated = $true
                         }
                         
                         default {
-                            ol f "The OU was not created"
-                            ol e "Failed to create OU '$CurrentName' in parent '$CurrentParent'"
+                            olad f "The OU was not created"
+                            olad e "Failed to create OU '$CurrentName' in parent '$CurrentParent'"
                             throw $SetResult.ToString()
                         }
                     }

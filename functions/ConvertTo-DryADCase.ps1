@@ -32,7 +32,7 @@ function ConvertTo-DryADCase {
     if ($Case -eq 'capitalize') {
         $Case = 'capitalized'
     }
-    ol d @("Converting '$Name' to type", "$Case") 
+    olad d @("Converting '$Name' to type", "$Case") 
    
     function PRIVATE:Capitalize {
         [CmdletBinding()]
@@ -104,6 +104,6 @@ function ConvertTo-DryADCase {
         }
     }
 
-    ol d @('Converted to', "$ReturnValue")
+    olad d @('Converted to', "$ReturnValue")
     $ReturnValue
 }

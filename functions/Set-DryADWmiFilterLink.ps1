@@ -41,13 +41,13 @@ function Set-DryADWmiFilterLink {
 
     if ($PSCmdlet.ParameterSetName -eq 'Remote') {
         $Server = 'localhost'
-        ol v @('Session Type', 'Remote')
-        ol v @('Remoting to Domain Controller', $PSSession.ComputerName)
+        olad v @('Session Type', 'Remote')
+        olad v @('Remoting to Domain Controller', $PSSession.ComputerName)
     }
     else {
         $Server = $DomainController
-        ol v @('Session Type', 'Local')
-        ol v @('Using Domain Controller', $Server)
+        olad v @('Session Type', 'Local')
+        olad v @('Using Domain Controller', $Server)
     }
 
     try {
@@ -83,7 +83,7 @@ function Set-DryADWmiFilterLink {
     
         $Filters.Keys.foreach({
                 $Filter = $Filters["$_"]
-                ol v "Searching for filter", "$Filter"
+                olad v "Searching for filter", "$Filter"
                 $TestArgumentList = @($Filters["$_"], $Server)
                 $InvokeTestParams = @{
                     ScriptBlock  = $TestADObjectScriptBlock
@@ -96,10 +96,10 @@ function Set-DryADWmiFilterLink {
                 }
                 switch (Invoke-Command @InvokeTestParams) {
                     $true {
-                        ol v "Verified that '$Filter' returned an object from AD"
+                        olad v "Verified that '$Filter' returned an object from AD"
                     }
                     default {
-                        ol v "Failed get '$Filter' in AD"
+                        olad v "Failed get '$Filter' in AD"
                         throw $_
                     }
                 }
@@ -168,12 +168,12 @@ function Set-DryADWmiFilterLink {
 
         switch ($SetResult) {
             $true {
-                ol s "WMIFilter applied to GPO"
-                ol v "The WMIFilter '$WMIFilterName' was applied to GPO '$GPOName'"
+                olad s "WMIFilter applied to GPO"
+                olad v "The WMIFilter '$WMIFilterName' was applied to GPO '$GPOName'"
             }
             default {
-                ol f "WMIFilter not applied to GPO"
-                ol e "The WMIFilter '$WMIFilterName' was not applied to GPO '$GPOName': $($SetResult.ToString())"
+                olad f "WMIFilter not applied to GPO"
+                olad e "The WMIFilter '$WMIFilterName' was not applied to GPO '$GPOName': $($SetResult.ToString())"
                 throw $SetResult.ToString()
             }
         }

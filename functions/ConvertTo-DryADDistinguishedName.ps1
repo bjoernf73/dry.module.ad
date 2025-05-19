@@ -38,7 +38,7 @@ function ConvertTo-DryADDistinguishedName {
     # chop off any leading or trailing slashes and spaces. 
     $Name = $Name.Trim()
     $Name = $Name.Trim('/')
-    ol d @('Input', $Name)   
+    olad d @('Input', $Name)   
    
     try {
         [string]$ConvertedName = ""
@@ -48,11 +48,11 @@ function ConvertTo-DryADDistinguishedName {
             ($Name -match "^cn=")
         ) {
             # the name is alerady a dN
-            ol d @('The input is already a DistinguishedName', $Name)   
+            olad d @('The input is already a DistinguishedName', $Name)   
             $ConvertedName = "$Name"
         }
         elseif ($name -eq '') {
-            ol d 'Empty string (probably root of domain - return empty string then'
+            olad d 'Empty string (probably root of domain - return empty string then'
             $ConvertedName = $name
         }
         else {
@@ -67,14 +67,14 @@ function ConvertTo-DryADDistinguishedName {
             $ConvertedName = $ConvertedName.TrimEnd(',')
         }
 
-        ol d @('Sending to ConvertTo-DryADCase' , "$ConvertedName")
+        olad d @('Sending to ConvertTo-DryADCase' , "$ConvertedName")
         $ConvertedName = ConvertTo-DryADCase -Name $ConvertedName -Case $Case 
 
-        ol d @('Returning', "$ConvertedName")  
+        olad d @('Returning', "$ConvertedName")  
         $ConvertedName
     }
     catch {
-        ol w "Error converting '$Name' to distinguishedName"  
+        olad w "Error converting '$Name' to distinguishedName"  
         $PSCmdlet.ThrowTerminatingError($_)
     }
 }

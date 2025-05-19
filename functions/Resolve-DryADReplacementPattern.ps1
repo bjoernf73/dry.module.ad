@@ -34,7 +34,7 @@ function Resolve-DryADReplacementPattern {
         if ($InputText -match $Pattern) {
             $Value = $Variable.Value 
             $InputText = $InputText -replace $Pattern, $Value
-            ol d "Replacing '$Pattern' with '$Value'. Value after replacement: '$InputText'"
+            olad d "Replacing '$Pattern' with '$Value'. Value after replacement: '$InputText'"
         }
     }
     return $InputText

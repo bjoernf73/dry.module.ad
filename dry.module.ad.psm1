@@ -44,6 +44,6 @@ foreach ($Exportedfunction in $ExportedFunctions) {
     . $ExportedFunction.Path
 }
 
-Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\dry.module.log\dry.module.log.psd1') -Force -Verbose
-Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\GPRegistryPolicyParser\GPRegistryPolicyParser.psm1') -Force -Verbose
-Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\dry.ad.gpohelper\dry.ad.gpohelper.psm1') -Force -Verbose
+Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\dry.module.adlog\dry.module.adlog.psd1') -Force -ErrorAction Stop
+Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\GPRegistryPolicyParser\GPRegistryPolicyParser.psm1') -Force -ErrorAction Stop
+Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\dry.ad.gpohelper\dry.ad.gpohelper.psm1') -Force -ErrorAction Stop

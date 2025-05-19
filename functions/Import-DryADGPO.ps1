@@ -48,22 +48,22 @@ function Import-DryADGPO {
 
     if ($PSCmdlet.ParameterSetName -eq 'Remote') {
         $Server = 'localhost'
-        ol v @('Session Type', 'Remote')
-        ol v @('Remoting to Domain Controller', "$($PSSession.ComputerName)")
+        olad v @('Session Type', 'Remote')
+        olad v @('Remoting to Domain Controller', "$($PSSession.ComputerName)")
     }
     else {
         $Server = $DomainController
-        ol v @('Session Type', 'Local')
-        ol v @('Using Domain Controller', "$Server")
+        olad v @('Session Type', 'Local')
+        olad v @('Using Domain Controller', "$Server")
     }
 
-    ol v @('GPO Name', "'$($GPO.TargetName)'")
-    ol v @('GPO Type', "'$($GPO.Type)'")
+    olad v @('GPO Name', "'$($GPO.TargetName)'")
+    olad v @('GPO Type', "'$($GPO.Type)'")
     
     switch ($GPO.type) {
         'backup' {
             $BackupGPOPath = Join-Path -Path $GPOsPath -ChildPath $GPO.Name
-            ol v @('GPO Folder Path', "'$BackupGPOPath'")
+            olad v @('GPO Folder Path', "'$BackupGPOPath'")
 
             $GPOImportArgumentList = @(
                 [string] $GPO.Name,
@@ -88,23 +88,23 @@ function Import-DryADGPO {
             $GPOImportResult = $null
             $GPOImportResult = Invoke-Command @InvokeCommandParams
             
-            # Log all remote messages to Out-DryLog regardless of result
+            # Log all remote messages to Out-DryADLog regardless of result
             foreach ($ResultMessage in $GPOImportResult[2]) {
-                ol d "[BACKUPGPO] $ResultMessage"
+                olad d "[BACKUPGPO] $ResultMessage"
             }
 
             if ($GPOImportResult[0] -eq $true) {
-                ol v @('Successful import of backup GPO', "'$($GPO.Name)'")
+                olad v @('Successful import of backup GPO', "'$($GPO.Name)'")
             }
             else {
-                ol e "Failed to import backup GPO $($GPO.Name): $($GPOImportResults[1].ToString())"
+                olad e "Failed to import backup GPO $($GPO.Name): $($GPOImportResults[1].ToString())"
                 throw "Failed to import backup GPO $($GPO.Name): $($GPOImportResults[1].ToString())"
             }
         }
         'json' {
             # GPO in json-format
             $JsonGPOFilePath = Join-Path -Path $GPOsPath -ChildPath "$($GPO.Name).json"
-            ol v @('GPO File Path', "'$JsonGPOFilePath'")
+            olad v @('GPO File Path', "'$JsonGPOFilePath'")
 
             # Unless the json-gpo specifies a (bool) value for defaultpermissions, it is set to true, meaning
             # meaning that permissions in the json-GPO is ignored, and the default security descriptor of the 
@@ -141,10 +141,10 @@ function Import-DryADGPO {
 
             switch ($GPOImportResult[0]) {
                 $true {
-                    ol s "$($GPOImportResult[2])"
+                    olad s "$($GPOImportResult[2])"
                 }
                 default {
-                    ol f "$($GPOImportResult[2])"
+                    olad f "$($GPOImportResult[2])"
                     throw $GPOImportResult[1].ToString()
                 }
             }

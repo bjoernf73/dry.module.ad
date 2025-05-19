@@ -73,7 +73,7 @@ function Set-DryADRemoteRegistry {
         switch ($ValueType) {
             'Binary' {
                 # System.Management.ManagementBaseObject GetBinaryValue(System.UInt32 hDefKey, System.String sSubKeyName, System.String sValueName)
-                ol e "Value Type 'Binary' is not implemented"
+                olad e "Value Type 'Binary' is not implemented"
                 $CurrentValue = $Class.GetBinaryValue($BaseKeyInt, $LeafKey, $ValueName)
             }
             'Dword' {
@@ -119,31 +119,31 @@ function Set-DryADRemoteRegistry {
             }
             'ExpandString' {
                 # System.Management.ManagementBaseObject GetExpandedStringValue(System.UInt32 hDefKey, System.String sSubKeyName, System.String sValueName)
-                ol e "Value Type 'ExpandString' is not implemented"
+                olad e "Value Type 'ExpandString' is not implemented"
                 $CurrentValue = $Class.GetExpandedStringValue($BaseKeyInt, $LeafKey, $ValueName)
             }
             'MultiString' {
                 # System.Management.ManagementBaseObject GetMultiStringValue(System.UInt32 hDefKey, System.StringsSubKeyName, System.String sValueName)
-                ol e "Value Type 'MultiString' is not implemented"
+                olad e "Value Type 'MultiString' is not implemented"
                 $CurrentValue = $Class.GetMultiStringValue($BaseKeyInt, $LeafKey, $ValueName)
             } 
             'QWord' {
-                ol e "Value Type 'Qword' is not implemented"
+                olad e "Value Type 'Qword' is not implemented"
                 $CurrentValue = $Class.GetQWordValue($BaseKeyInt, $LeafKey, $ValueName)
             } 
             'String' {
                 # System.Management.ManagementBaseObject GetStringValue(System.UInt32 hDefKey, System.String sSubKeyName, System.String sValueName)
-                ol e "Value Type 'String' is not implemented"
+                olad e "Value Type 'String' is not implemented"
                 $CurrentValue = $Class.GetStringValue($BaseKeyInt, $LeafKey, $ValueName)
             }
         }
 
         switch ($Result[0]) {
             $true {
-                ol v "Successfully configured remote registry"
+                olad v "Successfully configured remote registry"
             }
             $false {
-                ol e "Failed to configure remote registry"
+                olad e "Failed to configure remote registry"
                 throw $Result[1]
             }
         }

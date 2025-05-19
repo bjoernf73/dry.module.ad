@@ -51,7 +51,7 @@ function Set-DryADSchemaExtension {
         $SchemaMaster
     )
     try {
-        ol v @('Execution Type', "$($PSCmdlet.ParameterSetName)")
+        olad v @('Execution Type', "$($PSCmdlet.ParameterSetName)")
 
         $SuccessStrings = @(
             'Entry modified successfully.',
@@ -97,22 +97,22 @@ function Set-DryADSchemaExtension {
                         })
                 })
             if ($MatchCount -eq $SuccessCount) {
-                ol s "AD Schema is extended"
-                ol i @('Successfully extended AD Schema of Type', $Type)
+                olad s "AD Schema is extended"
+                olad i @('Successfully extended AD Schema of Type', $Type)
             }
             else {
-                ol f "AD Schema not extended"
-                ol w @("Target successcount $SuccessCount, actual", "$MatchCount")
+                olad f "AD Schema not extended"
+                olad w @("Target successcount $SuccessCount, actual", "$MatchCount")
                 # Display thesult in debug
                 $ExtendSchemaResult[1].foreach({
-                        ol d $_
+                        olad d $_
                     })
                 throw "Schema extension failed"
             }
         }
         else {
-            ol f "AD Schema not extended"
-            ol e "Schema extension failed"
+            olad f "AD Schema not extended"
+            olad e "Schema extension failed"
             throw $ExtendSchemaResult[0]
         }  
     }

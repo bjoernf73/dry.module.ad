@@ -50,13 +50,13 @@ function Add-DryADPSModulesPath {
         }
         $RemotePSModulePaths = Invoke-Command @InvokePSModPathParams
 
-        ol v @('The PSModulePath on remote system', "'$RemotePSModulePaths'")
+        olad v @('The PSModulePath on remote system', "'$RemotePSModulePaths'")
         switch ($RemotePSModulePaths) {
             { $RemotePSModulePaths -Match $PathRegEx } {
-                ol v @('Successfully added to remote PSModulePath', "'$Path'")
+                olad v @('Successfully added to remote PSModulePath', "'$Path'")
             }
             default {
-                ol w @('Failed to add path to remote PSModulePath', "'$Path'")
+                olad w @('Failed to add path to remote PSModulePath', "'$Path'")
                 throw "The RemoteRootPath '$Path' was not added to the PSModulePath in the remote session"
             }
         }
@@ -72,12 +72,12 @@ function Add-DryADPSModulesPath {
     
             switch ($ImportResult) {
                 $true {
-                    ol s "Modules were imported into the session"
-                    ol v "The modules '$Modules' were imported into PSSession to $($PSSession.ComputerName)"
+                    olad s "Modules were imported into the session"
+                    olad v "The modules '$Modules' were imported into PSSession to $($PSSession.ComputerName)"
                 }
                 default {
-                    ol f "Modules were not imported into the session"
-                    ol w "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
+                    olad f "Modules were not imported into the session"
+                    olad w "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
                     throw "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
                 }
             }

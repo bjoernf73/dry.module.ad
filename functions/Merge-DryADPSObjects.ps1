@@ -77,18 +77,18 @@ function Merge-DryADPSObjects {
             # match in $FirstObject, and may be added to the result as is
             foreach ($Property in $SecondObject | Get-Member -type NoteProperty, Property) {
                 if ($Private:ProcessedConflictingPropertyNames -notcontains $Property.Name) {
-                    ol d "Trying to add property '$($Property.Name)', type '$($Property.MemberType)', Value '$($SecondObject.($Property.Name))' "
+                    olad d "Trying to add property '$($Property.Name)', type '$($Property.MemberType)', Value '$($SecondObject.($Property.Name))' "
 
                     $Private:Resultobject | Add-Member -MemberType $Property.MemberType -Name $Property.Name -Value $SecondObject.($Property.Name)
                 }
                 else {
-                    ol d "Property '$($Property.Name)' is already processed"
+                    olad d "Property '$($Property.Name)' is already processed"
                 }
             }
             return $Private:Resultobject
         }
         else {
-            ol e "FirstObject type: $($($FirstObject.Gettype()).Name) (Basetype: $($($FirstObject.Gettype()).BaseType))"
+            olad e "FirstObject type: $($($FirstObject.Gettype()).Name) (Basetype: $($($FirstObject.Gettype()).BaseType))"
             $PSCmdlet.ThrowTerminatingError($_)
         }
     }

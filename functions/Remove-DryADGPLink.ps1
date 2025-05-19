@@ -46,13 +46,13 @@ function Remove-DryADGPLink {
 
     if ($PSCmdLet.ParameterSetName -eq 'Remote') {
         $Server = 'localhost'
-        ol v @('Session Type', 'Remote')
-        ol v @('Remoting to Domain Controller', "$($PSSession.ComputerName)")
+        olad v @('Session Type', 'Remote')
+        olad v @('Remoting to Domain Controller', "$($PSSession.ComputerName)")
     }
     else {
         $Server = $DomainController
-        ol v @('Session Type', 'Local')
-        ol v @('Using Domain Controller', "$Server")
+        olad v @('Session Type', 'Local')
+        olad v @('Using Domain Controller', "$Server")
     }
   
     # Add the domainDN to $OU if not already done
@@ -65,7 +65,7 @@ function Remove-DryADGPLink {
             $GPOLinkObject.Path = $GPOLinkObject.Path + ',' + $DomainDN
         }
     }
-    ol v @('Linking GPOs to', "$($GPOLinkObject.Path)") 
+    olad v @('Linking GPOs to', "$($GPOLinkObject.Path)") 
 
     try {
         $RemoveLinkArgumentList = @($GPOLinkObject.Path, $LinkToRemove, $Server)
@@ -81,7 +81,7 @@ function Remove-DryADGPLink {
         $RemoveLinkRet = Invoke-Command @InvokeRemoveLinkParams 
         
         if ($RemoveLinkRet[0] -eq $true) {
-            ol s "Successfully removed link for GPO '$LinkToRemove'"
+            olad s "Successfully removed link for GPO '$LinkToRemove'"
         }
         else {
             throw $RemoveLinkRet[1]

@@ -34,16 +34,16 @@ function Set-DryADDrive {
 
     try {
         if ($PSCmdlet.ParameterSetName -eq 'Remote') {
-            ol i @("Making sure AD Drive on DC $($PSSession.ComputerName) targets", 'localhost')
+            olad i @("Making sure AD Drive on DC $($PSSession.ComputerName) targets", 'localhost')
             $Server = 'localhost'
-            ol d @('Session Type', 'Remote')
-            ol d @('Remoting to Domain Controller', $PSSession.ComputerName)
+            olad d @('Session Type', 'Remote')
+            olad d @('Remoting to Domain Controller', $PSSession.ComputerName)
         }
         else {
-            ol i @('Making sure AD Drive on local system targets DC', "$DomainController")
+            olad i @('Making sure AD Drive on local system targets DC', "$DomainController")
             $Server = $DomainController
-            ol d @('Session Type', 'Local')
-            ol d @('Using Domain Controller', $Server)
+            olad d @('Session Type', 'Local')
+            olad d @('Using Domain Controller', $Server)
         }
         
         $ArgumentList = @($Server)
@@ -58,19 +58,19 @@ function Set-DryADDrive {
         }
         $return = $null; $return = Invoke-Command @InvokeParams
 
-        # Send every string in $Return[0] to Degug via Out-DryLog
+        # Send every string in $Return[0] to Degug via Out-DryADLog
         foreach ($ReturnString in $Return[0]) {
-            ol d "$ReturnString"
+            olad d "$ReturnString"
         }
         
         # Test the ReturnValue in $Return[2]
         if ($Return[1] -eq $true) {
-            ol s 'AD Drive Configured'
-            ol v "Successfully set AD Drive to target Domain Controller"
+            olad s 'AD Drive Configured'
+            olad v "Successfully set AD Drive to target Domain Controller"
         } 
         else {
-            ol f 'AD Drive Not Configured'
-            ol w "Failed to set AD Drive to target Domain Controller"
+            olad f 'AD Drive Not Configured'
+            olad w "Failed to set AD Drive to target Domain Controller"
             if ($null -ne $Return[2]) {
                 throw ($Return[2]).ToString()
             } 

@@ -36,9 +36,9 @@ function Copy-DryADFilesToRemoteTarget {
     )
     
     try {
-        ol v @('Copy Type', "$($PSCmdlet.ParameterSetName)")
-        ol v @('Source Path', "$SourcePath")
-        ol v @('Target Path', "$TargetPath")
+        olad v @('Copy Type', "$($PSCmdlet.ParameterSetName)")
+        olad v @('Source Path', "$SourcePath")
+        olad v @('Target Path', "$TargetPath")
         # The PS Progress Bar is astonsishingly uninformative when copying multiple small 
         # files - suppress, and bring it back to the original $ProgressPreference in Finally  
         $OriginalProgressPreference = $ProgressPreference
@@ -50,7 +50,7 @@ function Copy-DryADFilesToRemoteTarget {
         $TargetPathTrimmed = $TargetPath.TrimEnd('*')
         $TargetPathTrimmed = $TargetPathTrimmed.TrimEnd('\')
         $TargetPathTrimmed = $TargetPathTrimmed + '\'
-        ol v @('Trimmed Target Path', "$TargetPathTrimmed")
+        olad v @('Trimmed Target Path', "$TargetPathTrimmed")
         
         # Remove any double backslashes and wildcards from source
         while ($SourcePath -match '\\\\') {
@@ -59,11 +59,11 @@ function Copy-DryADFilesToRemoteTarget {
         $SourcePathTrimmed = $SourcePath.TrimEnd('*')
         $SourcePathTrimmed = $SourcePathTrimmed.TrimEnd('\')
         $SourcePathTrimmed = $SourcePathTrimmed + ('\')
-        ol v @('Trimmed Source Path', "$SourcePathTrimmed")
+        olad v @('Trimmed Source Path', "$SourcePathTrimmed")
 
         # Make sure the root folder exists. Copy-Item is deviously unpredictable
         $TargetDirectory = $TargetPathTrimmed.Trim('\')
-        ol v @('Trying to create directory', $TargetDirectory)
+        olad v @('Trying to create directory', $TargetDirectory)
         $InvokeCommandParams = @{
             ScriptBlock  = $DryAD_SB_CreateDir
             ArgumentList = @($TargetDirectory)
@@ -77,7 +77,7 @@ function Copy-DryADFilesToRemoteTarget {
         $Result = Invoke-Command @InvokeCommandParams
         switch ($Result) {
             $true {
-                ol v @('Successfully created directory', $TargetDirectory)
+                olad v @('Successfully created directory', $TargetDirectory)
             }
             { $Result -is [ErrorRecord] } {
                 $PSCmdlet.ThrowTerminatingError($Result)
@@ -91,7 +91,7 @@ function Copy-DryADFilesToRemoteTarget {
         $SourceDirectories = Get-ChildItem -Path $SourcePathTrimmed -Recurse -Directory -ErrorAction Stop
         foreach ($SourceDirectory in $SourceDirectories) {
             $TargetDirectory = $TargetPathTrimmed + $($SourceDirectory.FullName).SubString($SourcePathTrimmed.Length)
-            ol d @('Trying to create directory', $TargetDirectory)
+            olad d @('Trying to create directory', $TargetDirectory)
             
             $InvokeCommandParams = @{
                 ScriptBlock  = $DryAD_SB_CreateDir
@@ -106,7 +106,7 @@ function Copy-DryADFilesToRemoteTarget {
             $Result = Invoke-Command @InvokeCommandParams
             switch ($Result) {
                 $true {
-                    ol v @('Successfully created directory', $TargetDirectory)
+                    olad v @('Successfully created directory', $TargetDirectory)
                 }
                 { $Result -is [ErrorRecord] } {
                     $PSCmdlet.ThrowTerminatingError($Result)
@@ -134,7 +134,7 @@ function Copy-DryADFilesToRemoteTarget {
         }
          
         Copy-Item @CopyItemParams
-        ol v @('Successfully copied files to directory', $TargetPathTrimmed)
+        olad v @('Successfully copied files to directory', $TargetPathTrimmed)
     }
     catch {
         $PSCmdlet.ThrowTerminatingError($_)

@@ -58,24 +58,24 @@ function New-DryADSecurityGroup {
         $DomainController
     )
     # Details to the debug stream
-    ol d @("Creating Group", $Name)
-    ol d @("Group Path", $Path)
-    ol d @("Group Type", $Type)
-    ol d @("Group Category", $GroupCategory)
-    ol d @("Group Description", $Description)
+    olad d @("Creating Group", $Name)
+    olad d @("Group Path", $Path)
+    olad d @("Group Type", $Type)
+    olad d @("Group Category", $GroupCategory)
+    olad d @("Group Description", $Description)
     <#
         If executing on a remote session to a DC, use localhost as  
         server. If not, the $DomainController param is required
     #>
     if ($PSCmdlet.ParameterSetName -eq 'Remote') {
         $Server = 'localhost'
-        ol d @('Session Type', 'Remote')
-        ol d @('Remoting to Domain Controller', "$($PSSession.ComputerName)")
+        olad d @('Session Type', 'Remote')
+        olad d @('Remoting to Domain Controller', "$($PSSession.ComputerName)")
     }
     else {
         $Server = $DomainController
-        ol d @('Session Type', 'Local')
-        ol d @('Using Domain Controller', "$Server")
+        olad d @('Session Type', 'Local')
+        olad d @('Using Domain Controller', "$Server")
     }
     
     try {
@@ -93,21 +93,21 @@ function New-DryADSecurityGroup {
 
         switch ($GetResult) {
             $true {
-                ol v @("The AD Group exists already", $Name)
-                ol s 'Group exists already'
+                olad v @("The AD Group exists already", $Name)
+                olad s 'Group exists already'
                 Return
             }
             $false {
-                ol v @("The Group does not exist, and must be created", $Name)
+                olad v @("The Group does not exist, and must be created", $Name)
             }
             default {
-                ol 2 @("Error trying to get Group", "$Name")
+                olad 2 @("Error trying to get Group", "$Name")
                 throw $GetResult
             }
         } 
     }
     catch {
-        ol 2 @("Failed trying to get group", "$Name") 
+        olad 2 @("Failed trying to get group", "$Name") 
         throw $_
     }
     
@@ -126,12 +126,12 @@ function New-DryADSecurityGroup {
         
         switch ($SetResult) {
             $true {
-                ol s "Group was created"
-                ol v @("AD Group was created", $Name)
+                olad s "Group was created"
+                olad v @("AD Group was created", $Name)
             }
             default {
-                ol 2 @('Error creating AD Group', $Name)
-                ol f "Group was not created"
+                olad 2 @('Error creating AD Group', $Name)
+                olad f "Group was not created"
                 throw $SetResult
             }
         }

@@ -40,7 +40,7 @@ function Add-DryADGroupMember {
         [string] 
         $DomainController
     )
-    ol d @("Adding: $Member to", $Group)
+    olad d @("Adding: $Member to", $Group)
     
     <#
         If executing on a remote session to a DC, use localhost as  
@@ -48,13 +48,13 @@ function Add-DryADGroupMember {
     #>
     if ($PSCmdlet.ParameterSetName -eq 'Remote') {
         $Server = 'localhost'
-        ol v @('Session Type', 'Remote')
-        ol v @('Remoting to Domain Controller', $PSSession.ComputerName)
+        olad v @('Session Type', 'Remote')
+        olad v @('Remoting to Domain Controller', $PSSession.ComputerName)
     }
     else {
         $Server = $DomainController
-        ol v @('Session Type', 'Local')
-        ol v @('Using Domain Controller', $Server)
+        olad v @('Session Type', 'Local')
+        olad v @('Using Domain Controller', $Server)
     }
 
     try {     
@@ -72,12 +72,12 @@ function Add-DryADGroupMember {
 
         switch ($GetResult) {
             $true {
-                ol v @("$Member is already member of", "$Group")
-                ol s "Already member"
+                olad v @("$Member is already member of", "$Group")
+                olad s "Already member"
                 return
             }
             $false {
-                ol v @("$Member will be added to", "$Group")
+                olad v @("$Member will be added to", "$Group")
             }
             { $GetResult -is [System.Management.Automation.ErrorRecord] } {
                 $PSCmdlet.ThrowTerminatingError($GetResult)
@@ -106,15 +106,15 @@ function Add-DryADGroupMember {
 
         switch ($SetResult) {
             $true {
-                ol s "Member added to Group"
-                ol v @("$Member was added to Group", $Group)
+                olad s "Member added to Group"
+                olad v @("$Member was added to Group", $Group)
             }
             { $SetResult -is [ErrorRecord] } {
-                ol f "Member not added to Group"
+                olad f "Member not added to Group"
                 $PSCmdlet.ThrowTerminatingError($GetResult)
             }
             default {
-                ol f "Member not added to Group"
+                olad f "Member not added to Group"
                 throw "SetResult in Add-DryADGroupMember failed: $($GetResult.ToString())"
             }
         }

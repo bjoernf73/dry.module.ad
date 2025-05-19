@@ -45,13 +45,13 @@ function Set-DryADGPLink {
 
     if ($PSCmdLet.ParameterSetName -eq 'Remote') {
         $Server = 'localhost'
-        ol v @('Session Type', 'Remote')
-        ol v @('Remoting to Domain Controller', "$($PSSession.ComputerName)")
+        olad v @('Session Type', 'Remote')
+        olad v @('Remoting to Domain Controller', "$($PSSession.ComputerName)")
     }
     else {
         $Server = $DomainController
-        ol v @('Session Type', 'Local')
-        ol v @('Using Domain Controller', "$Server")
+        olad v @('Session Type', 'Local')
+        olad v @('Using Domain Controller', "$Server")
     }
   
     # Add the domainDN to $OU if not already done
@@ -64,7 +64,7 @@ function Set-DryADGPLink {
             $GPOLinkObject.Path = $GPOLinkObject.Path + ',' + $DomainDN
         }
     }
-    ol v @('Linking GPOs to', "$($GPOLinkObject.Path)") 
+    olad v @('Linking GPOs to', "$($GPOLinkObject.Path)") 
 
     try {
         # Order the GPOLinks by its 'order'-property
@@ -89,11 +89,11 @@ function Set-DryADGPLink {
         # If $CurrentLinks[1] is an empty string, the remote command succeeded
         if ($CurrentLinks[1] -eq '') {
             if ($CurrentLinks[0].count -eq 0) {
-                ol v 'No GPOs are currently linked to', "$($GPOLinkObject.Path)"
+                olad v 'No GPOs are currently linked to', "$($GPOLinkObject.Path)"
             }
             else {
                 [Array]$CurrentLinkNames = $CurrentLinks[0]
-                $CurrentLinkNames.Foreach( { ol v 'Current Link', "$_" })
+                $CurrentLinkNames.Foreach( { olad v 'Current Link', "$_" })
             }
         } 
         else {
@@ -190,7 +190,7 @@ function Set-DryADGPLink {
                 }
                 
                 if ($CurrentlyLinkedMatch) {
-                    ol v "The GPO '$($GPLink.Name)' is already linked to '$($GPOLinkObject.Path)'"
+                    olad v "The GPO '$($GPLink.Name)' is already linked to '$($GPOLinkObject.Path)'"
 
                     # However, run Set-GPLink to enforce Order, Enforce and LinkEnabled
                     $SetLinkArgumentList = @(
@@ -212,15 +212,15 @@ function Set-DryADGPLink {
                             Session = $PSSession
                         }
                     }
-                    ol i @('GPO', "$($GPLink.Name)")
+                    olad i @('GPO', "$($GPLink.Name)")
                     $SetLinkRet = Invoke-Command @InvokeSetLinkParams
                     
                     if ($SetLinkRet[0] -eq $true) {
-                        ol v "Successfully updated GPlink properties for '$($GPLink.Name)' on $($GPOLinkObject.Path)"
-                        ol s "Link updated"
+                        olad v "Successfully updated GPlink properties for '$($GPLink.Name)' on $($GPOLinkObject.Path)"
+                        olad s "Link updated"
                     }
                     else {
-                        ol f "Link updated"
+                        olad f "Link updated"
                         throw $SetLinkRet[1]
                     }
 
@@ -235,11 +235,11 @@ function Set-DryADGPLink {
                     $Unlink = @()
                     foreach ($BaseNameMatch in $CurrentlyLinkedBaseMatches) {
                         if ($BaseNameMatch.Version -lt $GPLink.Version) {
-                            ol v "The lower versioned GPO '$($BaseNameMatch.Name)' will be unlinked"
+                            olad v "The lower versioned GPO '$($BaseNameMatch.Name)' will be unlinked"
                             $Unlink += $BaseNameMatch.Name
                         } 
                         elseif ($BaseNameMatch.Version -gt $GPLink.Version) {
-                            ol w "The higher versioned GPO '$($BaseNameMatch.Name)' is already linked"
+                            olad w "The higher versioned GPO '$($BaseNameMatch.Name)' is already linked"
                             throw "The higher versioned GPO '$($BaseNameMatch.Name)' is already linked"
                         }
                     }
@@ -252,7 +252,7 @@ function Set-DryADGPLink {
 
                 # Remove existing GPLink, if Links for lower versioned GPOs exist
                 foreach ($LinkToRemove in $GPLink.Unlink) {
-                    ol i @('Unlinking', "$LinkToRemove")
+                    olad i @('Unlinking', "$LinkToRemove")
 
                     $RemoveLinkArgumentList = @($GPOLinkObject.Path, $LinkToRemove, $Server)
                     $InvokeRemoveLinkParams = @{
@@ -267,7 +267,7 @@ function Set-DryADGPLink {
                     $RemoveLinkRet = Invoke-Command @InvokeRemoveLinkParams 
                     
                     if ($RemoveLinkRet[0] -eq $true) {
-                        ol s "Successfully removed link for GPO '$LinkToRemove'"
+                        olad s "Successfully removed link for GPO '$LinkToRemove'"
                     }
                     else {
                         throw $RemoveLinkRet[1]
@@ -275,7 +275,7 @@ function Set-DryADGPLink {
                 }
 
                 # Finally, we're ready to set the new GPO Link
-                ol i @('GPO', "$($GPLink.Name)")
+                olad i @('GPO', "$($GPLink.Name)")
 
                 $NewLinkArgumentList = @(
                     $GPOLinkObject.Path,
@@ -299,10 +299,10 @@ function Set-DryADGPLink {
                 $NewLinkRet = Invoke-Command @InvokeNewLinkParams
                 
                 if ($NewLinkRet[0] -eq $true) {
-                    ol s 'GPO Linked'
+                    olad s 'GPO Linked'
                 }
                 else {
-                    ol f 'GPO Link failed'
+                    olad f 'GPO Link failed'
                     throw $NewLinkRet[1]
                 }
             }

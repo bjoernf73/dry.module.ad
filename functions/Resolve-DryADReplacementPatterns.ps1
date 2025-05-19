@@ -58,10 +58,10 @@ function Resolve-DryADReplacementPatterns {
                     # may be sent to this function. Avoid replacing the pattern definitions themselves, 
                     # just return the original object
                     if ($PropertyName -match "common_variables$") {
-                        ol d "Skipping replacement for the common_variables object itself ($PropertyName)"
+                        olad d "Skipping replacement for the common_variables object itself ($PropertyName)"
                     }
                     elseif ($PropertyName -match "resource_variables$") {
-                        ol d "Skipping replacement for the resource_variables object itself ($PropertyName)"
+                        olad d "Skipping replacement for the resource_variables object itself ($PropertyName)"
                     }
                     # If Key is a string, we can do the replacement. If it is an object, we must make a nested 
                     # call. If array, make nested call for each element of the array

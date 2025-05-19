@@ -30,24 +30,24 @@ function Get-DryADOUPathFromAlias {
     $ReferencedOU = $OUs | Where-Object {  
         $_.Alias -eq $Alias
     }
-    ol d 'Alias', "$Alias"
+    olad d 'Alias', "$Alias"
 
     if ($null -eq $ReferencedOU) {
-        ol e @('Unable to resolve OU from Alias', 'No OUs found')
+        olad e @('Unable to resolve OU from Alias', 'No OUs found')
         throw "Unable to find OU for Alias '$Alias': No references found"
     } 
 
     if ($ReferencedOU -is [Array]) {
-        ol e @('Unable to resolve OU from Alias', 'Multiple OUs found')
+        olad e @('Unable to resolve OU from Alias', 'Multiple OUs found')
         throw "Unable to find single OU for Alias '$Alias': Multiple references found"
     }
     
     $Path = $ReferencedOU.Path
     if ($null -eq $Path) {
-        ol e "Found OU '$($OU.Alias)', but it contains no path"
+        olad e "Found OU '$($OU.Alias)', but it contains no path"
         throw "Found OU '$($OU.Alias)', but it contains no path"
     }
 
-    ol v @("Alias '$Alias'", "$Path")
+    olad v @("Alias '$Alias'", "$Path")
     $Path
 }
