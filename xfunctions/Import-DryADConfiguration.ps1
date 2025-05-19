@@ -92,7 +92,6 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
         $ConfigurationPath = (Resolve-Path -Path $ConfigurationPath -ErrorAction Stop).Path
         olad i 'ConfigurationPath', "$ConfigurationPath"
-
         
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
@@ -168,7 +167,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         })
         
         # For debug - display all variables
-        olad i 'here is one'
+        olad i ""
         olad i "Variables" -sh -air
         foreach($variable in $Variables){
             if($variable.name -in $AutomaticVariables){
@@ -185,8 +184,6 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                 olad w "Variable '$($variable.name)'='$($variable.value)' contains one or more whitespace characters at the start or end of it's name or value."
             }
         }
-        
-        olad i 'and here is one'
         
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
@@ -646,7 +643,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($ProcessADSchema) {
             olad i ''
-            olad i "AD Schema Extensions ($($ADSchemaExtensions.count))" -sh -air
+            olad i "AD Schema Extensions ($($ADSchemaExtensions.count) to configure)" -sh -air
             foreach ($ADSchemaExtension in $ADSchemaExtensions) {
 
                 # increment the element counter and update progress
