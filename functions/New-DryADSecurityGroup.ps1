@@ -38,10 +38,10 @@ function New-DryADSecurityGroup {
         [string] 
         $Description, 
 
-        [Parameter(HelpMessage = "Active Directory group type. Must be 'DomainLocal', 'Global' or 'Universal'")]
+        [Parameter(HelpMessage = "Active Directory group scope. Must be 'DomainLocal', 'Global' or 'Universal'")]
         [ValidateSet("DomainLocal", "Global", "Universal")]
         [string] 
-        $Type = "DomainLocal", 
+        $GroupScope = "DomainLocal", 
 
         [Parameter(HelpMessage = "Group category. Must be 'Security' or 'Distribution'. Defaults to security.")]
         [string] 
@@ -60,7 +60,7 @@ function New-DryADSecurityGroup {
     # Details to the debug stream
     olad d @("Creating Group", $Name)
     olad d @("Group Path", $Path)
-    olad d @("Group Type", $Type)
+    olad d @("Group Scope", $GroupScope)
     olad d @("Group Category", $GroupCategory)
     olad d @("Group Description", $Description)
     <#
@@ -112,7 +112,7 @@ function New-DryADSecurityGroup {
     }
     
     if ($GetResult -eq $false) {
-        $SetArgumentList = @($Name, $Path, $Description, $GroupCategory, $Type, $Server)
+        $SetArgumentList = @($Name, $Path, $Description, $GroupCategory, $GroupScope, $Server)
         $SetParams = @{
             ScriptBlock  = $DryAD_SB_SecurityGroup_Set
             ArgumentList = $SetArgumentList

@@ -24,7 +24,7 @@
         $Path,
         $Description,
         $GroupCategory,
-        $Type,
+        $GroupScope,
         $Server
     )
 
@@ -42,7 +42,7 @@
             Path          = $Path 
             Description   = $Description 
             GroupCategory = $GroupCategory
-            GroupScope    = $Type
+            GroupScope    = $GroupScope
             Server        = $Server
             ErrorAction   = 'Stop'
         }

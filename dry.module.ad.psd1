@@ -26,7 +26,7 @@
     ModuleVersion = '0.1.0'
 
     # Supported PSEditions
-    CompatiblePSEditions  = @('Desktop')
+    CompatiblePSEditions  = @('Desktop','Core')
 
     # ID used to uniquely identify this module
     GUID = '6a25025f-77d4-4989-8033-6fa2d0276b99'
@@ -64,7 +64,7 @@
     # Modules that must be imported into the global environment prior to importing this module
     # RequiredModules       = @(
     #     @{
-    #         ModuleName    = "dry.module.log"
+    #         ModuleName    = "mymodule"
     #         ModuleVersion = '0.0.3'
     #     }
     # )
