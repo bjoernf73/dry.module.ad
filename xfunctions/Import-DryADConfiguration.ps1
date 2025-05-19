@@ -1445,7 +1445,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
     finally {
         Write-Progress -Completed -Activity "Configuring AD objects"
         @('GPRegistryPolicyParser','dry.ad.gpohelper','dry.module.adlog').foreach({
-            Remove-Module -Name dry.ad.gpohelper # -Force -ErrorAction Ignore
+            Remove-Module -Name $_ -Force -ErrorAction Ignore
         })  
     }
 }
