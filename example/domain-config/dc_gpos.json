@@ -1,0 +1,382 @@
+{ 
+	"gpo_imports": [
+		{
+			"name": "DC - RoleGPO - v0r12",
+			"targetname": "DC - RoleGPO - v0r12",
+			"type": "json"
+		},
+		{
+			"name": "DOMAIN - Domain Policy - v0r2",
+			"targetname": "###DomainNB### - Domain Policy - v0r2",
+			"type": "json"
+		},
+		{
+			"name": "DoD Windows 11 Computer STIG v1r2",
+			"type": "json"
+		},
+		{
+			"name": "DoD Windows 11 User STIG v1r2",
+			"type": "json"
+		},
+		{
+			"name": "DoD Microsoft Defender Antivirus STIG Computer v2r4",
+			"type": "json"
+		},
+		{
+			"name": "DoD Windows Firewall STIG v1r7",
+			"type": "json"
+		},
+		{
+			"name": "DoD WinSvr 2022 DC STIG Comp v1r1",
+			"type": "json"
+		},
+		{
+			"name": "DoD WinSvr 2022 MS STIG Comp v1r1",
+			"type": "json"
+		},
+		{
+			"name": "DoD Google Chrome STIG Computer v2r7",
+			"type": "json"
+		},
+		{
+			"name": "DoD Microsoft Edge STIG Computer v1r6",
+			"type": "json"
+		},
+		{
+			"name": "Domain - Windows Server Baseline - 2022 Schannel Hardening - v0r7",
+			"targetname": "###DomainNB### - Windows Server Baseline - 2022 Schannel Hardening - v0r7",
+			"type": "json"
+		},
+		{
+			"name": "Domain - Windows Server Baseline - 2019 Schannel Hardening - v0r7",
+			"targetname": "###DomainNB### - Windows Server Baseline - 2019 Schannel Hardening - v0r7",
+			"type": "json"
+		},
+		{
+			"name": "Domain - Windows Server Baseline - Delta Policy - v0r9",
+			"targetname": "###DomainNB### - Windows Server Baseline - Delta Policy - v0r9",
+			"type": "json"
+		},
+
+		{
+			"name": "Domain - Windows Workstation Baseline - Schannel Hardening - v0r5",
+			"targetname": "###DomainNB### - Windows Workstation Baseline - Schannel Hardening - v0r5",
+			"type": "json"
+		},
+		{
+			"name": "Domain - Windows Workstation Baseline - Delta Policy - v0r8",
+			"targetname": "###DomainNB### - Windows Workstation Baseline - Delta Policy - v0r8",
+			"type": "json"
+		}
+	],
+	"gpo_links": [
+		{
+			"alias":  "DomainRoot",
+			"description": "GPOLinks at the root of domain",
+			"gplinks": [
+				{
+					"name": "###DomainNB### - Domain Policy - v0r2",
+					"order": 1
+				},
+				{
+					"name": "Default Domain Policy",
+					"order": 2
+				}
+			]
+		},
+		{
+			"alias":  "DomainControllers",
+			"description": "GPOs linked at Domain Controllers node",
+			"gplinks": [
+				{
+					"name": "DC - RoleGPO - v0r12",
+					"order": 1
+				},
+				{
+					"name": "###DomainNB### - Windows Server Baseline - Delta Policy - v0r9",
+					"order": 2,
+					"enforced": false
+				},
+				{
+					"name": "DoD WinSvr 2022 DC STIG Comp v1r1",
+					"order": 3
+				},
+				{
+					"name": "DoD WinSvr 2022 MS STIG Comp v1r1",
+					"order": 4
+				},
+				{
+					"name": "DoD Microsoft Defender Antivirus STIG Computer v2r4",
+					"order": 5
+				},
+				{
+					"name": "DoD Windows Firewall STIG v1r7",
+					"order": 6
+				}
+			]
+		},
+		{
+			"alias":  "Computer-Servers-Win",
+			"description": "GPOs linked at the Windows Server root OU",
+			"gplinks": [
+				{
+					"name": "###DomainNB### - Windows Server Baseline - Delta Policy - v0r9",
+					"order": 1,
+					"enforced": false
+				},	
+				{
+					"name": "###DomainNB### - Windows Server Baseline - 2019 Schannel Hardening - v0r7",
+					"order": 2,
+					"enforced": false
+				},
+				{
+					"name": "###DomainNB### - Windows Server Baseline - 2022 Schannel Hardening - v0r7",
+					"order": 3,
+					"enforced": false
+				},
+				{
+					"name": "DoD WinSvr 2022 MS STIG Comp v1r1",
+					"order": 4
+				},
+				{
+					"name": "DoD Microsoft Defender Antivirus STIG Computer v2r4",
+					"order": 5
+				},
+				{
+					"name": "DoD Windows Firewall STIG v1r7",
+					"order": 6
+				}
+			]
+		},
+		
+		{
+			"alias":  "Computer-Workstations-Win",
+			"description": "Windows 10 Security Baseline",
+			"gplinks": [
+				{
+					"name": "###DomainNB### - Windows Workstation Baseline - Delta Policy - v0r8",
+					"order": 1,
+					"enforced": false
+				},	
+				{
+					"name": "DoD Windows 11 Computer STIG v1r2",
+					"order": 2
+				},
+				{
+					"name": "DoD Windows 11 User STIG v1r2",
+					"order": 3
+				},
+				{
+					"name": "DoD Microsoft Defender Antivirus STIG Computer v2r4",
+					"order": 4
+				},
+				{
+					"name": "DoD Windows Firewall STIG v1r7",
+					"order": 5
+				},
+				{
+					"name": "DoD Google Chrome STIG Computer v2r7",
+					"order": 6
+				},
+				{
+					"name": "DoD Microsoft Edge STIG Computer v1r6",
+					"order": 7
+				}
+			]
+		}
+	],
+	"wmi_filters": [
+		{
+			"name": "Windows 10-11",
+			"description": "Windows 10-11",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE Version LIKE \"10.0.%\" and ProductType = \"1\"",
+				"Select * from Win32_OperatingSystem WHERE Version LIKE \"11.0.%\" and ProductType = \"1\""
+			],
+			"links": ["DoD Windows 11 Computer STIG v1r2"]
+		},
+		{
+			"name": "Windows Server 2019-22",
+			"description": "Windows Server 2019-22",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE (ProductType = \"2\" or ProductType = \"3\")",
+				"Select * from Win32_OperatingSystem WHERE (Caption LIKE \"%2019%\" or Caption LIKE \"%2022%\")"
+			],
+			"links": [
+				"DoD WinSvr 2022 MS STIG Comp v1r1",
+				"DoD WinSvr 2022 DC STIG Comp v1r1"
+			]
+		},
+		{
+			"name": "Windows Server 2022",
+			"description": "Windows Server 2022",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE ((ProductType = \"2\" or ProductType = \"3\") and (Caption LIKE \"%2022%\"))"
+			],
+			"links": [
+				"###DomainNB### - Windows Server Baseline - 2022 Schannel Hardening - v0r7"
+			]
+		},
+		{
+			"name": "Windows Server 2019",
+			"description": "Windows Server 2019",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE ((ProductType = \"2\" or ProductType = \"3\") and (Caption LIKE \"%2019%\"))"
+			],
+			"links": [
+				"###DomainNB### - Windows Server Baseline - 2019 Schannel Hardening - v0r7"
+			]
+		},
+		{
+			"name": "Windows Server 2019-22 Domain Member (###DomainFQDN###)",
+			"description": "Windows Server 2019-22 Domain Member (###DomainFQDN###)",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE ProductType = \"3\"",
+				"Select * from Win32_OperatingSystem WHERE (Caption LIKE \"%2019%\" OR Caption LIKE \"%2022%\")"
+			]
+		},
+		{
+			"name": "Windows Server 2019-22 Domain Controller",
+			"description": "Windows Server 2019-22 Domain Controller",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE ProductType = \"2\"",
+				"Select * from Win32_OperatingSystem WHERE (Caption LIKE \"%2019%\" OR Caption LIKE \"%2022%\")"
+			],
+			"links": [
+				"DoD WinSvr 2022 DC STIG Comp v1r1"
+			]
+		},
+		{
+			"name": "Windows Server 2016",
+			"description": "Windows Server 2016",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE (ProductType = \"2\" or ProductType = \"3\")",
+				"Select * from Win32_OperatingSystem WHERE Caption LIKE \"%2016%\""
+			]
+		},
+		{
+			"name": "Windows Server 2016 Domain Member",
+			"description": "Windows Server 2016 Domain Member",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE Version LIKE \"10.0%\" AND ProductType = \"3\"",
+				"Select * from Win32_OperatingSystem WHERE Caption LIKE \"%2016%\""
+			]
+		},
+		{
+			"name": "Windows Server 2016 Domain Controller",
+			"description": "Windows Server 2016 Domain Controller",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE Version LIKE \"10.0%\" AND ProductType = \"2\"",
+				"Select * from Win32_OperatingSystem WHERE Caption LIKE \"%2016%\""
+			]
+		},
+		{
+			"name": "Windows Server 2012 R2",
+			"description": "Windows Server 2012 R2",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE Version LIKE \"6.3.%\" AND (ProductType = \"2\" or ProductType = \"3\")"
+			]
+		},
+		{
+			"name": "Windows Server 2012 R2 Domain Member",
+			"description": "Windows Server 2012 R2 Domain Member",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE Version LIKE \"6.3.%\" AND ProductType = \"3\""
+			]
+		},
+		{
+			"name": "Windows Server 2012 R2 Domain Controller",
+			"description": "Windows Server 2012 R2 Domain Controller",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE Version LIKE \"6.3.%\" AND ProductType = \"2\"",
+				"SELECT * FROM Win32_ServerFeature WHERE Name='Active Directory Domain Services'"
+			]
+		},
+		{
+			"name": "Microsoft Office Access 2016",
+			"description": "Access 2016",
+			"queries": [
+				"SELECT Name,Version FROM CIM_Datafile WHERE (Name = 'C:\\\\Program Files (x86)\\\\Microsoft Office\\\\Office16\\\\msaccess.exe' AND Version LIKE \"16.%\") OR (Name = 'C:\\\\Program Files\\\\Microsoft Office\\\\Office16\\\\msaccess.exe' AND Version LIKE \"16.%\")"
+			]
+		},
+		{
+			"name": "Microsoft Office Excel 2016",
+			"description": "Microsoft Office Excel 2016",
+			"queries": [
+				"SELECT Name,Version FROM CIM_Datafile WHERE (Name = 'C:\\\\Program Files (x86)\\\\Microsoft Office\\\\Office16\\\\excel.exe' AND Version LIKE \"16.%\") OR (Name = 'C:\\\\Program Files\\\\Microsoft Office\\\\Office16\\\\excel.exe' AND Version LIKE \"16.%\")"
+			]
+		},
+		{
+			"name": "Microsoft Office 2016",
+			"description": "Microsoft Office 2016",
+			"queries": [
+				"SELECT Name,Version FROM CIM_Datafile WHERE (Name = 'C:\\\\Program Files (x86)\\\\Microsoft Office\\\\Office 16\\\\clview.exe' AND Version LIKE \"16.%\") OR (Name = 'C:\\\\Program Files\\\\Microsoft Office\\\\Office 16\\\\clview.exe' AND Version LIKE \"16.%\")"
+			]
+		},
+		{
+			"name": "Microsoft Office OneDrive for Business 2016",
+			"description": "Microsoft Office OneDrive for Business 2016",
+			"queries": [
+				"SELECT Name,Version FROM CIM_Datafile WHERE (Name = 'C:\\\\Program Files (x86)\\\\Microsoft Office\\\\Office16\\\\groove.exe' AND Version LIKE \"16.%\") OR (Name = 'C:\\\\Program Files\\\\Microsoft Office\\\\Office16\\\\groove.exe' AND Version LIKE \"16.%\")"
+			]
+		},
+		{
+			"name": "Microsoft Office Outlook 2016",
+			"description": "Microsoft Office Outlook 2016",
+			"queries": [
+				"SELECT Name,Version FROM CIM_Datafile WHERE (Name = 'C:\\\\Program Files (x86)\\\\Microsoft Office\\\\Office16\\\\outlook.exe' AND Version LIKE \"16.%\") OR (Name = 'C:\\\\Program Files\\\\Microsoft Office\\\\Office16\\\\outlook.exe' AND Version LIKE \"16.%\")"
+			]
+		},
+		{
+			"name": "Microsoft Office PowerPoint 2016",
+			"description": "Microsoft Office PowerPoint 2016",
+			"queries": [
+				"SELECT Name,Version FROM CIM_Datafile WHERE (Name = 'C:\\\\Program Files (x86)\\\\Microsoft Office\\\\Office16\\\\powerpnt.exe' AND Version LIKE \"16.%\") OR (Name = 'C:\\\\Program Files\\\\Microsoft Office\\\\Office16\\\\powerpnt.exe' AND Version LIKE \"16.%\")"
+			]
+		},
+		{
+			"name": "Microsoft Office Project 2016",
+			"description": "Microsoft Office Project 2016",
+			"queries": [
+				"SELECT Name,Version FROM CIM_Datafile WHERE (Name = 'C:\\\\Program Files (x86)\\\\Microsoft Office\\\\Office16\\\\winproj.exe' AND Version LIKE \"16.%\") OR (Name = 'C:\\\\Program Files\\\\Microsoft Office\\\\Office16\\\\winproj.exe' AND Version LIKE \"16.%\")"
+			]
+		},
+		{
+			"name": "Microsoft Office Publisher 2016",
+			"description": "Microsoft Office Publisher 2016",
+			"queries": [
+				"SELECT Name,Version FROM CIM_Datafile WHERE (Name = 'C:\\\\Program Files (x86)\\\\Microsoft Office\\\\Office16\\\\mspub.exe' AND Version LIKE \"16.%\") OR (Name = 'C:\\\\Program Files\\\\Microsoft Office\\\\Office16\\\\mspub.exe' AND Version LIKE \"16.%\")"
+			]
+		},
+		{
+			"name": "Microsoft Office Skype for Business 2016",
+			"description": "Microsoft Office Skype for Business 2016",
+			"queries": [
+				"SELECT Name,Version FROM CIM_Datafile WHERE (Name = 'C:\\\\Program Files (x86)\\\\Microsoft Office\\\\Office16\\\\lync.exe' AND Version LIKE \"16.%\") OR (Name = 'C:\\\\Program Files\\\\Microsoft Office\\\\Office16\\\\lync.exe' AND Version LIKE \"16.%\")"
+			]
+		},
+		{
+			"name": "Microsoft Office Visio 2016",
+			"description": "Microsoft Office Visio 2016",
+			"queries": [
+				"SELECT Name,Version FROM CIM_Datafile WHERE (Name = 'C:\\\\Program Files (x86)\\\\Microsoft Office\\\\Office16\\\\visio.exe' AND Version LIKE \"16.%\") OR (Name = 'C:\\\\Program Files\\\\Microsoft Office\\\\Office16\\\\visio.exe' AND Version LIKE \"16.%\")"
+			]
+		},
+		{
+			"name": "Microsoft Office Word 2016",
+			"description": "Microsoft Office Word 2016",
+			"queries": [
+				"SELECT Name,Version FROM CIM_Datafile WHERE (Name = 'C:\\\\Program Files (x86)\\\\Microsoft Office\\\\Office16\\\\winword.exe' AND Version LIKE \"16.%\") OR (Name = 'C:\\\\Program Files\\\\Microsoft Office\\\\Office16\\\\winword.exe' AND Version LIKE \"16.%\")"
+			]
+		},
+		{
+			"name": "Computers in site ###ADSite###",
+			"description": "Computers in site ###ADSite###",
+			"queries": [
+				"Select * from Win32_NTDomain where DomainName = \"###DomainFQDN###\" AND ClientSiteName = \"###ADSite###\""
+			]
+		}
+	]
+}
+
+

@@ -1,0 +1,207 @@
+{
+    "Name":  "DoD Windows Firewall STIG v1r7",
+    "Linktargets":  null,
+    "ComputerSettingsEnabled":  true,
+    "UserSettingsEnabled":  false,
+    "WMIFilter":  null,
+    "Permissions":  "O:DAG:DAD:PAI(A;CIIO;CCDCLCSWRPWPDTLOSDRCWDWO;;;CO)(A;CI;LCRPLORC;;;ED)(A;CI;LCRPLORC;;;AU)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;SY)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;DA)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;####Replace[DOMAIN\\Enterprise Admins])(OA;CI;CR;edacfd8f-ffb3-11d1-b41d-00a0c968f939;;AU)",
+    "PolicySettings":  {
+                           "RegistrySettings":  [
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "PolicyVersion",
+                                                        "ValueData":  "539",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableFirewall",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultOutboundAction",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultInboundAction",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogFileSize",
+                                                        "ValueData":  "16384",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogDroppedPackets",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogSuccessfulConnections",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableFirewall",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultOutboundAction",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultInboundAction",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogFileSize",
+                                                        "ValueData":  "16384",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogDroppedPackets",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogSuccessfulConnections",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableFirewall",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultOutboundAction",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultInboundAction",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowLocalPolicyMerge",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowLocalIPsecPolicyMerge",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogFileSize",
+                                                        "ValueData":  "16384",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogDroppedPackets",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogSuccessfulConnections",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    }
+                                                ],
+                           "AuditSettings":  null,
+                           "SecurityTemplate":  [
+                                                    "[Unicode]",
+                                                    "Unicode=yes",
+                                                    "[Version]",
+                                                    "signature=\"$CHICAGO$\"",
+                                                    "Revision=1"
+                                                ],
+                           "FolderRedirection":  null,
+                           "FolderRedirection1":  null,
+                           "GPOComments":  null,
+                           "MachineComments":  null,
+                           "UserComments":  null,
+                           "Scripts":  [
+                                           {
+                                               "Target":  "Machine",
+                                               "ScriptsIni":  null,
+                                               "PSScriptsIni":  null,
+                                               "ScriptFiles":  null,
+                                               "ObjectType":  "Scripts"
+                                           }
+                                       ],
+                           "GroupPolicyPreferences":  null,
+                           "ObjectType":  "PolicySettings"
+                       },
+    "gPCMachineExtensionNames":  "[{35378EAC-683F-11D2-A89A-00C04FBBCFA2}{B05566AC-FE9C-4368-BE01-7A4CBB6CBA11}]",
+    "gPCUserExtensionNames":  null,
+    "ObjectType":  "GroupPolicy"
+}

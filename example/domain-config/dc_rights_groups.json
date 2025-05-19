@@ -1,0 +1,158 @@
+{ 
+	"security_groups": [
+		{
+			"name": "Right-DC-BuiltinGroup-AccessControlAssistanceOperators",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Access Control Assistance Operators'",
+			"groupscope": "global"
+		},
+		
+		{
+			"name": "Right-DC-BuiltinGroup-BackupOperators",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Backup Operators'",
+			"groupscope": "global"
+		},
+
+		{
+			"name": "Right-DC-BuiltinGroup-CertificateServiceDCOMAccess",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'CertificateServiceDCOMAccess'",
+			"groupscope": "global"
+		},
+
+		{
+			"name": "Right-DC-BuiltinGroup-CryptographicOperators",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Cryptographic Operators'",
+			"groupscope": "global"
+		},
+
+		{
+			"name": "Right-DC-BuiltinGroup-DistributedCOMUsers",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Distributed COM Users'",
+			"groupscope": "global"
+		},
+
+		{
+			"name": "Right-DC-BuiltinGroup-EventLogReaders",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Event Log Readers'",
+			"groupscope": "global"
+		},
+
+	
+		{
+			"name": "Right-DC-BuiltinGroup-PerformanceLogUsers",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Performance Log Users'",
+			"groupscope": "global"
+		},
+
+		{
+			"name": "Right-DC-BuiltinGroup-PerformanceMonitorUsers",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Performance Monitor Users'",
+			"groupscope": "global"
+		},
+
+		{
+			"name": "Right-DC-BuiltinGroup-RemoteDesktopUsers",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Remote Desktop Users'",
+			"groupscope": "global"
+		},
+
+		{
+			"name": "Right-DC-BuiltinGroup-RemoteManagementUsers",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Remote Management Users'",
+			"groupscope": "global"
+		},
+		
+		{
+			"name": "Right-DC-BuiltinGroup-Replicator",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Replicator'",
+			"groupscope": "global"
+		},
+
+		{
+			"name": "Right-DC-BuiltinGroup-TerminalServerLicenseServers",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Terminal Server License Servers'",
+			"groupscope": "global"
+		},
+		
+		{
+			"name": "Right-DC-BuiltinGroup-WindowsAuthorizationAccessGroup",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Windows Authorization Access Group'",
+			"groupscope": "global"
+		},
+
+		
+		{
+			"name": "Right-DC-URA-SeSecurityPrivilege",
+			"alias": "Rights",
+			"description": "Role DC: URA 'Manage Auditing and Security Log' (SeSecurityPrivilege)",
+			"groupscope": "domainlocal"
+		},
+		{
+			"name": "Right-DC-URA-SeShutdownPrivilege",
+			"alias": "Rights",
+			"description": "Right DC: URA 'Shut down the system' (SeShutdownPrivilege)",
+			"groupscope": "domainlocal"
+		},
+		
+		{
+			"name": "Right-DC-URA-SeRemoteShutdownPrivilege",
+			"alias": "Rights",
+			"description": "Right DC: URA 'Force shutdown from a remote system' (SeRemoteShutdownPrivilege)",
+			"groupscope": "domainlocal"
+		},
+
+		{
+			"name": "Right-DC-URA-SeIncreaseQuotaPrivilege",
+			"alias": "Rights",
+			"description": "Right DC: URA 'Adjust Memory Quotas for a Process' (SeIncreaseQuotaPrivilege)",
+			"groupscope": "domainlocal"
+		},
+		
+		{
+			"name": "Right-DC-URA-SeDelegateSessionUserImpersonatePrivilege",
+			"alias": "Rights",
+			"description": "Right DC: URA 'Obtain impersonation token for another user in the same session' (SeDelegateSessionUserImpersonatePrivilege)",
+			"groupscope": "domainlocal"
+		},
+
+		{
+			"name": "Right-DC-URA-SeRelabelPrivilege",
+			"alias": "Rights",
+			"description": "Right DC: URA 'Modify an object label' (SeRelabelPrivilege)",
+			"groupscope": "domainlocal"
+		},
+
+		{
+			"name": "Right-DC-URA-SeIncreaseWorkingSetPrivilege",
+			"alias": "Rights",
+			"description": "Right DC: URA 'Increase a process working set' (SeIncreaseWorkingSetPrivilege)",
+			"groupscope": "domainlocal"
+		},
+
+		{
+			"name": "Right-DC-URA-SeAssignPrimaryTokenPrivilege",
+			"alias": "Rights",
+			"description": "Right DC: URA 'Replace a process-level token' (SeAssignPrimaryTokenPrivilege)",
+			"groupscope": "domainlocal"
+		},
+
+		{
+			"name": "Right-DC-URA-SeSystemProfilePrivilege",
+			"alias": "Rights",
+			"description": "Right DC: URA 'Profile system performance' (SeSystemProfilePrivilege)",
+			"groupscope": "domainlocal"
+		}
+	]
+}

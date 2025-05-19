@@ -1,0 +1,436 @@
+{
+    "Name":  "DoD Google Chrome STIG Computer v2r7",
+    "Linktargets":  null,
+    "ComputerSettingsEnabled":  true,
+    "UserSettingsEnabled":  false,
+    "WMIFilter":  null,
+    "Permissions":  "O:DAG:DAD:PAI(A;CIIO;CCDCLCSWRPWPDTLOSDRCWDWO;;;CO)(A;CI;LCRPLORC;;;ED)(A;CI;LCRPLORC;;;AU)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;SY)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;DA)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;####Replace[DOMAIN\\Enterprise Admins])(OA;CI;CR;edacfd8f-ffb3-11d1-b41d-00a0c968f939;;AU)",
+    "PolicySettings":  {
+                           "RegistrySettings":  [
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "RemoteAccessHostFirewallTraversal",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultPopupsSetting",
+                                                        "ValueData":  "2",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultGeolocationSetting",
+                                                        "ValueData":  "2",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DefaultSearchProviderName",
+                                                        "ValueData":  "Google Encrypted",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultSearchProviderEnabled",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "PasswordManagerEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "BackgroundModeEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "SyncDisabled",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "CloudPrintProxyEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "MetricsReportingEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "SearchSuggestEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "ImportSavedPasswords",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "IncognitoModeAvailability",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "SavingBrowserHistoryDisabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowDeletingBrowserHistory",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "PromptForDownloadLocation",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AutoplayAllowed",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "SafeBrowsingExtendedReportingEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultWebUsbGuardSetting",
+                                                        "ValueData":  "2",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "ChromeCleanupEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "ChromeCleanupReportingEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableMediaRouter",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "UrlKeyedAnonymizedDataCollectionEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "WebRtcEventLogCollectionAllowed",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "NetworkPredictionOptions",
+                                                        "ValueData":  "2",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DeveloperToolsAvailability",
+                                                        "ValueData":  "2",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "BrowserGuestModeEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AutofillCreditCardEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AutofillAddressEnabled",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "ImportAutofillFormData",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "SafeBrowsingProtectionLevel",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DefaultSearchProviderSearchURL",
+                                                        "ValueData":  "https://www.google.com/search?q={searchTerms}",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DownloadRestrictions",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultWebBluetoothGuardSetting",
+                                                        "ValueData":  "2",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "QuicAllowed",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableOnlineRevocationChecks",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "SSLVersionMin",
+                                                        "ValueData":  "tls1.2",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome\\AutoplayAllowlist",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "**delvals.",
+                                                        "ValueData":  " ",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome\\AutoplayAllowlist",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "1",
+                                                        "ValueData":  "[*.]mil",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome\\AutoplayAllowlist",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "2",
+                                                        "ValueData":  "[*.]gov",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome\\CookiesSessionOnlyForUrls",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "**delvals.",
+                                                        "ValueData":  " ",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome\\ExtensionInstallAllowlist",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "**delvals.",
+                                                        "ValueData":  " ",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome\\ExtensionInstallAllowlist",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "1",
+                                                        "ValueData":  "oiigbmnaadbkfbmpbfijlflahbdbdgdf",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome\\ExtensionInstallBlocklist",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "**delvals.",
+                                                        "ValueData":  " ",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome\\ExtensionInstallBlocklist",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "1",
+                                                        "ValueData":  "*",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome\\URLBlocklist",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "**delvals.",
+                                                        "ValueData":  " ",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Chrome\\URLBlocklist",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "1",
+                                                        "ValueData":  "javascript://*",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Google\\Update",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AutoUpdateCheckPeriodMinutes",
+                                                        "ValueData":  "10080",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    }
+                                                ],
+                           "AuditSettings":  null,
+                           "SecurityTemplate":  [
+                                                    "[Unicode]",
+                                                    "Unicode=yes",
+                                                    "[Version]",
+                                                    "signature=\"$CHICAGO$\"",
+                                                    "Revision=1"
+                                                ],
+                           "FolderRedirection":  null,
+                           "FolderRedirection1":  null,
+                           "GPOComments":  null,
+                           "MachineComments":  [
+                                                   "\u003c?xml version=\u00271.0\u0027 encoding=\u0027utf-8\u0027?\u003e",
+                                                   "\u003cpolicyComments xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" revision=\"1.0\" schemaVersion=\"1.0\" xmlns=\"http://www.microsoft.com/GroupPolicy/CommentDefinitions\"\u003e",
+                                                   "  \u003cpolicyNamespaces\u003e",
+                                                   "    \u003cusing prefix=\"ns0\" namespace=\"Google.Policies.Chrome\"\u003e\u003c/using\u003e",
+                                                   "  \u003c/policyNamespaces\u003e",
+                                                   "  \u003ccomments\u003e",
+                                                   "    \u003cadmTemplate\u003e\u003c/admTemplate\u003e",
+                                                   "  \u003c/comments\u003e",
+                                                   "  \u003cresources minRequiredRevision=\"1.0\"\u003e",
+                                                   "    \u003cstringTable\u003e\u003c/stringTable\u003e",
+                                                   "  \u003c/resources\u003e",
+                                                   "\u003c/policyComments\u003e"
+                                               ],
+                           "UserComments":  null,
+                           "Scripts":  [
+                                           {
+                                               "Target":  "Machine",
+                                               "ScriptsIni":  null,
+                                               "PSScriptsIni":  null,
+                                               "ScriptFiles":  null,
+                                               "ObjectType":  "Scripts"
+                                           }
+                                       ],
+                           "GroupPolicyPreferences":  null,
+                           "ObjectType":  "PolicySettings"
+                       },
+    "gPCMachineExtensionNames":  "[{35378EAC-683F-11D2-A89A-00C04FBBCFA2}{D02B1F72-3407-48AE-BA88-E8213C6761F1}]",
+    "gPCUserExtensionNames":  null,
+    "ObjectType":  "GroupPolicy"
+}

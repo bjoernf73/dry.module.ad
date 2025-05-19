@@ -1,0 +1,96 @@
+{ 
+	"security_groups": [
+		{
+			"name": "Role-AD-DomainAdmins",
+			"alias": "Roles-Protected",
+			"description": "Domain Admins in domain '###DomainFQDN###'",
+			"groupscope": "global",
+			"memberof": [ 
+					"Right-AD-Group-DomainAdmins-Member"
+			]
+		},
+
+		{
+			"name": "Role-AD-EnterpriseAdmins",
+			"alias": "Roles-Protected",
+			"description": "Enterprise Admins in domain '###DomainFQDN###'",
+			"groupscope": "global",
+			"memberof": [
+				"Right-AD-Group-EnterpriseAdmins-Member"
+			]
+		},
+		
+		{
+			"name": "Role-AD-SchemaAdmins",
+			"alias": "Roles-Protected",
+			"description": "Schema Admins in domain '###DomainFQDN###'",
+			"groupscope": "global",
+			"memberof": [
+				"Right-AD-Group-SchemaAdmins-Member"
+			]
+		},
+		
+		{
+			"name": "Role-AD-FullAdmins",
+			"alias": "Roles-Protected",
+			"description": "Domain-, Enterprise- and Schema Admin in domain '###DomainFQDN###'",
+			"groupscope": "global",
+			"memberof": [
+				"Right-AD-Group-DomainAdmins-Member",
+				"Right-AD-Group-EnterpriseAdmins-Member",
+				"Right-AD-Group-SchemaAdmins-Member"
+			]
+		},
+
+		{
+			"name": "Role-AD-RBACOperator",
+			"alias": "Roles",
+			"description": "Role for delegation of right to modify members in role groups",
+			"groupscope": "domainlocal",
+			"memberof": [
+				"Right-AD-Group-Roles-modifymembers"
+			]
+		},
+
+		{
+			"name": "Role-AD-ADOperator",
+			"alias": "Roles",
+			"description": "General AD Operations role",
+			"groupscope": "domainlocal",
+			"memberof": [
+				"Right-AD-Group-CertPublishers-Member",
+				"Right-AD-Group-DnsAdmins-Member",
+				"Right-AD-Computer-Servers-CreMoDel",
+				"Right-AD-Computer-Workstations-CreMoDel",
+				"Right-AD-Computer-Servers-windows-LAPSmodify",
+				"Right-AD-Computer-ComputersCN-CreMoDel",
+				"Right-AD-Group-EndUser-CreMoDel",
+				"Right-AD-Group-Rights-CreMoDel",
+				"Right-AD-Group-Roles-CreMoDel",
+				"Right-AD-Users-CreMoDel"
+			]
+		},
+
+		{
+			"name": "Role-AD-DHCPServers",
+			"alias": "Roles",
+			"description": "General AD Operations role",
+			"groupscope": "global",
+			"memberof": [
+				"Right-AD-Group-DnsUpdateProxy-Member"
+			]
+		},
+		
+		{
+			"name": "Role-AD-cadeploy",
+			"alias": "Roles",
+			"description": "General AD Operations role",
+			"groupscope": "global",
+			"memberof": [
+				"Right-AD-PKI-FullAccess",
+				"Right-AD-Group-CertPublishers-Member",
+				"Right-DC-BuiltinGroup-BackupOperators"
+			]
+		}
+	]
+}

@@ -1,0 +1,64 @@
+{
+    "Name":  "DoD Windows 11 User STIG v1r2",
+    "Linktargets":  null,
+    "ComputerSettingsEnabled":  false,
+    "UserSettingsEnabled":  true,
+    "WMIFilter":  null,
+    "Permissions":  "O:DAG:DAD:PAI(A;CIIO;CCDCLCSWRPWPDTLOSDRCWDWO;;;CO)(A;CI;LCRPLORC;;;ED)(A;CI;LCRPLORC;;;AU)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;SY)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;DA)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;####Replace[DOMAIN\\Enterprise Admins])(OA;CI;CR;edacfd8f-ffb3-11d1-b41d-00a0c968f939;;AU)",
+    "PolicySettings":  {
+                           "RegistrySettings":  [
+                                                    {
+                                                        "Target":  "User",
+                                                        "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Attachments",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "SaveZoneInformation",
+                                                        "ValueData":  "2",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "User",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DisableThirdPartySuggestions",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "User",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\CurrentVersion\\PushNotifications",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "NoToastApplicationNotificationOnLockScreen",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    }
+                                                ],
+                           "AuditSettings":  null,
+                           "SecurityTemplate":  null,
+                           "FolderRedirection":  null,
+                           "FolderRedirection1":  null,
+                           "GPOComments":  null,
+                           "MachineComments":  null,
+                           "UserComments":  [
+                                                "\u003c?xml version=\u00271.0\u0027 encoding=\u0027utf-8\u0027?\u003e",
+                                                "\u003cpolicyComments xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" revision=\"1.0\" schemaVersion=\"1.0\" xmlns=\"http://www.microsoft.com/GroupPolicy/CommentDefinitions\"\u003e",
+                                                "  \u003cpolicyNamespaces\u003e",
+                                                "    \u003cusing prefix=\"ns0\" namespace=\"Microsoft.Policies.AttachmentManager\"\u003e\u003c/using\u003e",
+                                                "    \u003cusing prefix=\"ns1\" namespace=\"Microsoft.Policies.CloudContent\"\u003e\u003c/using\u003e",
+                                                "    \u003cusing prefix=\"ns2\" namespace=\"Microsoft.Policies.Notifications\"\u003e\u003c/using\u003e",
+                                                "  \u003c/policyNamespaces\u003e",
+                                                "  \u003ccomments\u003e",
+                                                "    \u003cadmTemplate\u003e\u003c/admTemplate\u003e",
+                                                "  \u003c/comments\u003e",
+                                                "  \u003cresources minRequiredRevision=\"1.0\"\u003e",
+                                                "    \u003cstringTable\u003e\u003c/stringTable\u003e",
+                                                "  \u003c/resources\u003e",
+                                                "\u003c/policyComments\u003e"
+                                            ],
+                           "Scripts":  null,
+                           "GroupPolicyPreferences":  null,
+                           "ObjectType":  "PolicySettings"
+                       },
+    "gPCMachineExtensionNames":  null,
+    "gPCUserExtensionNames":  "[{35378EAC-683F-11D2-A89A-00C04FBBCFA2}{D02B1F73-3407-48AE-BA88-E8213C6761F1}]",
+    "ObjectType":  "GroupPolicy"
+}

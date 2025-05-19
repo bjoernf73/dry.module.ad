@@ -1,0 +1,136 @@
+{	
+	"ou_schema": 
+	[		
+		{
+			"alias": "DomainRoot",
+			"description": "Root of domain",
+			"path": ""
+		},
+		{
+			"alias": "DomainControllers",
+			"description": "Domain Controllers OU",
+			"path": "Domain Controllers"
+		},
+		{
+			"alias": "Computer-Servers",
+			"description": "Root OU for Server Computer Objects",
+			"path": "###org###/Servers"
+		},
+		{
+			"alias": "Computer-Servers-Win",
+			"description": "Root OU for Server Computer Objects",
+			"path": "###org###/Servers/Win" 
+		},
+		{
+			"alias": "Computer-Servers-Lin",
+			"description": "OU for Linux Server Computer Objects",
+			"path": "###org###/Servers/Lin"
+		},
+		{
+			"alias": "Computer-Workstations",
+			"description": "Root OU for Server Computer Objects",
+			"path": "###org###/Workstations"
+			
+		},
+		{
+			"alias": "Computer-Workstations-Win",
+			"description": "Root OU for Server Computer Objects",
+			"path": "###org###/Workstations/Win"
+			
+		},
+		{
+			"alias": "Roles-Root",
+			"description": "Root OU for Role groups",
+			"path": "###org###/Roles"
+		},
+		{
+			"alias": "Roles",
+			"description": "OU for Roles of role '###RoleShortName###'",
+            "parent_alias": "Roles-Root",
+            "child_path": "###RoleShortName###"	
+		},
+		{
+			"alias": "Roles-Protected",
+			"description": "OU for Protected Role groups (groups with AdminCount=1)",
+            "parent_alias": "Roles-Root",
+            "child_path": "Protected"
+		},
+		{
+			"alias": "Rights-Root",
+			"description": "Root OU for Rights groups",
+			"path": "###org###/Rights"
+		},
+		{
+			"alias": "Rights",
+			"description": "OU for Rights of role '###RoleShortName###'",
+            "parent_alias": "Rights-Root",
+            "child_path": "###RoleShortName###"
+		},
+		{
+			"alias": "Rights-Protected",
+			"description": "OU for Protected Rights groups (groups with AdminCount=1)",
+            "parent_alias": "Rights-Root",
+            "child_path": "Protected"	
+		},
+		{
+			"alias": "Groups-EndUser",
+			"description": "End user groups OU",
+			"path": "###org###/EndUserGroups"
+		},
+		{
+			"alias": "Groups-EndUser-AppGroups",
+			"description": "End user group giving install right to an application",
+			"path": "###org###/EndUserGroups/ApplicationGroups"
+		},
+		{
+			"alias": "Groups-EndUser-DepartmentGroups",
+			"description": "End user groups of the organizational structure",
+			"path": "###org###/EndUserGroups/DepartmentGroups"
+		},
+		{
+			"alias": "Groups-EndUser-DistributionGroups",
+			"description": "Mail enabled distribution groups",
+			"path": "###org###/EndUserGroups/DistributionGroups"
+		},
+		{
+			"alias": "Groups-EndUser-CooperationGroups",
+			"description": "End user cooperation groups. For cooperations across and beyond department or project groups",
+			"path": "###org###/EndUserGroups/CooperationGroups"
+		},
+		{
+			"alias": "Groups-EndUser-ProjectGroups",
+			"description": "End user Project groups",
+			"path": "###org###/EndUserGroups/ProjectGroups"
+		},
+		{
+			"alias": "Users",
+			"description": "User objects of any type",
+			"path": "###org###/Users"
+		},
+		{
+			"alias": "Users-EndUsers",
+			"description": "End user objects",
+			"path": "###org###/Users/EndUsers"
+		},
+		{
+			"alias": "Users-AdmUsers",
+			"description": "Adm user objects",
+			"path": "###org###/Users/AdmUsers"
+		},
+		{
+			"alias": "Users-SvcUsers",
+			"description": "Svc user objects",
+			"path": "###org###/Users/SvcUsers"
+		},
+		{
+			"alias": "Users-DeployUsers",
+			"description": "Deployment user objects",
+			"path": "###org###/Users/DeployUsers"
+		},
+		{
+			"alias": "Users-MsaUsers",
+			"description": "Managed Service Accounts",
+			"path": "###org###/Users/MsaUsers"
+		}
+	]
+}

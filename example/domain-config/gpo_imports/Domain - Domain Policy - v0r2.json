@@ -1,0 +1,79 @@
+{
+    "Name":  "###DomainNB### - Domain Policy - v0r2",
+    "Linktargets":  null,
+    "ComputerSettingsEnabled":  true,
+    "UserSettingsEnabled":  false,
+    "WMIFilter":  null,
+    "Permissions":  "O:DAG:DAD:PAI(A;CIIO;CCDCLCSWRPWPDTLOSDRCWDWO;;;CO)(A;CI;LCRPLORC;;;ED)(A;CI;LCRPLORC;;;AU)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;SY)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;DA)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;####Replace[DOMAIN\\Enterprise Admins])(OA;CI;CR;edacfd8f-ffb3-11d1-b41d-00a0c968f939;;AU)",
+    "PolicySettings":  {
+                           "RegistrySettings":  [
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Netlogon\\Parameters",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "TryNextClosestSite",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "ListBox_Support_ZoneMapKey",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMapKey",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "\\\\###DomainFQDN###",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMapKey",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "\\\\###DomainNB###",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    }
+                                                ],
+                           "AuditSettings":  null,
+                           "SecurityTemplate":  [
+                                                    "[Unicode]",
+                                                    "Unicode=yes",
+                                                    "[Version]",
+                                                    "signature=\"$CHICAGO$\"",
+                                                    "Revision=1",
+                                                    "[System Access]",
+                                                    "MinimumPasswordAge = 1",
+                                                    "MaximumPasswordAge = -1",
+                                                    "MinimumPasswordLength = 14",
+                                                    "PasswordComplexity = 0",
+                                                    "PasswordHistorySize = 24",
+                                                    "LockoutBadCount = 3",
+                                                    "ResetLockoutCount = 15",
+                                                    "LockoutDuration = 15",
+                                                    "ClearTextPassword = 0",
+                                                    "[Kerberos Policy]",
+                                                    "MaxClockSkew = 5",
+                                                    "[Registry Values]"
+                                                ],
+                           "Scripts":  [
+                                           {
+                                               "Target":  "Machine",
+                                               "ScriptsIni":  null,
+                                               "PSScriptsIni":  null,
+                                               "ScriptFiles":  null,
+                                               "ObjectType":  "Scripts"
+                                           }
+                                       ],
+                           "GroupPolicyPreferences":  null,
+                           "ObjectType":  "PolicySettings"
+                       },
+    "gPCMachineExtensionNames":  "[{35378EAC-683F-11D2-A89A-00C04FBBCFA2}{D02B1F72-3407-48AE-BA88-E8213C6761F1}][{4CFB60C1-FAA6-47F1-89AA-0B18730C9FD3}{D02B1F72-3407-48AE-BA88-E8213C6761F1}][{827D319E-6EAC-11D2-A4EA-00C04F79F83A}{803E14A0-B4FB-11D0-A0D0-00A0C90F574B}]",
+    "gPCUserExtensionNames":  null,
+    "ObjectType":  "GroupPolicy"
+}

@@ -1,0 +1,955 @@
+{
+    "Name":  "DoD WinSvr 2022 DC STIG Comp v1r1",
+    "Linktargets":  null,
+    "ComputerSettingsEnabled":  true,
+    "UserSettingsEnabled":  false,
+    "WMIFilter":  null,
+    "Permissions":  "O:DAG:DAD:PAI(A;CIIO;CCDCLCSWRPWPDTLOSDRCWDWO;;;CO)(A;CI;LCRPLORC;;;ED)(A;CI;LCRPLORC;;;AU)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;SY)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;DA)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;####Replace[DOMAIN\\Enterprise Admins])(OA;CI;CR;edacfd8f-ffb3-11d1-b41d-00a0c968f939;;AU)",
+    "PolicySettings":  {
+                           "RegistrySettings":  [
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\CredUI",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnumerateAdministrators",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "NoAutorun",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "NoDriveTypeAutoRun",
+                                                        "ValueData":  "255",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "PreXPSP2ShellProtocolBehavior",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DisableAutomaticRestartSignOn",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LocalAccountTokenFilterPolicy",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Audit",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "ProcessCreationIncludeCmdLine_Enabled",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Internet Explorer\\Feeds",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DisableEnclosureDownload",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Internet Explorer\\Feeds",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowBasicAuthInClear",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Power\\PowerSettings\\0e796bdb-100d-47d6-a2d5-f7d2daa51f51",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DCSettingIndex",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Power\\PowerSettings\\0e796bdb-100d-47d6-a2d5-f7d2daa51f51",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "ACSettingIndex",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\AppCompat",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DisableInventory",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\CredentialsDelegation",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowProtectedCreds",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\DataCollection",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowTelemetry",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\DeliveryOptimization",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DODownloadMode",
+                                                        "ValueData":  "2",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\DeviceGuard",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableVirtualizationBasedSecurity",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\DeviceGuard",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "RequirePlatformSecurityFeatures",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\DeviceGuard",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "HypervisorEnforcedCodeIntegrity",
+                                                        "ValueData":  "3",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\DeviceGuard",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "HVCIMATRequired",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\DeviceGuard",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LsaCfgFlags",
+                                                        "ValueData":  "3",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\DeviceGuard",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "ConfigureSystemGuardLaunch",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\EventLog\\Application",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "MaxSize",
+                                                        "ValueData":  "32768",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\EventLog\\Security",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "MaxSize",
+                                                        "ValueData":  "196608",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\EventLog\\System",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "MaxSize",
+                                                        "ValueData":  "32768",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\Explorer",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "NoAutoplayfornonVolume",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\Explorer",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "NoDataExecutionPrevention",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\Explorer",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "NoHeapTerminationOnCorruption",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\Group Policy\\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "NoBackgroundPolicy",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\Group Policy\\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "NoGPOListChanges",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\Installer",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableUserControl",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\Installer",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AlwaysInstallElevated",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\Installer",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "SafeForScripting",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\LanmanWorkstation",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowInsecureGuestAuth",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "\\\\*\\SYSVOL",
+                                                        "ValueData":  "RequireMutualAuthentication=1, RequireIntegrity=1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "\\\\*\\NETLOGON",
+                                                        "ValueData":  "RequireMutualAuthentication=1, RequireIntegrity=1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\Personalization",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "NoLockScreenSlideshow",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableScriptBlockLogging",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "**del.EnableScriptBlockInvocationLogging",
+                                                        "ValueData":  " ",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableTranscripting",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "OutputDirectory",
+                                                        "ValueData":  "C:\\ProgramData\\PS_Transcript",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "**del.EnableInvocationHeader",
+                                                        "ValueData":  " ",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\System",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DontDisplayNetworkSelectionUI",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\System",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableSmartScreen",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\System",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ShellSmartScreenLevel",
+                                                        "ValueData":  "Block",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\System",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnumerateLocalUsers",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\Windows Search",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowIndexingEncryptedStoresOrItems",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\WinRM\\Client",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowBasic",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\WinRM\\Client",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowUnencryptedTraffic",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\WinRM\\Client",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowDigest",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\WinRM\\Service",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowBasic",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\WinRM\\Service",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowUnencryptedTraffic",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows\\WinRM\\Service",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DisableRunAs",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows NT\\Printers",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DisableWebPnPDownload",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows NT\\Printers",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DisableHTTPPrinting",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows NT\\Rpc",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "RestrictRemoteClients",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DisablePasswordSaving",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "fDisableCdm",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "fPromptForPassword",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "fEncryptRPCTraffic",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "Software\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "MinEncryptionLevel",
+                                                        "ValueData":  "3",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "UseLogonCredential",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DriverLoadPolicy",
+                                                        "ValueData":  "3",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "SMB1",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\MrxSmb10",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "Start",
+                                                        "ValueData":  "4",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\Netbt\\Parameters",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "NoNameReleaseOnDemand",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DisableIPSourceRouting",
+                                                        "ValueData":  "2",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableICMPRedirect",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\Tcpip6\\Parameters",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DisableIPSourceRouting",
+                                                        "ValueData":  "2",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    }
+                                                ],
+                           "AuditSettings":  [
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Credential Validation",
+                                                     "SubCategory GUID":  "{0cce923f-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Computer Account Management",
+                                                     "SubCategory GUID":  "{0cce9236-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Other Account Management Events",
+                                                     "SubCategory GUID":  "{0cce923a-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Security Group Management",
+                                                     "SubCategory GUID":  "{0cce9237-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit User Account Management",
+                                                     "SubCategory GUID":  "{0cce9235-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit PNP Activity",
+                                                     "SubCategory GUID":  "{0cce9248-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Process Creation",
+                                                     "SubCategory GUID":  "{0cce922b-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Directory Service Access",
+                                                     "SubCategory GUID":  "{0cce923b-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Directory Service Changes",
+                                                     "SubCategory GUID":  "{0cce923c-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Account Lockout",
+                                                     "SubCategory GUID":  "{0cce9217-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Group Membership",
+                                                     "SubCategory GUID":  "{0cce9249-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Logoff",
+                                                     "SubCategory GUID":  "{0cce9216-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Logon",
+                                                     "SubCategory GUID":  "{0cce9215-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Special Logon",
+                                                     "SubCategory GUID":  "{0cce921b-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Other Object Access Events",
+                                                     "SubCategory GUID":  "{0cce9227-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Removable Storage",
+                                                     "SubCategory GUID":  "{0cce9245-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Audit Policy Change",
+                                                     "SubCategory GUID":  "{0cce922f-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Authentication Policy Change",
+                                                     "SubCategory GUID":  "{0cce9230-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Authorization Policy Change",
+                                                     "SubCategory GUID":  "{0cce9231-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Sensitive Privilege Use",
+                                                     "SubCategory GUID":  "{0cce9228-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit IPsec Driver",
+                                                     "SubCategory GUID":  "{0cce9213-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Other System Events",
+                                                     "SubCategory GUID":  "{0cce9214-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Security State Change",
+                                                     "SubCategory GUID":  "{0cce9210-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit Security System Extension",
+                                                     "SubCategory GUID":  "{0cce9211-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "1",
+                                                     "ObjectType":  "AuditSetting"
+                                                 },
+                                                 {
+                                                     "Machine Name":  "",
+                                                     "Policy Target":  "System",
+                                                     "SubCategory":  "Audit System Integrity",
+                                                     "SubCategory GUID":  "{0cce9212-69ae-11d9-bed3-505054503030}",
+                                                     "Inclusion Setting":  "Success and Failure",
+                                                     "Exclusion Setting":  "",
+                                                     "Setting Value":  "3",
+                                                     "ObjectType":  "AuditSetting"
+                                                 }
+                                             ],
+                           "SecurityTemplate":  [
+                                                    "[Unicode]",
+                                                    "Unicode=yes",
+                                                    "[System Access]",
+                                                    "MinimumPasswordAge = 1",
+                                                    "MaximumPasswordAge = 60",
+                                                    "MinimumPasswordLength = 14",
+                                                    "PasswordComplexity = 1",
+                                                    "PasswordHistorySize = 24",
+                                                    "LockoutBadCount = 3",
+                                                    "ResetLockoutCount = 15",
+                                                    "LockoutDuration = 15",
+                                                    "NewAdministratorName = \"X_Admin\"",
+                                                    "NewGuestName = \"Visitor\"",
+                                                    "ClearTextPassword = 0",
+                                                    "LSAAnonymousNameLookup = 0",
+                                                    "EnableGuestAccount = 0",
+                                                    "[Kerberos Policy]",
+                                                    "MaxTicketAge = -1",
+                                                    "MaxRenewAge = 8",
+                                                    "MaxServiceAge = -1",
+                                                    "TicketValidateClient = 1",
+                                                    "[Registry Values]",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\RefusePasswordChange=4,0",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\NTDS\\Parameters\\LDAPServerIntegrity=4,2",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\SignSecureChannel=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\SealSecureChannel=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\RequireStrongKey=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\RequireSignOrSeal=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\MaximumPasswordAge=4,30",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\DisablePasswordChange=4,0",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\LDAP\\LDAPClientIntegrity=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters\\RequireSecuritySignature=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters\\EnableSecuritySignature=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters\\EnablePlainTextPassword=4,0",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters\\RestrictNullSessAccess=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters\\RequireSecuritySignature=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters\\EnableSecuritySignature=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Session Manager\\ProtectionMode=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\UseMachineId=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\SCENoApplyLegacyAuditPolicy=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\RestrictRemoteSAM=1,\"O:BAG:BAD:(A;;RC;;;BA)\"",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\RestrictAnonymousSAM=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\RestrictAnonymous=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\pku2u\\AllowOnlineID=4,0",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\NoLMHash=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\MSV1_0\\NTLMMinServerSec=4,537395200",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\MSV1_0\\NTLMMinClientSec=4,537395200",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\MSV1_0\\allownullsessionfallback=4,0",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\LmCompatibilityLevel=4,5",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\LimitBlankPasswordUse=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\FIPSAlgorithmPolicy\\Enabled=4,1",
+                                                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\EveryoneIncludesAnonymous=4,0",
+                                                    "MACHINE\\Software\\Policies\\Microsoft\\Cryptography\\ForceKeyProtection=4,2",
+                                                    "MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters\\SupportedEncryptionTypes=4,2147483640",
+                                                    "MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\InactivityTimeoutSecs=4,900",
+                                                    "MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\FilterAdministratorToken=4,1",
+                                                    "MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableVirtualization=4,1",
+                                                    "MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableUIADesktopToggle=4,0",
+                                                    "MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableSecureUIAPaths=4,1",
+                                                    "MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA=4,1",
+                                                    "MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableInstallerDetection=4,1",
+                                                    "MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ConsentPromptBehaviorUser=4,0",
+                                                    "MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ConsentPromptBehaviorAdmin=4,2",
+                                                    "MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\ScRemoveOption=1,\"1\"",
+                                                    "MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\CachedLogonsCount=1,\"4\"",
+                                                    "[Version]",
+                                                    "signature=\"$CHICAGO$\"",
+                                                    "Revision=1",
+                                                    "[Privilege Rights]",
+                                                    "SeDenyNetworkLogonRight = *S-1-5-32-546",
+                                                    "SeDenyBatchLogonRight = *S-1-5-32-546",
+                                                    "SeDenyInteractiveLogonRight = *S-1-5-32-546",
+                                                    "SeDenyRemoteInteractiveLogonRight = *S-1-5-32-546",
+                                                    "SeInteractiveLogonRight = *S-1-5-32-544",
+                                                    "SeBackupPrivilege = *S-1-5-32-544",
+                                                    "SeCreatePagefilePrivilege = *S-1-5-32-544",
+                                                    "SeCreateTokenPrivilege =",
+                                                    "SeCreateGlobalPrivilege = *S-1-5-6,*S-1-5-20,*S-1-5-19,*S-1-5-32-544",
+                                                    "SeCreatePermanentPrivilege =",
+                                                    "SeCreateSymbolicLinkPrivilege = *S-1-5-32-544",
+                                                    "SeDebugPrivilege = *S-1-5-32-544",
+                                                    "SeRemoteShutdownPrivilege = *S-1-5-32-544",
+                                                    "SeAuditPrivilege = *S-1-5-19,*S-1-5-20",
+                                                    "SeImpersonatePrivilege = *S-1-5-32-544,*S-1-5-19,*S-1-5-20,*S-1-5-6",
+                                                    "SeIncreaseBasePriorityPrivilege = *S-1-5-32-544",
+                                                    "SeLoadDriverPrivilege = *S-1-5-32-544",
+                                                    "SeLockMemoryPrivilege =",
+                                                    "SeSecurityPrivilege = *S-1-5-32-544",
+                                                    "SeSystemEnvironmentPrivilege = *S-1-5-32-544",
+                                                    "SeManageVolumePrivilege = *S-1-5-32-544",
+                                                    "SeProfileSingleProcessPrivilege = *S-1-5-32-544",
+                                                    "SeRestorePrivilege = *S-1-5-32-544",
+                                                    "SeTakeOwnershipPrivilege = *S-1-5-32-544",
+                                                    "SeNetworkLogonRight = *S-1-5-9,*S-1-5-11,*S-1-5-32-544",
+                                                    "SeDenyServiceLogonRight =",
+                                                    "SeEnableDelegationPrivilege = *S-1-5-32-544",
+                                                    "SeTcbPrivilege =",
+                                                    "SeTrustedCredManAccessPrivilege =",
+                                                    "SeMachineAccountPrivilege = *S-1-5-32-544",
+                                                    "SeRemoteInteractiveLogonRight = *S-1-5-32-544"
+                                                ],
+                           "FolderRedirection":  null,
+                           "FolderRedirection1":  null,
+                           "GPOComments":  null,
+                           "MachineComments":  [
+                                                   "\u003c?xml version=\u00271.0\u0027 encoding=\u0027utf-8\u0027?\u003e",
+                                                   "\u003cpolicyComments xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" revision=\"1.0\" schemaVersion=\"1.0\" xmlns=\"http://www.microsoft.com/GroupPolicy/CommentDefinitions\"\u003e",
+                                                   "  \u003cpolicyNamespaces\u003e",
+                                                   "    \u003cusing prefix=\"ns0\" namespace=\"Microsoft.Windows.DeviceGuard\"\u003e\u003c/using\u003e",
+                                                   "  \u003c/policyNamespaces\u003e",
+                                                   "  \u003ccomments\u003e",
+                                                   "    \u003cadmTemplate\u003e\u003c/admTemplate\u003e",
+                                                   "  \u003c/comments\u003e",
+                                                   "  \u003cresources minRequiredRevision=\"1.0\"\u003e",
+                                                   "    \u003cstringTable\u003e\u003c/stringTable\u003e",
+                                                   "  \u003c/resources\u003e",
+                                                   "\u003c/policyComments\u003e"
+                                               ],
+                           "UserComments":  [
+                                                "\u003c?xml version=\u00271.0\u0027 encoding=\u0027utf-8\u0027?\u003e",
+                                                "\u003cpolicyComments xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" revision=\"1.0\" schemaVersion=\"1.0\" xmlns=\"http://www.microsoft.com/GroupPolicy/CommentDefinitions\"\u003e",
+                                                "  \u003cpolicyNamespaces\u003e",
+                                                "    \u003cusing prefix=\"ns0\" namespace=\"Microsoft.Policies.AttachmentManager\"\u003e\u003c/using\u003e",
+                                                "  \u003c/policyNamespaces\u003e",
+                                                "  \u003ccomments\u003e",
+                                                "    \u003cadmTemplate\u003e\u003c/admTemplate\u003e",
+                                                "  \u003c/comments\u003e",
+                                                "  \u003cresources minRequiredRevision=\"1.0\"\u003e",
+                                                "    \u003cstringTable\u003e\u003c/stringTable\u003e",
+                                                "  \u003c/resources\u003e",
+                                                "\u003c/policyComments\u003e"
+                                            ],
+                           "Scripts":  [
+                                           {
+                                               "Target":  "Machine",
+                                               "ScriptsIni":  null,
+                                               "PSScriptsIni":  null,
+                                               "ScriptFiles":  null,
+                                               "ObjectType":  "Scripts"
+                                           }
+                                       ],
+                           "GroupPolicyPreferences":  null,
+                           "ObjectType":  "PolicySettings"
+                       },
+    "gPCMachineExtensionNames":  "[{35378EAC-683F-11D2-A89A-00C04FBBCFA2}{D02B1F72-3407-48AE-BA88-E8213C6761F1}][{7933F41E-56F8-41D6-A31C-4148A711EE93}{D02B1F72-3407-48AE-BA88-E8213C6761F1}][{827D319E-6EAC-11D2-A4EA-00C04F79F83A}{803E14A0-B4FB-11D0-A0D0-00A0C90F574B}][{F312195E-3D9D-447A-A3F5-08DFFA24735E}{D02B1F72-3407-48AE-BA88-E8213C6761F1}][{F3CCC681-B74C-4060-9F26-CD84525DCA2A}{0F3F3735-573D-9804-99E4-AB2A69BA5FD4}]",
+    "gPCUserExtensionNames":  null,
+    "ObjectType":  "GroupPolicy"
+}

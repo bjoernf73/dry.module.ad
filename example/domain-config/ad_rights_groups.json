@@ -1,0 +1,798 @@
+{ 
+	"security_groups": [
+		{
+			"Name": "Right-AD-Group-DomainAdmins-Member",
+			"alias": "Rights-Protected",
+			"Description": "Member of Domain Admins in domain '###DomainFQDN###'",
+			"GroupScope": "global",
+			"MemberOf": [ 
+					"Domain Admins"
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-EnterpriseAdmins-Member",
+			"alias": "Rights-Protected",
+			"Description": "Member of Enterprise Admins in domain '###DomainFQDN###'",
+			"GroupScope": "global",
+			"MemberOf": [
+				"Enterprise Admins"
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-SchemaAdmins-Member",
+			"alias": "Rights-Protected",
+			"Description": "Member of Schema Admins in domain '###DomainFQDN###'",
+			"GroupScope": "global",
+			"MemberOf": [
+				"Schema Admins"
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-AllowedRODCpwdrepl-Member",
+			"alias": "Rights",
+			"Description": "Member of 'Allowed RODC Password Replication Group' in domain '###DomainFQDN###'",
+			"GroupScope": "domainlocal",
+			"MemberOf": [
+				"Allowed RODC Password Replication Group"
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-DeniedRODCpwdrepl-Member",
+			"alias": "Rights",
+			"Description": "Member of 'Denied RODC Password Replication Group' in domain '###DomainFQDN###'",
+			"GroupScope": "domainlocal",
+			"MemberOf": [
+				"Denied RODC Password Replication Group"
+			]
+		},
+	
+		{
+			"Name": "Right-AD-Group-CertPublishers-Member",
+			"alias": "Rights",
+			"Description": "Member of 'Cert Publishers' in domain '###DomainFQDN###'",
+			"GroupScope": "domainlocal",
+			"MemberOf": [
+				"Cert Publishers"
+			]
+		},
+		
+		{
+			"Name": "Right-AD-Group-DNSAdmins-Member",
+			"alias": "Rights",
+			"Description": "Member of 'DnsAdmins' in domain '###DomainFQDN###'",
+			"GroupScope": "domainlocal",
+			"MemberOf": [
+				"DnsAdmins"
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-DNSUpdateProxy-Member",
+			"alias": "Rights",
+			"Description": "Member of 'DnsUpdateProxy' in domain '###DomainFQDN###'. For DHCP Servers as members.",
+			"GroupScope": "global",
+			"MemberOf": [
+				"DnsUpdateProxy"
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-EnterpriseKeyAdmins-Member",
+			"alias": "Rights",
+			"Description": "Member of 'Enterprise Key Admins' in forest '###DomainFQDN###'",
+			"GroupScope": "universal",
+			"MemberOf": [
+				"Enterprise Key Admins"
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-KeyAdmins-Member",
+			"alias": "Rights",
+			"Description": "Member of 'Key Admins' in domain '###DomainFQDN###'",
+			"GroupScope": "global",
+			"MemberOf": [
+				"Key Admins"
+			]
+		},
+		
+		{
+			"Name": "Right-AD-Group-ProtectedUsers-Member",
+			"alias": "Rights",
+			"Description": "Member of 'Protected Users' in domain '###DomainFQDN###'",
+			"GroupScope": "global",
+			"MemberOf": [
+				"Protected Users"
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-RASandIASservers-Member",
+			"alias": "Rights",
+			"Description": "Member of 'RAS and IAS Servers' in domain '###DomainFQDN###'",
+			"GroupScope": "domainlocal",
+			"MemberOf": [
+				"RAS and IAS Servers"
+			]
+		},
+	
+		{
+			"Name": "Right-AD-Computer-Servers-CreMoDel",
+			"alias": "Rights",
+			"Description": "Right to CREate, MODify and DELete Server computer objects",
+			"GroupScope": "domainlocal",
+			"Rights": 
+			[
+				{
+					"alias": "Computer-Servers",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Computer",
+					"InheritedObjectType":  "organizationalUnit"
+				},
+				{
+					"alias": "Computer-Servers",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Computer",
+					"ActiveDirectoryRights":  "WriteProperty"
+				}
+			]	
+		},
+		{
+			"Name": "Right-AD-Computer-Servers-Windows-CreMoDel",
+			"alias": "Rights",
+			"Description": "Right to CREate, MODify and DELete Windows Server computer objects",
+			"GroupScope": "domainlocal",
+			"Rights": 
+			[
+				{
+					"alias": "Computer-Servers-Win",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Computer",
+					"InheritedObjectType":  "organizationalUnit"
+				},
+				{
+					"alias": "Computer-Servers-Win",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Computer",
+					"ActiveDirectoryRights":  "WriteProperty"
+				}
+			]
+		},
+		{
+			"Name": "Right-AD-Computer-Servers-Windows-LAPSread",
+			"alias": "Rights",
+			"Description": "Right to Read LAPS Password on Windows Server computer objects",
+			"GroupScope": "domainlocal",
+			"Rights": 
+			[
+				{
+					"alias": "Computer-Servers-Win",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "ReadProperty",
+					"ObjectType":  "ms-Mcs-AdmPwd",
+					"InheritedObjectType":  "Computer"
+				}
+			]
+		},
+		{
+			"Name": "Right-AD-Computer-Servers-Windows-LAPSmodify",
+			"alias": "Rights",
+			"Description": "Right to Read and Modify LAPS Password on Windows Server computer objects",
+			"GroupScope": "domainlocal",
+			"Rights": 
+			[
+				{
+					"alias": "Computer-Servers-Win",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "ReadProperty",
+					"ObjectType":  "ms-Mcs-AdmPwd",
+					"InheritedObjectType":  "Computer"
+				},
+				{
+					"alias": "Computer-Servers-Win",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "ReadProperty,WriteProperty",
+					"ObjectType":  "ms-Mcs-AdmPwdExpirationTime",
+					"InheritedObjectType":  "Computer"
+				}
+			]
+		},
+		{
+			"Name": "Right-AD-Computer-Servers-Linux-CreMoDel",
+			"alias": "Rights",
+			"Description": "Right to CREate, MODify and DELete Linux Server computer objects",
+			"GroupScope": "domainlocal",
+			"Rights": 
+			[
+				{
+					"alias": "Computer-Servers-Lin",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Computer",
+					"InheritedObjectType":  "organizationalUnit"
+				},
+				{
+					"alias": "Computer-Servers-Lin",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Computer",
+					"ActiveDirectoryRights":  "WriteProperty"
+				}
+			]	
+		},
+		
+		{
+			"Name": "Right-AD-Computer-Workstations-CreMoDel",
+			"alias": "Rights",
+			"Description": "Right to CREate, MODify and DELete Workstation computer objects",
+			"GroupScope": "domainlocal",
+			"Rights": 
+			[
+				{
+					"alias": "Computer-Workstations",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Computer",
+					"InheritedObjectType":  "organizationalUnit"
+				},
+				{
+					"alias": "Computer-Workstations",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Computer",
+					"ActiveDirectoryRights":  "WriteProperty"
+				}
+			]	
+		},
+		{
+			"Name": "Right-AD-Computer-ComputersCN-CreMoDel",
+			"alias": "Rights",
+			"Description": "Right to CREate, MODify and DELete computer objects in the CN=Computers Container, used in manual domain join (and move to role OU)",
+			"GroupScope": "domainlocal",
+			"Rights": 
+			[
+				{
+					"Path": "CN=Computers",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "None",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Computer",
+					"InheritedObjectType":  "All"
+				},
+				{
+					"Path": "CN=Computers",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Children",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Computer",
+					"ActiveDirectoryRights":  "WriteProperty"
+				}
+			]	
+		},
+		
+		{
+			"Name": "Right-AD-Group-EndUser-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete AD groups below OU \u0027EndUserGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Group",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Groups-EndUser"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Groups-EndUser"
+				}
+			]
+		},
+		{
+			"Name": "Right-AD-Group-EndUser-ModifyMembers",
+			"alias": "Rights",
+			"Description":   "Right to Modify Members of AD Groups below OU \u0027EndUserGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"ObjectType":  "Member",
+					"alias": "Groups-EndUser"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-EndUser-App-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027AppGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Group",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Groups-EndUser-AppGroups"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Groups-EndUser-AppGroups"
+				}
+			]
+		},
+		{
+			"Name": "Right-AD-Group-EndUser-App-ModifyMembers",
+			"alias": "Rights",
+			"Description":   "Right to Modify Members of AD Groups below OU \u0027AppGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"ObjectType":  "Member",
+					"alias": "Groups-EndUser-AppGroups"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-EndUser-Project-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027ProjectGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Group",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Groups-EndUser-ProjectGroups"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Groups-EndUser-ProjectGroups"
+				}
+			]
+		},
+		{
+			"Name": "Right-AD-Group-EndUser-Project-ModifyMembers",
+			"alias": "Rights",
+			"Description":   "Right to Modify Members of AD Groups below OU \u0027ProjectGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"ObjectType":  "Member",
+					"alias": "Groups-EndUser-ProjectGroups"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-EndUser-Department-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027DepartmentGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Group",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Groups-EndUser-DepartmentGroups"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Groups-EndUser-DepartmentGroups"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-EndUser-Department-ModifyMembers",
+			"alias": "Rights",
+			"Description":   "Right to Modify Members of AD Groups below OU \u0027DepartmentGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"ObjectType":  "Member",
+					"alias": "Groups-EndUser-DepartmentGroups"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-EndUser-Distribution-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027DistributionGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Group",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Groups-EndUser-DistributionGroups"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Groups-EndUser-DistributionGroups"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-EndUser-Distribution-ModifyMembers",
+			"alias": "Rights",
+			"Description":   "Right to Modify Members of AD Groups below OU \u0027DistributionGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"ObjectType":  "Member",
+					"alias": "Groups-EndUser-DistributionGroups"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-EndUser-Cooperation-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027CooperationGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Group",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Groups-EndUser-CooperationGroups"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Groups-EndUser-CooperationGroups"
+				}
+			]
+		},
+		{
+			"Name": "Right-AD-Group-EndUser-Cooperation-ModifyMembers",
+			"alias": "Rights",
+			"Description":   "Right to Modify Members of AD Groups below OU \u0027CooperationGroups\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"ObjectType":  "Member",
+					"alias": "Groups-EndUser-CooperationGroups"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Group-Rights-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027Rights\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Group",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Rights-Root"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Rights-Root"
+				}
+			]
+		},
+		{
+			"Name": "Right-AD-Group-Rights-ModifyMembers",
+			"alias": "Rights",
+			"Description":   "Right to Modify Members of AD Groups below OU \u0027Rights\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"ObjectType":  "Member",
+					"alias": "Rights-Root"
+				}
+			]
+		},
+		
+		{
+			"Name": "Right-AD-Group-Roles-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027Roles\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Group",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Roles-Root"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Roles-Root"
+				}
+			]
+		},
+		{
+			"Name": "Right-AD-Group-Roles-ModifyMembers",
+			"alias": "Rights",
+			"Description":   "Right to Modify Members of AD Groups below OU \u0027Roles\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"InheritedObjectType":  "Group",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"ObjectType":  "Member",
+					"alias": "Roles-Root"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Users-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete Users below OU \u0027Users\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "User",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Users"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "User",
+					"InheritedObjectType":  "User",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Users"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Users-AdmUsers-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete Users below OU \u0027Users-AdmUsers\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "User",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Users-AdmUsers"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "User",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Users-AdmUsers"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Users-EndUsers-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete Users below OU \u0027Users-EndUsers\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "User",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Users-EndUsers"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "User",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Users-EndUsers"
+				}
+			]
+		},
+
+		{
+			"Name": "Right-AD-Users-SvcUsers-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete Users below OU \u0027Users-SvcUsers\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "User",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Users-SvcUsers"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "User",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Users-SvcUsers"
+				}
+			]
+		},
+		
+		{
+			"Name": "Right-AD-Users-MsaUsers-CreMoDel",
+			"alias": "Rights",
+			"Description":   "Right to CREate, MODify and DELete Users below OU \u0027Users-MsaUsers\u0027. ",
+			"GroupScope":  "DomainLocal",
+			"Rights":  
+			[
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "User",
+					"InheritedObjectType":  "organizationalUnit",
+					"alias": "Users-MsaUsers"
+				},
+				{
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "User",
+					"ActiveDirectoryRights":  "WriteProperty",
+					"alias": "Users-MsaUsers"
+				}
+			]
+		},
+
+		{
+			"name": "Right-AD-PKI-FullAccess",
+			"alias": "Rights",
+			"Description": "Full access to 'CN=Public Key Services,CN=Services,CN=Configuration'. Used by Certificate Services",
+			"GroupScope": "domainlocal",
+ 			"Rights": [ 
+				{
+					"Path": "CN=Public Key Services,CN=Services,CN=Configuration",
+					"ActiveDirectoryRights": "GenericAll",
+					"AccessControlType": "Allow",
+					"ActiveDirectorySecurityInheritance": "All"
+				},
+				{
+					"Path": "CN=Cert Publishers,CN=Users",
+					"ActiveDirectoryRights": "WriteProperty",
+					"ObjectType":  "Member",
+					"AccessControlType": "Allow",
+					"ActiveDirectorySecurityInheritance": "None"
+				},
+				{
+					"Path": "CN=Pre-Windows 2000 Compatible Access,CN=Builtin",
+					"ActiveDirectoryRights": "WriteProperty",
+					"ObjectType":  "Member",
+					"AccessControlType": "Allow",
+					"ActiveDirectorySecurityInheritance": "None"
+				}
+
+			]
+		}
+	]
+}

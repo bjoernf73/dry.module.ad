@@ -1,0 +1,15 @@
+[
+    {
+        "name": "org",
+        "value": "TEST"
+    },
+    {
+
+        "name": "ADSite",
+        "value": "SiteA"
+    },
+    {
+        "name": "RoleShortName",
+        "value": "DC"
+    }
+]
