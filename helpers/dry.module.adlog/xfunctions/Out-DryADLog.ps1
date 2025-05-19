@@ -58,20 +58,14 @@ proxy function), but element number 2 (the function that called the proxy functi
 .EXAMPLE
 Out-DryADLog -Type 6 -Message "This is a type 6 (informational) message"
 
-                              This is a type 6 (informational) message
+info:   This is a type 6 (informational) message
 .EXAMPLE
 Out-DryADLog 6 "This is a type 6 (informational) message"
-                              This is a type 6 (informational) message
+        This is a type 6 (informational) message
 
 .EXAMPLE
 olad 6 "This is a type 6 (informational) message"
-                              This is a type 6 (informational) message
-
-.EXAMPLE
-$GLOBAL:GlobalResourceName = "DC001-S1-D"
-$GLOBAL:GlobalActionName = "ProvisionDsc"
-olad 6 "This is a type 6 (informational) message"
-         [DC001-S1-D]:        [ProvisionDsc] This is a type 6 (informational) message
+        This is a type 6 (informational) message
 
 .EXAMPLE
 olad 4 "This is a type 4 (verbose) message which won't display anything"
@@ -79,16 +73,29 @@ olad 4 "This is a type 4 (verbose) message which won't display anything"
 
 .EXAMPLE
 olad 4 "This is a type 4 (verbose) message" -Verbose
-VERBOSE: [DC001-S1-D]:        [ProvisionDsc] This is a type 4 (verbose) message               [MyScript.ps1:245 14:25:57]
+verbose:   This is a type 4 (verbose) message               [MyScript.ps1:245 14:25:57]
 
 .EXAMPLE
 olad i 'This is an','arrayed message' ; olad i 'And this is yet another','one'
-         [DC001-S1-D]:        This is an                       : arrayed message
-         [DC001-S1-D]:        And this is yet another          : one
+
+info:   This is an                       : arrayed message
+info:   And this is yet another          : one
+
+.EXAMPLE
+olad i "this is a small header" -sh                                                                                                                                                                       ─╯
+info:    this is a small header   .............................................................
+
+.EXAMPLE
+info:    .....................................................................................................................................................................................................
+info:    this is a normal header
+
+.EXAMPLE
+
+
 #>
 function Out-DryADLog {
     [CmdletBinding(DefaultParameterSetName="message")]
-    [Alias("ol")]
+    [Alias("olad")]
     param (
         [Alias("t")]
         [Parameter(Mandatory,Position=0)]
@@ -146,31 +153,21 @@ function Out-DryADLog {
         [Alias("cs")]
         [Parameter(HelpMessage="Normally 1, the direct caller. However, if Out-DryADLog is called by a proxy function, you may use
         2 to point the 'location' (where in your code Out-DryADLog was called) to the call before the direct call.")]
-        [int]$Callstacklevel = 1,
-
-        [Alias("fore")]
-        [AllowNull()]
-        [Parameter(HelpMessage="Override the global options and the default fore color")]
-        [System.ConsoleColor]$ForegroundColor,
-
-        [Alias("back")]
-        [AllowNull()]
-        [Parameter(HelpMessage="Override the global options and the default fore color")]
-        [System.ConsoleColor]$BackgroundColor
+        [int]$Callstacklevel = 1
     )
 
     try {
         if ($null -eq $GLOBAL:LoggingOptions) {
             $GLOBAL:LoggingOptions = [PSCustomObject]@{
-                log_to_file                = $true;
+                log_to_file                = $false;
                 path                       = & { if ($PSVersionTable.Platform -eq 'Unix') { "$($env:HOME)/dry.module.ad/dry.module.ad.log" } else { ("$($env:UserProfile)\dry.module.ad\dry.module.ad.log").Replace('\','\\')}};
                 console_width_threshold    = 70;
-                post_buffer                = 3;
+                post_buffer                = 2;
                 array_first_element_length = 45;
                 verbose     = [PSCustomObject]@{ foreground_color = 'Yellow';     background_color = $null; display_location = $true;  text_type = 'verbose:' }
                 debug       = [PSCustomObject]@{ foreground_color = 'DarkYellow'; background_color = $null; display_location = $true;  text_type = 'debug:  ' }
                 warning     = [PSCustomObject]@{ foreground_color = 'Yellow';     background_color = $null; display_location = $true;  text_type = 'warning:' }
-                information = [PSCustomObject]@{ foreground_color = 'White';      background_color = $null; display_location = $false; text_type = '> ' }
+                information = [PSCustomObject]@{ foreground_color = 'White';      background_color = $null; display_location = $false; text_type = 'info:   ' }
                 error       = [PSCustomObject]@{ foreground_color = 'Red';        background_color = $null; display_location = $true;  text_type = 'error:  ' }
                 input       = [PSCustomObject]@{ foreground_color = 'Blue';       background_color = $null; display_location = $true;  text_type = 'input:  ' }
                 success     = [PSCustomObject]@{ foreground_color = 'Green';      background_color = $null; display_location = $false; text_type = 'success:' ;  status_text = 'Success'}
@@ -182,6 +179,9 @@ function Out-DryADLog {
         if ($LoggingOptions.log_to_file -eq $true) {
             if ($LoggingOptions.path) {
                 $LogFile = $LoggingOptions.path
+                if (($GLOBAL:DoNotLogToFile -ne $true) -and (-not (Test-Path $LogFile))) {
+                    New-Item -ItemType File -Path $LogFile -Force -ErrorAction Continue | Out-Null
+                }
             }
             else {
                 throw "You must define LoggingOptions.path to log to file"
@@ -190,28 +190,11 @@ function Out-DryADLog {
         else {
             $LogFile = $null
         }
-
-        # Check that $LogFile is defined, turn off logging to file if not
-        if (($null -eq $LogFile) -or ($LogFile -eq "")) {
-            # Only warn once a session, don't nag repeatedly
-            if ($GLOBAL:DoNotLogToFile -ne $true) {
-                # Write-Warning -Message "`$LogFile is undefined -> logging to file is disabled. Define LoggingOptions.path to enable it!" -WarningAction Continue
-                [bool]$GLOBAL:DoNotLogToFile = $true
-            }
-        }
-        else {
-            # Make sure $LogFile exist if $GLOBAL:DoNotLogToFile -ne $true
-            if (($GLOBAL:DoNotLogToFile -ne $true) -and (-not (Test-Path $LogFile))) {
-                New-Item -ItemType File -Path $LogFile -Force -ErrorAction Stop | Out-Null
-            }
-        }
-
         # Get the calling cmdlet/script and line number
         $Caller = (Get-PSCallStack)[$callstacklevel]
         [string] $Location = ($Caller.location).Replace(' line ','')
         [string] $LocationString = "[$Location $(get-date -Format HH:mm:ss)]"
 
-        $DisplayLogMessage = $false
         <#
             Windows Output Streams:
             1 OutPut/Success - not in use here
@@ -244,12 +227,10 @@ function Out-DryADLog {
             {$_ -in ('s','success')} {
                 $Type = 'success'
                 $StatusText = $LoggingOptions."$Type".status_text
-                $DisplayLogMessage = $GLOBAL:dry_var_global_ShowStatus
             }
             {$_ -in ('f','fail','failed')} {
                 $Type = 'fail'
                 $StatusText = $LoggingOptions."$Type".status_text
-                $DisplayLogMessage = $GLOBAL:dry_var_global_ShowStatus
             }
             default {
                 $Type = 'verbose'
@@ -275,12 +256,6 @@ function Out-DryADLog {
             $DisplayLocation = $LoggingOptions."$Type".display_location
         }
 
-        if ($ForegroundColor) {
-            $LOFore = $ForegroundColor
-        }
-        if ($BackgroundColor) {
-            $LOBack = $BackgroundColor
-        }
         [hashtable]$LogColors = @{}
         if ($null -ne $LOFore) {
             $LogColors += @{foregroundcolor = $LOFore}
@@ -290,21 +265,7 @@ function Out-DryADLog {
         }
             
         if ($DisplayLogMessage) {
-            if (($null -ne $GLOBAL:GlobalResourceName) -and ($GLOBAL:GlobalResourceName -ne '')){
-                $StartOfMessage = $TextType + ' [' + $GLOBAL:GlobalResourceName + ']:'
-            }
-            else {
-                $StartOfMessage = $TextType + ' '
-            }
-
-            if (($null -ne $GLOBAL:GlobalActionName) -and ($GLOBAL:GlobalActionName -ne '')){
-                if ($null -ne $GLOBAL:GlobalPhase) {
-                $StartOfMessage += '[' + $GLOBAL:GlobalActionName + '][' +  $GLOBAL:GlobalPhase  +'] '
-                }
-                else {
-                    $StartOfMessage += '[' + $GLOBAL:GlobalActionName + '] '
-                }
-            }
+            $StartOfMessage = $TextType + ' '
             # determine the console width
             if ($LoggingOptions.force_console_width) {
                 $ConsoleWidth = $LoggingOptions.force_console_width
@@ -367,12 +328,7 @@ function Out-DryADLog {
                 foreach ($Key in $MsgHash.Keys) {
                     Remove-Variable -Name ThisValue -ErrorAction Ignore
                     if ($($MsgHash[$Key]) -is [PSCredential]) {
-                        if ($GLOBAL:dry_var_global_ShowPasswords) {
-                            $ThisValue = ($MsgHash[$Key]).UserName + '===>' + ($MsgHash[$Key]).GetNetworkCredential().Password
-                        }
-                        else {
-                            $ThisValue = ($MsgHash[$Key]).UserName
-                        }
+                        $ThisValue = ($MsgHash[$Key]).UserName
                     }
                     else {
                         if ($Key -match "password") {
@@ -385,7 +341,7 @@ function Out-DryADLog {
                             $ThisValue = $MsgHash[$Key]
                         }
                     }
-                    $Messages += "'$Key" + '=' + $ThisValue + "'"
+                    $Messages += "'$Key'='$ThisValue'"
                 }
             }
             elseif ($PSCmdlet.ParameterSetName -eq 'array') {
@@ -435,16 +391,6 @@ function Out-DryADLog {
                         Callstacklevel  = $($Callstacklevel + 1) 
                         Smallheader     = $true
                     }
-                    if ($LOFore) {
-                        $NestedOutDryLogCallParams += @{
-                            foregroundcolor = $LOFore
-                        }
-                    }
-                    if ($LOBack) {
-                        $NestedOutDryLogCallParams += @{
-                            backgroundcolor = $LOBack
-                        }
-                    }
                     Out-DryADLog @NestedOutDryLogCallParams
                 }
 
@@ -457,16 +403,6 @@ function Out-DryADLog {
                             MsgArr          = @(($(' '*$MsgObjLevel + ' ') + ($_.Name)),$_.Value) 
                             Callstacklevel  = $Callstacklevel+1
                         }
-                        if ($LOFore) {
-                            $NestedOutDryLogCallParams += @{
-                                foregroundcolor = $LOFore
-                            }
-                        }
-                        if ($LOBack) {
-                            $NestedOutDryLogCallParams += @{
-                                backgroundcolor = $LOBack
-                            }
-                        }
                         Out-DryADLog @NestedOutDryLogCallParams
                     }
                     elseif ($_.Value -is [array]) {
@@ -477,16 +413,6 @@ function Out-DryADLog {
                             Message         = ($(' '*$MsgObjLevel+ ' ') + "$ObjName") 
                             Callstacklevel  = $Callstacklevel+1
                         }
-                        if ($LOFore) {
-                            $NestedOutDryLogCallParams += @{
-                                foregroundcolor = $LOFore
-                            }
-                        }
-                        if ($LOBack) {
-                            $NestedOutDryLogCallParams += @{
-                                backgroundcolor = $LOBack
-                            }
-                        }
                         Out-DryADLog @NestedOutDryLogCallParams  
                         foreach ($ObjItem in $ObjValue) {
                             if (($ObjItem -is [string]) -or ($ObjItem -is [bool]) -or ($ObjItem.Gettype().Name -match 'byte|short|int32|long|sbyte|ushort|uint32|ulong|float|double|decimal|Version')) {
@@ -494,16 +420,6 @@ function Out-DryADLog {
                                     Type            = $Type
                                     Message         = ($('  '*$MsgObjLevel+ ' ') + "$ObjItem")
                                     Callstacklevel  = $Callstacklevel+1
-                                }
-                                if ($LOFore) {
-                                    $NestedOutDryLogCallParams += @{
-                                        foregroundcolor = $LOFore
-                                    }
-                                }
-                                if ($LOBack) {
-                                    $NestedOutDryLogCallParams += @{
-                                        backgroundcolor = $LOBack
-                                    }
                                 }
                                 Out-DryADLog @NestedOutDryLogCallParams
                             }
@@ -513,16 +429,6 @@ function Out-DryADLog {
                                     MsgObj          = $ObjItem 
                                     Callstacklevel  = $Callstacklevel+1
                                     MsgObjLevel     = $MsgObjLevel+1
-                                }
-                                if ($LOFore) {
-                                    $NestedOutDryLogCallParams += @{
-                                        foregroundcolor = $LOFore
-                                    }
-                                }
-                                if ($LOBack) {
-                                    $NestedOutDryLogCallParams += @{
-                                        backgroundcolor = $LOBack
-                                    }
                                 }
                                 Out-DryADLog @NestedOutDryLogCallParams
                             }
@@ -534,16 +440,6 @@ function Out-DryADLog {
                             MsgObj          = $_.Name 
                             Callstacklevel  = $Callstacklevel+1
                             MsgObjLevel     = $MsgObjLevel+1
-                        }
-                        if ($LOFore) {
-                            $NestedOutDryLogCallParams += @{
-                                foregroundcolor = $LOFore
-                            }
-                        }
-                        if ($LOBack) {
-                            $NestedOutDryLogCallParams += @{
-                                backgroundcolor = $LOBack
-                            }
                         }
                         Out-DryADLog @NestedOutDryLogCallParams
                         Out-DryADLog -Type $Type -MsgObj $_.Name -Callstacklevel $($Callstacklevel+1) -MsgObjLevel $($MsgObjLevel+1)
@@ -565,29 +461,7 @@ function Out-DryADLog {
                 else {
                     $FullMessageChunk = $StartOfMessage + $MessageChunk
                 }
-                # The 3 first characters are the the code, they are printed in black
                 if ($LogColors) {
-                    <#
-                    if ($LogColors["foregroundcolor"]) {
-                        $TextTypeBackGroundColor = $LogColors["foregroundcolor"]
-                    }
-                    if ($LogColors["backgroundcolor"]) {
-                        $TextTypeForeGroundColor = $LogColors["backgroundcolor"]
-                    }
-                    if ($null -eq $TextTypeBackGroundColor) {
-                        $TextTypeBackGroundColor = "White"
-                    }
-                    if ($null -eq $TextTypeForeGroundColor) {
-                        $TextTypeForeGroundColor = "Black"
-                    }
-                    if ($FullMessageChunk.Substring(0,3).Trim() -eq '') {
-                        Write-Host @LogColors -Object $FullMessageChunk
-                    }
-                    else {
-                        Write-Host -BackGroundColor $TextTypeBackGroundColor -ForeGroundColor $TextTypeForeGroundColor -Object $FullMessageChunk.Substring(0,3) -NoNewLine
-                        Write-Host @LogColors -Object $FullMessageChunk.Substring(3)
-                    }
-                    #>
                     Write-Host @LogColors -Object $FullMessageChunk
                 }
                 else {
