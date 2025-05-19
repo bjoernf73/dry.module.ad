@@ -153,8 +153,8 @@ Class OU {
                         
                         try {
                             $GetADObjectParams = @{
-                                Identity    = $ObjectDN
-                                Server      = $Server
+                                Identity = $ObjectDN
+                                Server = $Server
                                 ErrorAction = 'Stop'
                             }
                             if ($Credential) {
@@ -198,7 +198,7 @@ Class OU {
                             Session  = $This.PSSession
                         }
                     }
-                    $GetResult       = Invoke-Command @GetParams
+                    $GetResult = Invoke-Command @GetParams
 
                     switch ($GetResult) {
                         $true {

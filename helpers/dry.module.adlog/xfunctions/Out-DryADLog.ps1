@@ -24,7 +24,7 @@ A hashtable to display and/or log
 .PARAMETER MsgArr
 A two-element array; for instance a hashtable key and it's corresponding value.
 Out-DryADLog will add whitespaces to the first element until it reaches a length
-of `$LoggingOptions.array_first_element_length, which orders all second elements
+of `$ADLoggingOptions.array_first_element_length, which orders all second elements
 in a straight vertical line. So basically for readability of a pair
 
 .PARAMETER Header
@@ -49,7 +49,7 @@ This function uses Get-PSCallstack to identify the location of the caller, i.e.
 which function or script, and at what line, Out-DryADLog was called. For certain
 types (see parameter Type above) the function will then display that location on
 the far right of each displayed line. You may configure for which types the
-calling location should be displayed in `$LoggingOptions. Anyway, if a function
+calling location should be displayed in `$ADLoggingOptions. Anyway, if a function
 or many functions call the same proxy function that in turn calls Out-DryADLog, it
 may be more informative if the proxy function calls Out-DryADLog with '-Callstacklevel 2'.
 The effect is that the Location is no longer the PS Callstack element number 1 (the
@@ -114,7 +114,7 @@ function Out-DryADLog {
         [Parameter(ParameterSetName="array",Mandatory,Position=1,
         HelpMessage="The 'MsgArr' parameter set expects an array of 2 elements, for instance a name or description of a
         value of some kind, and the second element is the value. Out-DryADLog will add whitespaces to the first element
-        until it reaches a length of `$LoggingOptions.array_first_element_length, which orders all second elements in
+        until it reaches a length of `$ADLoggingOptions.array_first_element_length, which orders all second elements in
         a straight vertical line. So basically for readability of a pair")]
         [ValidateScript({"$($_.Count) -le 2"})]
         [array]$MsgArr,
@@ -157,8 +157,8 @@ function Out-DryADLog {
     )
 
     try {
-        if ($null -eq $GLOBAL:LoggingOptions) {
-            $GLOBAL:LoggingOptions = [PSCustomObject]@{
+        if ($null -eq $GLOBAL:ADLoggingOptions) {
+            $GLOBAL:ADLoggingOptions = [PSCustomObject]@{
                 log_to_file                = $false;
                 path                       = & { if ($PSVersionTable.Platform -eq 'Unix') { "$($env:HOME)/dry.module.ad/dry.module.ad.log" } else { ("$($env:UserProfile)\dry.module.ad\dry.module.ad.log").Replace('\','\\')}};
                 console_width_threshold    = 70;
@@ -174,17 +174,17 @@ function Out-DryADLog {
                 fail        = [PSCustomObject]@{ foreground_color = 'Red';        background_color = $null; display_location = $false; text_type = 'fail:   ' ;  status_text = 'Fail'   }
             }
         }
-        $LoggingOptions = $GLOBAL:LoggingOptions
+        $ADLoggingOptions = $GLOBAL:ADLoggingOptions
 
-        if ($LoggingOptions.log_to_file -eq $true) {
-            if ($LoggingOptions.path) {
-                $LogFile = $LoggingOptions.path
+        if ($ADLoggingOptions.log_to_file -eq $true) {
+            if ($ADLoggingOptions.path) {
+                $LogFile = $ADLoggingOptions.path
                 if (($GLOBAL:DoNotLogToFile -ne $true) -and (-not (Test-Path $LogFile))) {
                     New-Item -ItemType File -Path $LogFile -Force -ErrorAction Continue | Out-Null
                 }
             }
             else {
-                throw "You must define LoggingOptions.path to log to file"
+                throw "You must define ADLoggingOptions.path to log to file"
             }
         }
         else {
@@ -226,11 +226,13 @@ function Out-DryADLog {
             }
             {$_ -in ('s','success')} {
                 $Type = 'success'
-                $StatusText = $LoggingOptions."$Type".status_text
+                $StatusText = $ADLoggingOptions."$Type".status_text
+                $DisplayLogMessage = $false
             }
             {$_ -in ('f','fail','failed')} {
                 $Type = 'fail'
-                $StatusText = $LoggingOptions."$Type".status_text
+                $StatusText = $ADLoggingOptions."$Type".status_text
+                $DisplayLogMessage = $false
             }
             default {
                 $Type = 'verbose'
@@ -243,17 +245,17 @@ function Out-DryADLog {
             }
         }
 
-        if ($LoggingOptions."$Type".text_type) {
-            $TextType = $LoggingOptions."$Type".text_type
+        if ($ADLoggingOptions."$Type".text_type) {
+            $TextType = $ADLoggingOptions."$Type".text_type
         }
-        if ($LoggingOptions."$Type".foreground_color) {
-            $LOFore   = $LoggingOptions."$Type".foreground_color
+        if ($ADLoggingOptions."$Type".foreground_color) {
+            $LOFore   = $ADLoggingOptions."$Type".foreground_color
         }
-        if ($LoggingOptions."$Type".background_color) {
-            $LOBack   = $LoggingOptions."$Type".background_color
+        if ($ADLoggingOptions."$Type".background_color) {
+            $LOBack   = $ADLoggingOptions."$Type".background_color
         }
-        if ($LoggingOptions."$Type".display_location) {
-            $DisplayLocation = $LoggingOptions."$Type".display_location
+        if ($ADLoggingOptions."$Type".display_location) {
+            $DisplayLocation = $ADLoggingOptions."$Type".display_location
         }
 
         [hashtable]$LogColors = @{}
@@ -267,18 +269,18 @@ function Out-DryADLog {
         if ($DisplayLogMessage) {
             $StartOfMessage = $TextType + ' '
             # determine the console width
-            if ($LoggingOptions.force_console_width) {
-                $ConsoleWidth = $LoggingOptions.force_console_width
+            if ($ADLoggingOptions.force_console_width) {
+                $ConsoleWidth = $ADLoggingOptions.force_console_width
             }
             else {
                 $ConsoleWidth = $Host.UI.RawUI.WindowSize.Width
             }
 
             if ($DisplayLocation) {
-                $TargetMessageLength = $ConsoleWidth - ($LoggingOptions.post_buffer + $StartOfMessage.Length + $LocationString.Length)
+                $TargetMessageLength = $ConsoleWidth - ($ADLoggingOptions.post_buffer + $StartOfMessage.Length + $LocationString.Length)
             }
             else {
-                $TargetMessageLength = $ConsoleWidth - ($LoggingOptions.post_buffer + $StartOfMessage.Length)
+                $TargetMessageLength = $ConsoleWidth - ($ADLoggingOptions.post_buffer + $StartOfMessage.Length)
             }
 
             if ($Header) {
@@ -294,14 +296,14 @@ function Out-DryADLog {
                     do {
                         $StatusText = "$StatusText "
                     }
-                    while ($StatusText.length -le $LoggingOptions.array_first_element_length)
+                    while ($StatusText.length -le $ADLoggingOptions.array_first_element_length)
                     $Messages = @("$StatusText`: $Message")
                 }
-                # If $TargetMessageLength is greater than the $LoggingOptions.console_width_threshold, and
+                # If $TargetMessageLength is greater than the $ADLoggingOptions.console_width_threshold, and
                 # $Message is longer than $TargetMessageLength, we want to split the message
                 # into chunks so they fit nicely in the console
                 elseif (
-                    ($TargetMessageLength -gt $LoggingOptions.console_width_threshold) -and
+                    ($TargetMessageLength -gt $ADLoggingOptions.console_width_threshold) -and
                     ($Message.Length -gt $TargetMessageLength)
                 ) {
                     [array]$Messages = Split-DryString -Length $TargetMessageLength -String $Message
@@ -354,14 +356,14 @@ function Out-DryADLog {
                 do {
                     $FirstElement = "$FirstElement "
                 }
-                while ($FirstElement.length -le $LoggingOptions.array_first_element_length)
+                while ($FirstElement.length -le $ADLoggingOptions.array_first_element_length)
                 do {
                     $BlankFirstElement = "$BlankFirstElement "
                 }
-                while ($BlankFirstElement.length -le $LoggingOptions.array_first_element_length)
+                while ($BlankFirstElement.length -le $ADLoggingOptions.array_first_element_length)
                 $ArrayMessage = "$($FirstElement): $($SecondElement)"
                 
-                if (($TargetMessageLength -gt $LoggingOptions.console_width_threshold) -and
+                if (($TargetMessageLength -gt $ADLoggingOptions.console_width_threshold) -and
                     ($ArrayMessage.Length -gt $TargetMessageLength)) {
                     $ArrayMessages = $null
                     [array]$ArrayMessages = Split-DryString -Length ($TargetMessageLength - ("$($FirstElement): ").length ) -String $SecondElement
@@ -471,7 +473,7 @@ function Out-DryADLog {
         }
 
         # Log to file
-        switch ($LoggingOptions.log_to_file) {
+        switch ($ADLoggingOptions.log_to_file) {
             $true {
                 switch ($PSCmdlet.ParameterSetName) {
                     'message' {

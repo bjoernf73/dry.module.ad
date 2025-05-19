@@ -89,8 +89,8 @@
             'ImportGroupPolicyToADParams',
             'GPOExistsAlready'
         ).foreach({
-                Remove-Variable -Name $_ -ErrorAction Ignore | Out-Null
-            })
+            Remove-Variable -Name $_ -ErrorAction Ignore | Out-Null
+        })
     }
 }
 

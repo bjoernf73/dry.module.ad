@@ -24,13 +24,13 @@
     )
     try {
         $Modules.foreach({
-                $ImportParams = @{
-                    Name        = $_
-                    Force       = $true 
-                    ErrorAction = 'Stop'
-                }
-                Import-Module @ImportParams
-            })
+            $ImportParams = @{
+                Name        = $_
+                Force       = $true 
+                ErrorAction = 'Stop'
+            }
+            Import-Module @ImportParams
+        })
         $true
     }
     catch {

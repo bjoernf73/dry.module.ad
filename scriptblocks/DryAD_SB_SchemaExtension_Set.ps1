@@ -35,7 +35,7 @@
     finally {
         Remove-Item -Path $LDFFilePath -Force -ErrorAction Ignore
         @('LDFFilePath', 'LDFContent', 'LdifdeResult').foreach({
-                Remove-Variable -Name $_ -ErrorAction Ignore
-            })
+            Remove-Variable -Name $_ -ErrorAction Ignore
+        })
     } 
 }
