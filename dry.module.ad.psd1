@@ -41,7 +41,7 @@
     Copyright = '(c) 2021 bjoernf73. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description           = "Creates and configures Active Directory objects. Supports creation of OUs, creation of groups and user accounts, users' and groups' group memberships, adding ACLs to AD objects, import, migration and linking of backup-GPOs, import, linking and migration of json-formatted-GPOs, import and linking of WMIFilters, copying of administrative templates to the central PolicyDefinitions folder, copying NETLOGON files, AD schema extensions (from .ldf's). If you pass in a PSSession to a domain controller to Import-DryADConfiguration, all scriptblocks will execute in that session. If not, scriptblocks will run on the local system in context of the executing user."
+    Description  = "Creates and configures Active Directory objects. Supports creation of OUs, creation of groups and user accounts, users' and groups' group memberships, adding ACLs to AD objects, import, migration and linking of backup-GPOs, import, linking and migration of json-formatted-GPOs, import and linking of WMIFilters, copying of administrative templates to the central PolicyDefinitions folder, copying NETLOGON files, AD schema extensions (from .ldf's). If you pass in a PSSession to a domain controller to Import-DryADConfiguration, all scriptblocks will execute in that session. If not, scriptblocks will run on the local system in context of the executing user."
 
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion     = '5.1'
@@ -88,13 +88,13 @@
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport       = @()
+    CmdletsToExport = @()
 
     # Variables to export from this module
-    VariablesToExport     = '*'
+    VariablesToExport = ''
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport       = '*'
+    AliasesToExport = '*'
 
     # DSC resources to export from this module
     # DscResourcesToExport = @()
@@ -106,7 +106,7 @@
     # FileList = @()
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData           = @{
+    PrivateData  = @{
         ExternalModuleDependencies = @("ActiveDirectory", "GroupPolicy")
         PSData = @{
 
@@ -123,7 +123,7 @@
             # IconUri = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = "Publishing with newest PowershellGet to not include .git in the package"
+            ReleaseNotes = "Simplification of some concepts. Objects do not have a proprietary scope anymore. Aliases er easier to define. Properties of groups have changed."
 
         } # End of PSData hashtable
 
