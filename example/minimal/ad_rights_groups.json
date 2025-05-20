@@ -1,0 +1,68 @@
+{ 
+	"security_groups": [
+		{
+			"Name": "Right-AD-Group-DomainAdmins-Member",
+			"alias": "Rights-Protected",
+			"Description": "Member of Domain Admins in domain '###DomainFQDN###'",
+			"GroupScope": "global",
+			"MemberOf": [ 
+					"Domain Admins"
+			]
+		},
+		{
+			"Name": "Right-AD-Group-EnterpriseAdmins-Member",
+			"alias": "Rights-Protected",
+			"Description": "Member of Enterprise Admins in domain '###DomainFQDN###'",
+			"GroupScope": "global",
+			"MemberOf": [
+				"Enterprise Admins"
+			]
+		},
+		{
+			"Name": "Right-AD-Group-SchemaAdmins-Member",
+			"alias": "Rights-Protected",
+			"Description": "Member of Schema Admins in domain '###DomainFQDN###'",
+			"GroupScope": "global",
+			"MemberOf": [
+				"Schema Admins"
+			]
+		},
+		{
+			"Name": "Right-AD-Computer-Servers-CreMoDel",
+			"alias": "Rights",
+			"Description": "Right to CREate, MODify and DELete Server computer objects",
+			"GroupScope": "domainlocal",
+			"Rights": 
+			[
+				{
+					"alias": "Computer-Servers",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ActiveDirectoryRights":  "CreateChild,DeleteChild",
+					"ObjectType":  "Computer",
+					"InheritedObjectType":  "organizationalUnit"
+				},
+				{
+					"alias": "Computer-Servers",
+					"AccessControlType":  "Allow",
+					"ActiveDirectorySecurityInheritance":  "Descendents",
+					"ObjectType":  "All",
+					"InheritedObjectType":  "Computer",
+					"ActiveDirectoryRights":  "WriteProperty"
+				}
+			]	
+		},
+		{
+			"name": "Right-DC-BuiltinGroup-RemoteDesktopUsers",
+			"alias": "Rights",
+			"description": "Right DC: Member of local group 'Remote Desktop Users'",
+			"groupscope": "global"
+		},
+		{
+			"name": "Right-DC-URA-SeSecurityPrivilege",
+			"alias": "Rights",
+			"description": "Role DC: URA 'Manage Auditing and Security Log' (SeSecurityPrivilege)",
+			"groupscope": "domainlocal"
+		}
+	]
+}

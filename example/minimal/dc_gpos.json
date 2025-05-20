@@ -1,0 +1,67 @@
+{ 
+	"gpo_imports": [
+		{
+			"name": "DC - RoleGPO - v0r12",
+			"targetname": "DC - RoleGPO - v0r12",
+			"type": "json"
+		},
+		{
+			"name": "DOMAIN - Domain Policy - v0r2",
+			"targetname": "###DomainNB### - Domain Policy - v0r2",
+			"type": "json"
+		}
+	],
+	"gpo_links": [
+		{
+			"alias":  "DomainRoot",
+			"description": "GPOLinks at the root of domain",
+			"gplinks": [
+				{
+					"name": "###DomainNB### - Domain Policy - v0r2",
+					"order": 1
+				}
+			]
+		},
+		{
+			"alias":  "DomainControllers",
+			"description": "GPOs linked at Domain Controllers node",
+			"gplinks": [
+				{
+					"name": "DC - RoleGPO - v0r12",
+					"order": 1
+				}
+			]
+		}
+	],
+	"wmi_filters": [
+		{
+			"name": "Windows 10-11",
+			"description": "Windows 10-11",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE Version LIKE \"10.0.%\" and ProductType = \"1\"",
+				"Select * from Win32_OperatingSystem WHERE Version LIKE \"11.0.%\" and ProductType = \"1\""
+			],
+			"links": []
+		},
+		{
+			"name": "Windows Server 2019-22",
+			"description": "Windows Server 2019-22",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE (ProductType = \"2\" or ProductType = \"3\")",
+				"Select * from Win32_OperatingSystem WHERE (Caption LIKE \"%2019%\" or Caption LIKE \"%2022%\")"
+			],
+			"links": []
+		},
+		{
+			"name": "Windows Server 2019-22 Domain Controller",
+			"description": "Windows Server 2019-22 Domain Controller",
+			"queries": [
+				"Select * from Win32_OperatingSystem WHERE ProductType = \"2\"",
+				"Select * from Win32_OperatingSystem WHERE (Caption LIKE \"%2019%\" OR Caption LIKE \"%2022%\")"
+			],
+			"links": [ "DC - RoleGPO - v0r12" ]
+		}
+	]
+}
+
+

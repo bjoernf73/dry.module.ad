@@ -44,6 +44,8 @@ foreach ($Exportedfunction in $ExportedFunctions) {
     . $ExportedFunction.Path
 }
 
-Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\dry.module.adlog\dry.module.adlog.psd1') -Force -ErrorAction Stop
-Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\GPRegistryPolicyParser\GPRegistryPolicyParser.psm1') -Force -ErrorAction Stop
-Import-Module -Name (Join-Path -Path $PSScriptRoot -ChildPath 'helpers\dry.ad.gpohelper\dry.ad.gpohelper.psm1') -Force -ErrorAction Stop
+# ensure the helper modules are in $env:psmodulepath
+$modulePath = Join-Path -Path $PSScriptRoot -child 'helpers'
+if (-not ($env:PSModulePath -split ";" | ForEach-Object { $_.Trim() } | Where-Object { $_ -ieq $modulePath })) {
+    $env:PSModulePath += ";$modulePath"
+} 

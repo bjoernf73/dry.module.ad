@@ -42,7 +42,9 @@
     $Result = @($false, $null, '')
     
     try {
-        Import-Module -Name 'dry.ad.gpohelper' -Force -ErrorAction 'Stop' | Out-Null
+        if(-not($null = get-command -Name 'Import-GroupPolicyToAD' -ErrorAction Ignore)){
+            Import-Module -Name 'dry.ad.gpohelper' -Force -ErrorAction 'Stop' | Out-Null
+        }
         
         $GPOExistsAlreadyParams = @{
             Name             = $Name

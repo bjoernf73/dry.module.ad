@@ -1,0 +1,44 @@
+{ 
+	"security_groups": [
+		{
+			"name": "Role-AD-DomainAdmins",
+			"alias": "Roles-Protected",
+			"description": "Domain Admins in domain '###DomainFQDN###'",
+			"groupscope": "global",
+			"memberof": [ 
+					"Right-AD-Group-DomainAdmins-Member"
+			]
+		},
+
+		{
+			"name": "Role-AD-EnterpriseAdmins",
+			"alias": "Roles-Protected",
+			"description": "Enterprise Admins in domain '###DomainFQDN###'",
+			"groupscope": "global",
+			"memberof": [
+				"Right-AD-Group-EnterpriseAdmins-Member"
+			]
+		},
+		
+		{
+			"name": "Role-AD-SchemaAdmins",
+			"alias": "Roles-Protected",
+			"description": "Schema Admins in domain '###DomainFQDN###'",
+			"groupscope": "global",
+			"memberof": [
+				"Right-AD-Group-SchemaAdmins-Member"
+			]
+		},
+		
+		{
+			"name": "Role-AD-FullAdmins",
+			"alias": "Roles-Protected",
+			"description": "Domain-, Enterprise- and Schema Admin in domain '###DomainFQDN###'",
+			"groupscope": "global",
+			"memberof": [
+				"Right-AD-Group-DomainAdmins-Member",
+				"Right-AD-Group-EnterpriseAdmins-Member",
+				"Right-AD-Group-SchemaAdmins-Member"
+			]
+		}	]
+}

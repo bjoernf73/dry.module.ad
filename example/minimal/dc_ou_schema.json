@@ -1,0 +1,60 @@
+{	
+	"ou_schema": 
+	[		
+		{
+			"alias": "DomainRoot",
+			"description": "Root of domain",
+			"path": ""
+		},
+		{
+			"alias": "DomainControllers",
+			"description": "Domain Controllers OU",
+			"path": "Domain Controllers"
+		},
+		{
+			"alias": "Computer-Servers",
+			"description": "Root OU for Server Computer Objects",
+			"path": "###org###/Servers"
+		},
+		{
+			"alias": "Computer-Workstations",
+			"description": "Root OU for Server Computer Objects",
+			"path": "###org###/Workstations"
+			
+		},
+		{
+			"alias": "Roles-Root",
+			"description": "Root OU for Role groups",
+			"path": "###org###/Roles"
+		},
+		{
+			"alias": "Roles",
+			"description": "OU for Roles of role '###RoleShortName###'",
+            "parent_alias": "Roles-Root",
+            "child_path": "###RoleShortName###"	
+		},
+		{
+			"alias": "Roles-Protected",
+			"description": "OU for Protected Role groups (groups with AdminCount=1)",
+            "parent_alias": "Roles-Root",
+            "child_path": "Protected"
+		},
+		{
+			"alias": "Rights-Root",
+			"description": "Root OU for Rights groups",
+			"path": "###org###/Rights"
+		},
+		{
+			"alias": "Rights",
+			"description": "OU for Rights of role '###RoleShortName###'",
+            "parent_alias": "Rights-Root",
+            "child_path": "###RoleShortName###"
+		},
+		{
+			"alias": "Rights-Protected",
+			"description": "OU for Protected Rights groups (groups with AdminCount=1)",
+            "parent_alias": "Rights-Root",
+            "child_path": "Protected"	
+		}
+	]
+}

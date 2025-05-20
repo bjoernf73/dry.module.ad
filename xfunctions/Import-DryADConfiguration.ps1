@@ -792,7 +792,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($ProcessOUs) {
             olad i ''
-            olad i "OUs ($($DomainOUs.count) to be created)" -sh -air
+            olad i "OUs ($($DomainOUs.count) tasks)" -sh -air
             foreach ($OU in $DomainOUs) {
 
                 # increment the element counter and update progress
@@ -837,7 +837,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
         if ($ProcessWMIFilterImports) {
             olad i ''
-            olad i "WMIFilters ($($DomainWMIfilters.count)  to be created)" -sh -air
+            olad i "WMIFilters ($($DomainWMIfilters.count)  tasks)" -sh -air
 
             # Make sure 'Allow System Only Change' in registry on domain controller is 1
             # If it isn't, WMIFilter creation will fail with access denied
@@ -904,7 +904,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($ProcessSecurityGroups) {
             olad i ''
-            olad i "Security Groups ($($DomainSecurityGroups.count) to be created)" -sh -air
+            olad i "Security Groups ($($DomainSecurityGroups.count) tasks)" -sh -air
  
             foreach ($SecurityGroup in $DomainSecurityGroups) {
 
@@ -954,7 +954,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($ProcessGroupMembers) {
             olad i ''
-            olad i "Group Members ($NumberOfDomainMemberAndMemberOf  to be created)" -sh -air
+            olad i "Group Members ($NumberOfDomainMemberAndMemberOf  tasks)" -sh -air
             
             foreach ($DomainSecurityGroup in $DomainSecurityGroups) {
                 foreach ($DomainSecurityGroupMember in $DomainSecurityGroup.Member) {
@@ -1053,7 +1053,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             #
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
             olad i ''
-            olad i "Users ($($DomainUsers.count) to be created)" -sh -air
+            olad i "Users ($($DomainUsers.count) tasks)" -sh -air
 
             foreach ($User in $DomainUsers) {
 
@@ -1103,7 +1103,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if ($ProcessUserMemberOf) {
             olad i ''
-            olad i "User's Group Memberships ($NumberOfDomainUserMemberOf to be created)" -sh -air
+            olad i "User's Group Memberships ($NumberOfDomainUserMemberOf tasks)" -sh -air
             
             # Security Groups may have .member and .memberof 
             foreach ($DomainUser in $DomainUsers) {
@@ -1156,7 +1156,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
         if ($ProcessRights) {
             olad i ''
-            olad i "Rights ($NumberOfDomainRights to be created)" -sh -air
+            olad i "Rights ($NumberOfDomainRights tasks)" -sh -air
 
             # Domain Rights
             foreach ($DomainSecurityGroup in $DomainSecurityGroups) {
@@ -1263,7 +1263,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             #
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
             olad i ''
-            olad i "GPO Imports ($($DomainGPOImports.count) to be created)" -sh -air
+            olad i "GPO Imports ($($DomainGPOImports.count) tasks)" -sh -air
             foreach ($GPO in $DomainGPOImports) {
                 # Ensure TargetName exists, and is converted to the desired case
                 if ($null -eq $GPO.TargetName) { 
@@ -1321,7 +1321,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
         if ($ProcessGPOLinks) {
             olad i ''
-            olad i "GPO Links ($NumberOfGPOLinks to be created)" -sh -air
+            olad i "GPO Links ($NumberOfGPOLinks tasks)" -sh -air
             foreach ($DomainGPOLink in $DomainGPOLinks | Where-Object { $_.defined_in -eq 'OS' }) {
                 
                 # increment the element counter and update progress
@@ -1412,7 +1412,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
         if ($ProcessWMIFilterLinks) {
             olad i ''
-            olad i "WMIFilterLinks ($DomainWmiFilterLinksCount to be created)" -sh -air
+            olad i "WMIFilterLinks ($DomainWmiFilterLinksCount tasks)" -sh -air
             foreach ($GPOWMIFilter in $DomainWMIFilters) {
                 foreach ($GPOWMIFilterLink in $GPOWMIFilter.links) {
                     # Progress
