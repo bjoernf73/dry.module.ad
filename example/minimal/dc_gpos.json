@@ -1,8 +1,8 @@
 { 
 	"gpo_imports": [
 		{
-			"name": "DC - RoleGPO - v0r12",
-			"targetname": "DC - RoleGPO - v0r12",
+			"name": "DC - RoleGPO - v0r13",
+			"targetname": "DC - RoleGPO - v0r13",
 			"type": "json"
 		},
 		{
@@ -27,7 +27,7 @@
 			"description": "GPOs linked at Domain Controllers node",
 			"gplinks": [
 				{
-					"name": "DC - RoleGPO - v0r12",
+					"name": "DC - RoleGPO - v0r13",
 					"order": 1
 				}
 			]
@@ -59,7 +59,7 @@
 				"Select * from Win32_OperatingSystem WHERE ProductType = \"2\"",
 				"Select * from Win32_OperatingSystem WHERE (Caption LIKE \"%2019%\" OR Caption LIKE \"%2022%\")"
 			],
-			"links": [ "DC - RoleGPO - v0r12" ]
+			"links": [ "DC - RoleGPO - v0r13" ]
 		}
 	]
 }

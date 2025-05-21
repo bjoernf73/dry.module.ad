@@ -52,12 +52,12 @@ function Wait-DryADForADWebServices {
         
         switch ($TestResult) {
             $true {
-                olad i "Active Directory Web Services is now up and reachable."
+                olad v "Active Directory Web Services is now up and reachable."
                 $ADWebServicesUp = $true
             }
             $false {
                 #! should Out-DryADLog have a wait-option?
-                olad i "Waiting for Active Directory Web Services to become available...."
+                olad v "Waiting for Active Directory Web Services to become available...."
                 Start-Sleep -Seconds 30
             }
             default {

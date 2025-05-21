@@ -72,11 +72,9 @@ function Add-DryADPSModulesPath {
     
             switch ($ImportResult) {
                 $true {
-                    olad s "Modules were imported into the session"
                     olad v "The modules '$Modules' were imported into PSSession to $($PSSession.ComputerName)"
                 }
                 default {
-                    olad f "Modules were not imported into the session"
                     olad w "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
                     throw "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
                 }

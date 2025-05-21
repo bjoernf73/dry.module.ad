@@ -94,20 +94,19 @@ function New-DryADSecurityGroup {
         switch ($GetResult) {
             $true {
                 olad v @("The AD Group exists already", $Name)
-                olad s 'Group exists already'
                 Return
             }
             $false {
                 olad v @("The Group does not exist, and must be created", $Name)
             }
             default {
-                olad 2 @("Error trying to get Group", "$Name")
+                olad e @("Error trying to get Group", "$Name")
                 throw $GetResult
             }
         } 
     }
     catch {
-        olad 2 @("Failed trying to get group", "$Name") 
+        olad e @("Failed trying to get group", "$Name")
         throw $_
     }
     
@@ -126,12 +125,10 @@ function New-DryADSecurityGroup {
         
         switch ($SetResult) {
             $true {
-                olad s "Group was created"
                 olad v @("AD Group was created", $Name)
             }
             default {
-                olad 2 @('Error creating AD Group', $Name)
-                olad f "Group was not created"
+                olad e @('Error creating AD Group', $Name)
                 throw $SetResult
             }
         }

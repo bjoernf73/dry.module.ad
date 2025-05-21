@@ -212,15 +212,13 @@ function Set-DryADGPLink {
                             Session = $PSSession
                         }
                     }
-                    olad i @('GPO', "$($GPLink.Name)")
+                    olad v @('GPO', "$($GPLink.Name)")
                     $SetLinkRet = Invoke-Command @InvokeSetLinkParams
                     
                     if ($SetLinkRet[0] -eq $true) {
                         olad v "Successfully updated GPlink properties for '$($GPLink.Name)' on $($GPOLinkObject.Path)"
-                        olad s "Link updated"
                     }
                     else {
-                        olad f "Link updated"
                         throw $SetLinkRet[1]
                     }
 
@@ -252,7 +250,7 @@ function Set-DryADGPLink {
 
                 # Remove existing GPLink, if Links for lower versioned GPOs exist
                 foreach ($LinkToRemove in $GPLink.Unlink) {
-                    olad i @('Unlinking', "$LinkToRemove")
+                    olad v @('Unlinking', "$LinkToRemove")
 
                     $RemoveLinkArgumentList = @($GPOLinkObject.Path, $LinkToRemove, $Server)
                     $InvokeRemoveLinkParams = @{
@@ -267,7 +265,7 @@ function Set-DryADGPLink {
                     $RemoveLinkRet = Invoke-Command @InvokeRemoveLinkParams 
                     
                     if ($RemoveLinkRet[0] -eq $true) {
-                        olad s "Successfully removed link for GPO '$LinkToRemove'"
+                        olad d "Successfully removed link for GPO '$LinkToRemove'"
                     }
                     else {
                         throw $RemoveLinkRet[1]
@@ -275,7 +273,7 @@ function Set-DryADGPLink {
                 }
 
                 # Finally, we're ready to set the new GPO Link
-                olad i @('GPO', "$($GPLink.Name)")
+                olad v @('GPO', "$($GPLink.Name)")
 
                 $NewLinkArgumentList = @(
                     $GPOLinkObject.Path,
@@ -299,10 +297,10 @@ function Set-DryADGPLink {
                 $NewLinkRet = Invoke-Command @InvokeNewLinkParams
                 
                 if ($NewLinkRet[0] -eq $true) {
-                    olad s 'GPO Linked'
+                    olad d 'GPO Linked'
                 }
                 else {
-                    olad f 'GPO Link failed'
+                    olad d 'GPO Link failed'
                     throw $NewLinkRet[1]
                 }
             }

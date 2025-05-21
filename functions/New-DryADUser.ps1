@@ -88,7 +88,6 @@ function New-DryADUser {
         
         switch ($GetResult) {
             $true {
-                olad s 'User exists already'
                 olad v @('The User exists already', "$($User.Name)")
             }
             $false {
@@ -166,7 +165,7 @@ function New-DryADUser {
                         CertificateFile = $DCPublicCertificateFilePath
                     }
                     $Base64EncodedPass = Convert-DryADClearTextToEncryptedString @ConvertPwdParams
-                    olad i @("Encrypted password for $($User.Name)", "$Base64EncodedPass")
+                    olad v @("Encrypted password for $($User.Name)", "$Base64EncodedPass")
                 }
                 'Local' {
                     # If local execution, we must send the password to Invoke-Command. 
@@ -210,11 +209,9 @@ function New-DryADUser {
             $SetResult = Invoke-Command @InvokeSetParams
             
             if ($SetResult[0] -eq $true) {
-                olad s 'User created'
-                olad i @('Successfully created user', "$($User.Name)")
+                olad v @('Successfully created user', "$($User.Name)")
             }
             else {
-                olad f 'User not created'
                 olad e "Error creating user $($User.Name): $($SetResult[1])"
                 throw "$($SetResult[1])"
             }

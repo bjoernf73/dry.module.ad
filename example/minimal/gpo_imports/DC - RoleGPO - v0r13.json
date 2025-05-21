@@ -1,0 +1,641 @@
+{
+    "Name":  "DC - RoleGPO - v0r13",
+    "Linktargets":  null,
+    "ComputerSettingsEnabled":  true,
+    "UserSettingsEnabled":  true,
+    "WMIFilter":  null,
+    "Permissions":  "O:DAG:DAD:PAI(A;CIIO;CCDCLCSWRPWPDTLOSDRCWDWO;;;CO)(A;CI;LCRPLORC;;;ED)(A;CI;LCRPLORC;;;AU)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;SY)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;DA)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;####Replace[DOMAIN\\Enterprise Admins])(OA;CI;CR;edacfd8f-ffb3-11d1-b41d-00a0c968f939;;AU)",
+    "PolicySettings":  {
+                           "RegistrySettings":  [
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Netlogon\\Parameters",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "UseDynamicDns",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Netlogon\\Parameters",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "TryNextClosestSite",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Netlogon\\Parameters",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AutoSiteCoverage",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "PolicyVersion",
+                                                        "ValueData":  "543",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableFirewall",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultOutboundAction",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultInboundAction",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogDroppedPackets",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogSuccessfulConnections",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "LogFilePath",
+                                                        "ValueData":  "%systemroot%\\system32\\LogFiles\\Firewall\\pfirewall.log",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "LogFileSize",
+                                                        "ValueData":  "4096",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-ICMP6-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=58|ICMP6=128:*|App=System|Name=@FirewallAPI.dll,-37631|Desc=@FirewallAPI.dll,-37632|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-ICMP4-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=1|ICMP4=8:*|App=System|Name=@FirewallAPI.dll,-37627|Desc=@FirewallAPI.dll,-37628|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "W32Time-NTP-UDP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=123|App=%systemroot%\\System32\\svchost.exe|Svc=w32time|Name=@FirewallAPI.dll,-37612|Desc=@FirewallAPI.dll,-37625|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-LDAPSEC-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=636|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37604|Desc=@FirewallAPI.dll,-37617|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-RPCEPMAP-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC-EPMap|App=%systemroot%\\system32\\svchost.exe|Svc=rpcss|Name=@FirewallAPI.dll,-37636|Desc=@FirewallAPI.dll,-37614|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-LDAPGCSEC-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=3269|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37606|Desc=@FirewallAPI.dll,-37619|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-LDAPGC-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=3268|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37605|Desc=@FirewallAPI.dll,-37618|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-LDAP-UDP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=389|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37603|Desc=@FirewallAPI.dll,-37616|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-LDAP-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=389|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37602|Desc=@FirewallAPI.dll,-37615|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-NP-UDP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=445|App=System|Name=@FirewallAPI.dll,-37609|Desc=@FirewallAPI.dll,-37622|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-RPC-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37635|Desc=@FirewallAPI.dll,-37613|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-NP-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=445|App=System|Name=@FirewallAPI.dll,-37610|Desc=@FirewallAPI.dll,-37623|EmbedCtxt=@FirewallAPI.dll,-37601|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADWS-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=9389|App=%systemroot%\\ADWS\\Microsoft.ActiveDirectory.WebServices.exe|Svc=adws|Name=@%SystemRoot%\\system32\\firewallapi.dll,-53427|Desc=@%SystemRoot%\\system32\\firewallapi.dll,-53425|EmbedCtxt=@%SystemRoot%\\system32\\firewallapi.dll,-53426|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DfsMgmt-WMI-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%systemroot%\\system32\\svchost.exe|Svc=winmgmt|Name=@FirewallAPI.dll,-37807|Desc=@FirewallAPI.dll,-37808|EmbedCtxt=@FirewallAPI.dll,-37802|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DfsMgmt-SMB-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=445|App=System|Name=@FirewallAPI.dll,-37809|Desc=@FirewallAPI.dll,-37810|EmbedCtxt=@FirewallAPI.dll,-37802|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DfSMgmt-DCOM-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=135|App=%systemroot%\\system32\\svchost.exe|Svc=RPCSS|Name=@FirewallAPI.dll,-37805|Desc=@FirewallAPI.dll,-37806|EmbedCtxt=@FirewallAPI.dll,-37802|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DfsMgmt-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%systemroot%\\system32\\dfsfrsHost.exe|Name=@FirewallAPI.dll,-37803|Desc=@FirewallAPI.dll,-37804|EmbedCtxt=@FirewallAPI.dll,-37802|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DFSR-DFSRSvc-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%SystemRoot%\\system32\\dfsrs.exe|Svc=Dfsr|Name=@FirewallAPI.dll,-37703|Desc=@FirewallAPI.dll,-37704|EmbedCtxt=@FirewallAPI.dll,-37702|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DFSR-DFSRSvc-RPCSS-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC-EPMap|App=%systemroot%\\system32\\svchost.exe|Svc=RpcSs|Name=@FirewallAPI.dll,-37705|Desc=@FirewallAPI.dll,-37706|EmbedCtxt=@FirewallAPI.dll,-37702|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DNSSrv-RPCEPMAP-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC-EPMap|App=%systemroot%\\system32\\svchost.exe|Svc=rpcss|Name=@firewallapi.dll,-53000|Desc=@firewallapi.dll,-53006|EmbedCtxt=@firewallapi.dll,-53012|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DNSSrv-DNS-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=53|App=%systemroot%\\System32\\dns.exe|Svc=dns|Name=@firewallapi.dll,-53001|Desc=@firewallapi.dll,-53007|EmbedCtxt=@firewallapi.dll,-53012|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DNSSrv-RPC-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%systemroot%\\System32\\dns.exe|Svc=dns|Name=@firewallapi.dll,-53003|Desc=@firewallapi.dll,-53009|EmbedCtxt=@firewallapi.dll,-53012|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "DNSSrv-DNS-UDP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=53|App=%systemroot%\\System32\\dns.exe|Svc=dns|Name=@firewallapi.dll,-53002|Desc=@firewallapi.dll,-53008|EmbedCtxt=@firewallapi.dll,-53012|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "MSDTC-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|App=%SystemRoot%\\system32\\msdtc.exe|Name=@FirewallAPI.dll,-33503|Desc=@FirewallAPI.dll,-33506|EmbedCtxt=@FirewallAPI.dll,-33502|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "MSDTC-RPCSS-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC-EPMap|App=%SystemRoot%\\system32\\svchost.exe|Svc=RPCSS|Name=@FirewallAPI.dll,-33513|Desc=@FirewallAPI.dll,-33514|EmbedCtxt=@FirewallAPI.dll,-33502|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "MSDTC-KTMRM-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%SystemRoot%\\system32\\svchost.exe|Svc=ktmrm|Name=@FirewallAPI.dll,-33511|Desc=@FirewallAPI.dll,-33512|EmbedCtxt=@FirewallAPI.dll,-33502|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "FPS-ICMP6-ERQ-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=58|ICMP6=128:*|App=System|Name=@FirewallAPI.dll,-28545|Desc=@FirewallAPI.dll,-28547|EmbedCtxt=@FirewallAPI.dll,-28502|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "FPS-SMB-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=445|App=System|Name=@FirewallAPI.dll,-28511|Desc=@FirewallAPI.dll,-28514|EmbedCtxt=@FirewallAPI.dll,-28502|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "FPS-ICMP4-ERQ-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=1|ICMP4=8:*|App=System|Name=@FirewallAPI.dll,-28543|Desc=@FirewallAPI.dll,-28547|EmbedCtxt=@FirewallAPI.dll,-28502|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "FPS-NB_Session-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=139|App=System|Name=@FirewallAPI.dll,-28503|Desc=@FirewallAPI.dll,-28506|EmbedCtxt=@FirewallAPI.dll,-28502|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "FPS-RPCSS-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC-EPMap|App=%SystemRoot%\\system32\\svchost.exe|Svc=Rpcss|Name=@FirewallAPI.dll,-28539|Desc=@FirewallAPI.dll,-28542|EmbedCtxt=@FirewallAPI.dll,-28502|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "FPS-NB_Name-In-UDP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=137|App=System|Name=@FirewallAPI.dll,-28519|Desc=@FirewallAPI.dll,-28522|EmbedCtxt=@FirewallAPI.dll,-28502|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "FPS-SpoolSvc-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%SystemRoot%\\system32\\spoolsv.exe|Svc=Spooler|Name=@FirewallAPI.dll,-28535|Desc=@FirewallAPI.dll,-28538|EmbedCtxt=@FirewallAPI.dll,-28502|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-Kerberos-Password-UDP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=464|App=%systemroot%\\System32\\lsass.exe|Name=@kdcsvc.dll,-1003|Desc=@kdcsvc.dll,-1007|EmbedCtxt=@kdcsvc.dll,-1008|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-Kerberos-Password-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=464|App=%systemroot%\\System32\\lsass.exe|Name=@kdcsvc.dll,-1002|Desc=@kdcsvc.dll,-1006|EmbedCtxt=@kdcsvc.dll,-1008|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-Kerberos-UDP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=88|App=%systemroot%\\System32\\lsass.exe|Name=@kdcsvc.dll,-1001|Desc=@kdcsvc.dll,-1005|EmbedCtxt=@kdcsvc.dll,-1008|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "ADDS-Kerberos-TCP-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=88|App=%systemroot%\\System32\\lsass.exe|Name=@kdcsvc.dll,-1000|Desc=@kdcsvc.dll,-1004|EmbedCtxt=@kdcsvc.dll,-1008|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "SPPSVC-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=1688|App=%SystemRoot%\\system32\\sppextcomobj.exe|Svc=sppsvc|Name=@FirewallAPI.dll,-28003|Desc=@FirewallAPI.dll,-28006|EmbedCtxt=@FirewallAPI.dll,-28002|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "KDSSVC-RPCSS-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC-EPMap|App=%systemroot%\\system32\\lsass.exe|Svc=RPCSS|Name=@%SystemRoot%\\system32\\FirewallAPI.dll,-38546|Desc=@%SystemRoot%\\system32\\FirewallAPI.dll,-38547|EmbedCtxt=@%SystemRoot%\\system32\\FirewallAPI.dll,-38545|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "KDSSVC-RPC-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%systemroot%\\system32\\lsass.exe|Svc=Kdssvc|Name=@%SystemRoot%\\system32\\FirewallAPI.dll,-38549|Desc=@%SystemRoot%\\system32\\FirewallAPI.dll,-38550|EmbedCtxt=@%SystemRoot%\\system32\\FirewallAPI.dll,-38548|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "Netlogon-TCP-RPC-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%SystemRoot%\\System32\\lsass.exe|Name=@firewallapi.dll,-37684|Desc=@firewallapi.dll,-37685|EmbedCtxt=@firewallapi.dll,-37681|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "Netlogon-NamedPipe-In",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=445|App=System|Name=@firewallapi.dll,-37682|Desc=@firewallapi.dll,-37683|EmbedCtxt=@firewallapi.dll,-37681|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "PerfLogsAlerts-DCOM-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|Profile=Private|Profile=Public|LPort=135|RA4=LocalSubnet|RA6=LocalSubnet|App=%systemroot%\\system32\\svchost.exe|Svc=rpcss|Name=@FirewallAPI.dll,-34755|Desc=@FirewallAPI.dll,-34756|EmbedCtxt=@FirewallAPI.dll,-34752|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "PerfLogsAlerts-PLASrv-In-TCP-NoScope",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|Profile=Domain|App=%systemroot%\\system32\\plasrv.exe|Name=@FirewallAPI.dll,-34753|Desc=@FirewallAPI.dll,-34754|EmbedCtxt=@FirewallAPI.dll,-34752|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "PerfLogsAlerts-DCOM-In-TCP-NoScope",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|Profile=Domain|LPort=135|App=%systemroot%\\system32\\svchost.exe|Svc=rpcss|Name=@FirewallAPI.dll,-34755|Desc=@FirewallAPI.dll,-34756|EmbedCtxt=@FirewallAPI.dll,-34752|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "PerfLogsAlerts-PLASrv-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|Profile=Private|Profile=Public|RA4=LocalSubnet|RA6=LocalSubnet|App=%systemroot%\\system32\\plasrv.exe|Name=@FirewallAPI.dll,-34753|Desc=@FirewallAPI.dll,-34754|EmbedCtxt=@FirewallAPI.dll,-34752|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "RemoteDesktop-UserMode-In-UDP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=3389|App=%SystemRoot%\\system32\\svchost.exe|Svc=termservice|Name=@FirewallAPI.dll,-28776|Desc=@FirewallAPI.dll,-28777|EmbedCtxt=@FirewallAPI.dll,-28752|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "RemoteDesktop-UserMode-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=3389|App=%SystemRoot%\\system32\\svchost.exe|Svc=termservice|Name=@FirewallAPI.dll,-28775|Desc=@FirewallAPI.dll,-28756|EmbedCtxt=@FirewallAPI.dll,-28752|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "RemoteDesktop-Shadow-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|App=%SystemRoot%\\system32\\RdpSa.exe|Name=@FirewallAPI.dll,-28778|Desc=@FirewallAPI.dll,-28779|EmbedCtxt=@FirewallAPI.dll,-28752|Edge=TRUE|Defer=App|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "WMI-RPCSS-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=135|App=%SystemRoot%\\system32\\svchost.exe|Svc=rpcss|Name=@FirewallAPI.dll,-34252|Desc=@FirewallAPI.dll,-34253|EmbedCtxt=@FirewallAPI.dll,-34251|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "WMI-WINMGMT-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|App=%SystemRoot%\\system32\\svchost.exe|Svc=winmgmt|Name=@FirewallAPI.dll,-34254|Desc=@FirewallAPI.dll,-34255|EmbedCtxt=@FirewallAPI.dll,-34251|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "WMI-ASYNC-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|App=%systemroot%\\system32\\wbem\\unsecapp.exe|Name=@FirewallAPI.dll,-34256|Desc=@FirewallAPI.dll,-34257|EmbedCtxt=@FirewallAPI.dll,-34251|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "WINRM-HTTP-In-TCP-PUBLIC",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|Profile=Public|LPort=5985|RA4=LocalSubnet|RA6=LocalSubnet|App=System|Name=@FirewallAPI.dll,-30253|Desc=@FirewallAPI.dll,-30256|EmbedCtxt=@FirewallAPI.dll,-30267|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "WINRM-HTTP-In-TCP",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|Profile=Domain|Profile=Private|LPort=5985|App=System|Name=@FirewallAPI.dll,-30253|Desc=@FirewallAPI.dll,-30256|EmbedCtxt=@FirewallAPI.dll,-30267|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
+                                                        "ValueType":  "REG_SZ",
+                                                        "ValueName":  "{DD860E90-5EC5-4BFF-9819-60F5BE503393}",
+                                                        "ValueData":  "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=5986|Name=WinRM (https - port 5986)|",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableFirewall",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultOutboundAction",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultInboundAction",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "AllowLocalPolicyMerge",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "EnableFirewall",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultOutboundAction",
+                                                        "ValueData":  "0",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    },
+                                                    {
+                                                        "Target":  "Machine",
+                                                        "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+                                                        "ValueType":  "REG_DWORD",
+                                                        "ValueName":  "DefaultInboundAction",
+                                                        "ValueData":  "1",
+                                                        "ObjectType":  "RegistrySetting"
+                                                    }
+                                                ],
+                           "AuditSettings":  null,
+                           "SecurityTemplate":  [
+                                                    "[Unicode]",
+                                                    "Unicode=yes",
+                                                    "[Version]",
+                                                    "signature=\"$CHICAGO$\"",
+                                                    "Revision=1",
+                                                    "[Privilege Rights]",
+                                                    "SeSecurityPrivilege = *####Replace[DOMAIN\\Right-DC-BuiltinGroup-RemoteDesktopUsers],*S-1-5-32-544",
+                                                    "[File Security]",
+                                                    "\"%SystemRoot%\\System32\\LogFiles\\Firewall\",2,\"D:PAR(A;OICI;0x1200a9;;;S-1-15-2-1)(A;OICI;FA;;;CO)(A;OICI;FA;;;####Replace[NT SERVICE\\mpssvc])(A;OICI;FA;;;SY)(A;OICI;FA;;;BA)(A;OICI;0x1200a9;;;BU)\""
+                                                ],
+                           "FolderRedirection":  null,
+                           "FolderRedirection1":  null,
+                           "GPOComments":  null,
+                           "MachineComments":  [
+                                                   "\u003c?xml version=\u00271.0\u0027 encoding=\u0027utf-8\u0027?\u003e",
+                                                   "\u003cpolicyComments xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" revision=\"1.0\" schemaVersion=\"1.0\" xmlns=\"http://www.microsoft.com/GroupPolicy/CommentDefinitions\"\u003e",
+                                                   "  \u003cpolicyNamespaces\u003e",
+                                                   "    \u003cusing prefix=\"ns0\" namespace=\"Microsoft.Policies.NetLogon\"\u003e\u003c/using\u003e",
+                                                   "    \u003cusing prefix=\"ns1\" namespace=\"Microsoft.Policies.WindowsFirewall\"\u003e\u003c/using\u003e",
+                                                   "  \u003c/policyNamespaces\u003e",
+                                                   "  \u003ccomments\u003e",
+                                                   "    \u003cadmTemplate\u003e\u003c/admTemplate\u003e",
+                                                   "  \u003c/comments\u003e",
+                                                   "  \u003cresources minRequiredRevision=\"1.0\"\u003e",
+                                                   "    \u003cstringTable\u003e\u003c/stringTable\u003e",
+                                                   "  \u003c/resources\u003e",
+                                                   "\u003c/policyComments\u003e"
+                                               ],
+                           "UserComments":  null,
+                           "Scripts":  [
+                                           {
+                                               "Target":  "Machine",
+                                               "ScriptsIni":  null,
+                                               "PSScriptsIni":  null,
+                                               "ScriptFiles":  null,
+                                               "ObjectType":  "Scripts"
+                                           }
+                                       ],
+                           "GroupPolicyPreferences":  null,
+                           "ObjectType":  "PolicySettings"
+                       },
+    "gPCMachineExtensionNames":  "[{35378EAC-683F-11D2-A89A-00C04FBBCFA2}{B05566AC-FE9C-4368-BE01-7A4CBB6CBA11}{D02B1F72-3407-48AE-BA88-E8213C6761F1}][{827D319E-6EAC-11D2-A4EA-00C04F79F83A}{803E14A0-B4FB-11D0-A0D0-00A0C90F574B}]",
+    "gPCUserExtensionNames":  null,
+    "ObjectType":  "GroupPolicy"
+}

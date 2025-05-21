@@ -168,11 +168,9 @@ function Set-DryADWmiFilterLink {
 
         switch ($SetResult) {
             $true {
-                olad s "WMIFilter applied to GPO"
                 olad v "The WMIFilter '$WMIFilterName' was applied to GPO '$GPOName'"
             }
             default {
-                olad f "WMIFilter not applied to GPO"
                 olad e "The WMIFilter '$WMIFilterName' was not applied to GPO '$GPOName': $($SetResult.ToString())"
                 throw $SetResult.ToString()
             }

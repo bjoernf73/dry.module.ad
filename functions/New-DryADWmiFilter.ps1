@@ -72,7 +72,6 @@ function New-DryADWmiFilter {
 
         switch ($GetResult) {
             $true {
-                olad s 'WMI Filter exists already'
                 olad v "The WMIFilter '$Name' exists already"
             }
             $false {
@@ -104,11 +103,10 @@ function New-DryADWmiFilter {
             $SetResult = Invoke-Command @InvokeSetParams
             switch ($SetResult) {
                 $true {
-                    olad s "WMIFilter was created"
                     olad v "WMIFilter '$Name' was created"
                 }
                 default {
-                    olad f "WMIFilter was not created"
+                    olad d "WMIFilter was not created"
                     throw $SetResult
                 }
             } 

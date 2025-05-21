@@ -137,12 +137,10 @@ function Set-DryADAccessRule {
         
         # Test the ReturnValue in $Return[1]
         if ($Return[1] -eq $true) {
-            olad s 'AD right set'
             olad v "Successfully configured AD right"
             $true
         } 
         else {
-            olad f 'AD right not set'
             olad w "Failed to configure AD right"
             if ($null -ne $Return[2]) {
                 throw ($Return[2]).ToString()

@@ -81,7 +81,7 @@ function Remove-DryADGPLink {
         $RemoveLinkRet = Invoke-Command @InvokeRemoveLinkParams 
         
         if ($RemoveLinkRet[0] -eq $true) {
-            olad s "Successfully removed link for GPO '$LinkToRemove'"
+            olad d "Successfully removed link for GPO '$LinkToRemove'"
         }
         else {
             throw $RemoveLinkRet[1]

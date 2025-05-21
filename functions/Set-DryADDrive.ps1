@@ -34,13 +34,13 @@ function Set-DryADDrive {
 
     try {
         if ($PSCmdlet.ParameterSetName -eq 'Remote') {
-            olad i @("Making sure AD Drive on DC $($PSSession.ComputerName) targets", 'localhost')
+            olad v @("Making sure AD Drive on DC $($PSSession.ComputerName) targets", 'localhost')
             $Server = 'localhost'
             olad d @('Session Type', 'Remote')
             olad d @('Remoting to Domain Controller', $PSSession.ComputerName)
         }
         else {
-            olad i @('Making sure AD Drive on local system targets DC', "$DomainController")
+            olad v @('Making sure AD Drive on local system targets DC', "$DomainController")
             $Server = $DomainController
             olad d @('Session Type', 'Local')
             olad d @('Using Domain Controller', $Server)
@@ -65,11 +65,9 @@ function Set-DryADDrive {
         
         # Test the ReturnValue in $Return[2]
         if ($Return[1] -eq $true) {
-            olad s 'AD Drive Configured'
             olad v "Successfully set AD Drive to target Domain Controller"
         } 
         else {
-            olad f 'AD Drive Not Configured'
             olad w "Failed to set AD Drive to target Domain Controller"
             if ($null -ne $Return[2]) {
                 throw ($Return[2]).ToString()

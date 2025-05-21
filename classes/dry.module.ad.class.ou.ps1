@@ -48,7 +48,7 @@ Class OU {
             $This.ObjectType   = 'DomainRoot' 
         }
         else { 
-            olad 1 "Unknown Object Type (not CN, OU or Domain Root): $($This.OUDN)"
+            olad e "Unknown Object Type (not CN, OU or Domain Root): $($This.OUDN)"
             throw "Unknown Object Type (not CN, OU) or Domain Root: $($This.OUDN)"
         }  
         $This.DomainFQDN       = $DomainFQDN 
@@ -105,7 +105,7 @@ Class OU {
             $This.ObjectType   = 'domainRoot' 
         }
         else { 
-            olad 1 "Unknown Object Type (not CN or OU): $($This.OUDN)"
+            olad e "Unknown Object Type (not CN or OU): $($This.OUDN)"
             throw "Unknown Object Type (not CN or OU): $($This.OUDN)"
         } 
         $This.DomainFQDN       = $DomainFQDN 
@@ -202,7 +202,6 @@ Class OU {
 
                     switch ($GetResult) {
                         $true {
-                            olad s "The OU exists already"
                             olad d "The OU '$CurrentName' in parent '$CurrentParent' exists already."
                         }
                         $false {
@@ -265,13 +264,11 @@ Class OU {
 
                     switch ($SetResult) {
                         $true {
-                            olad s "The OU was created"
                             olad d "OU '$CurrentName' in parent '$CurrentParent' was created"
                             $OUsWasCreated = $true
                         }
                         
                         default {
-                            olad f "The OU was not created"
                             olad e "Failed to create OU '$CurrentName' in parent '$CurrentParent'"
                             throw $SetResult.ToString()
                         }

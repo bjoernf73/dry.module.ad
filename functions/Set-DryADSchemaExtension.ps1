@@ -97,11 +97,10 @@ function Set-DryADSchemaExtension {
                         })
                 })
             if ($MatchCount -eq $SuccessCount) {
-                olad s "AD Schema is extended"
-                olad i @('Successfully extended AD Schema of Type', $Type)
+                olad d "AD Schema is extended"
+                olad v @('Successfully extended AD Schema of Type', $Type)
             }
             else {
-                olad f "AD Schema not extended"
                 olad w @("Target successcount $SuccessCount, actual", "$MatchCount")
                 # Display thesult in debug
                 $ExtendSchemaResult[1].foreach({
@@ -111,7 +110,6 @@ function Set-DryADSchemaExtension {
             }
         }
         else {
-            olad f "AD Schema not extended"
             olad e "Schema extension failed"
             throw $ExtendSchemaResult[0]
         }  

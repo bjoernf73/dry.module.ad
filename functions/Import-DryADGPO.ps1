@@ -141,10 +141,10 @@ function Import-DryADGPO {
 
             switch ($GPOImportResult[0]) {
                 $true {
-                    olad s "$($GPOImportResult[2])"
+                    olad d "$($GPOImportResult[2])"
                 }
                 default {
-                    olad f "$($GPOImportResult[2])"
+                    olad d "$($GPOImportResult[2])"
                     throw $GPOImportResult[1].ToString()
                 }
             }

@@ -75,7 +75,6 @@ function Move-DryADComputer {
 
         switch ($GetResult) {
             $true {
-                olad s "Computer  is already in correct OU"
                 olad v "'$ComputerName' is already in OU '$TargetOU'"
             }
             $false {
@@ -113,7 +112,6 @@ function Move-DryADComputer {
 
             switch ($SetResult) {
                 $true {
-                    olad s "Computer object was moved"
                     olad v "'$ComputerName' was moved into OU '$TargetOU'"
                 }
                 { $SetResult -is [System.Management.Automation.ErrorRecord] } {

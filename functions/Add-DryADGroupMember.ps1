@@ -69,7 +69,6 @@ function Add-DryADGroupMember {
         switch ($GetResult) {
             $true {
                 olad v @("$Member is already member of", "$Group")
-                olad s "Already member"
                 return
             }
             $false {
@@ -102,15 +101,12 @@ function Add-DryADGroupMember {
 
         switch ($SetResult) {
             $true {
-                olad s "Member added to Group"
                 olad v @("$Member was added to Group", $Group)
             }
             { $SetResult -is [ErrorRecord] } {
-                olad f "Member not added to Group"
                 $PSCmdlet.ThrowTerminatingError($GetResult)
             }
             default {
-                olad f "Member not added to Group"
                 throw "SetResult in Add-DryADGroupMember failed: $($GetResult.ToString())"
             }
         }

@@ -21,7 +21,7 @@ dry.module.ad is a module for configuration of Active Directory objects, namely
 - Users' group memberships 
 
 ## Configuration files
-Predominantly, `dry.module.ad` takes one or multiple json-files as input, converting the defined objects to configurations in Active Directory. Some configurations are file based (netlogon files, administrative templates, backup- and json-gpos import, and AD schema extensions). 
+`dry.module.ad` takes a folder with one or multiple json-files as input, converting the defined objects to configurations in Active Directory. Some configurations are file based (netlogon files, administrative templates, backup- and json-gpos import, and AD schema extensions). 
 
 ## Local-run vs Remote-run
 You may run the `Import-DryADConfiguration` either 
@@ -41,14 +41,12 @@ Import-DryADConfiguration -PSSession $sess -ConfigurationPath ..\Some\Folder -Va
 
 ## Installation
 
-```
+```powershell
 Install-Module -Name dry.module.ad
 ```
 
 ## Example
-The module contains an example configuration in the `example` folder. The example is zipped because backup-gpo's reached the dreaded Windows maximum file path depth of 256 chars. Therefore unzip close to a drive's root, or do `subst z: c:\folder\to\unzip\to` and unzip to z:
-
-
+The module contains a couple of example configurations in the `example` folder. The README.md in that folder has instructions on how to run the example configs.  
 
 <br>
 

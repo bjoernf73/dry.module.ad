@@ -40,7 +40,7 @@ function Get-DryADRemotePublicCertificate {
         
         if ($Result[0] -eq $true) {
             Copy-Item -FromSession $PSSession -Path 'C:\PublicCertificate.cer' -Destination "$CertificateFile" -Force -ErrorAction Stop
-            olad i @('Fetched public certificate', "$CertificateFile")
+            olad v @('Fetched public certificate', "$CertificateFile")
         }
         else {
             throw "Failed getting remote public certificate: $($Result[1].ToString())"
