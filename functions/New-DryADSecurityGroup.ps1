@@ -24,24 +24,19 @@ function New-DryADSecurityGroup {
         [Parameter(Mandatory,
             HelpMessage = "Enter name of the group")]
         [ValidateNotNullOrEmpty()]
-        [string] 
-        $Name, 
+        [string] $Name, 
 
         [Parameter(Mandatory,
             HelpMessage = "Enter distinguishedName of the path of the group")]
-        [ValidateScript({ $_ -match "^OU=" })]
-        [string] 
-        $Path, 
+        [ValidateScript({ $_ -match "^OU=" -or $_ -match "^CN="})]
+        [string]$Path, 
         
-        [Parameter(Mandatory, HelpMessage = "Enter a description for the group")]
-        [ValidateNotNullOrEmpty()]
-        [string] 
-        $Description, 
+        [Parameter(HelpMessage = "Optionally, enter a description for the group")]
+        [string]$Description, 
 
         [Parameter(HelpMessage = "Active Directory group scope. Must be 'DomainLocal', 'Global' or 'Universal'")]
         [ValidateSet("DomainLocal", "Global", "Universal")]
-        [string] 
-        $GroupScope = "DomainLocal", 
+        [string] $GroupScope = "DomainLocal", 
 
         [Parameter(HelpMessage = "Group category. Must be 'Security' or 'Distribution'. Defaults to security.")]
         [string] 
@@ -49,13 +44,11 @@ function New-DryADSecurityGroup {
 
         [Parameter(ParameterSetName = 'Remote',
             HelpMessage = "PSSession to run the script blocks in")]
-        [PSSession] 
-        $PSSession,
+        [PSSession]$PSSession,
 
         [Parameter(Mandatory, ParameterSetName = 'Local',
             HelpMessage = "For 'Local' sessions, specify the Domain Controller to use")]
-        [string] 
-        $DomainController
+        [string]$DomainController
     )
     # Details to the debug stream
     olad d @("Creating Group", $Name)

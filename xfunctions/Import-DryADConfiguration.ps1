@@ -60,7 +60,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         [directoryinfo]$ConfigurationPath,
 
         [Parameter(HelpMessage = "Array of one or more Types to process. By default, all are processed")]
-        [ValidateSet('ou_schema', 'groups', 'group_members', 'rights', 'gpo_imports', 'gpo_links',
+        [ValidateSet('ou_schema', 'security_groups', 'group_members', 'rights', 'gpo_imports', 'gpo_links',
         'wmi_filters', 'wmi_filters_links', 'ad_schema', 'netlogon', 'adm_templates', 'users', 'users_memberof')] 
         [string[]]$Types,
 
@@ -443,14 +443,21 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             # Replace regardless of $Types -icontains 'security_groups', since SecurityGroups are referenced by Rights, GroupMembers and GPOImports
             $DomainSecurityGroups = Resolve-DryADReplacementPatterns -inputobject $DomainSecurityGroups -Variables $Variables
 
-            # Resolve OU from schema
+            # Resolve OU from schema in an alias is used instead of path
             foreach ($SecurityGroup in $DomainSecurityGroups) {
-                if ($null -eq $SecurityGroup.path) {
-                    $Path = Get-DryADOUPathFromAlias -Alias $SecurityGroup.Alias -OUs $DomainOUs
-                    $SecurityGroup | Add-Member -MemberType NoteProperty -Name path -Value $Path
+                if(-not([string]::IsNullOrEmpty($SecurityGroup.Alias))){
+                    if ($null -eq $SecurityGroup.path) {
+                        $Path = Get-DryADOUPathFromAlias -Alias $SecurityGroup.Alias -OUs $DomainOUs
+                        $SecurityGroup | Add-Member -MemberType NoteProperty -Name path -Value $Path
+                    }
+                    # Convert to $GroupCase 
+                    $SecurityGroup.name = ConvertTo-DryADCase -Name $SecurityGroup.name -Case $Groupcase
                 }
-                # Convert to $GroupCase 
-                $SecurityGroup.name = ConvertTo-DryADCase -Name $SecurityGroup.name -Case $Groupcase
+            }
+
+            # Ensure Path is a distinguishedname
+            foreach ($SecurityGroup in $DomainSecurityGroups) {
+                $SecurityGroup.path = ConvertTo-DryADDistinguishedName -Name $SecurityGroup.path -Case 'Ignore'
             }
         }
 
@@ -496,6 +503,8 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                         $DomainRight.PSObject.Properties.Remove('Alias')
                     }
                 }
+                # Ensure Path is a distinguishedname
+                $DomainRight.path = ConvertTo-DryADDistinguishedName -Name $DomainRight.path -Case 'Ignore'
             }
         }
 
@@ -552,6 +561,8 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                         $DomainGPOLink | Add-Member -MemberType NoteProperty -Name Path -Value $Path
                     }
                 }
+                # Ensure Path is a distinguishedname
+                $DomainGPOLink.path = ConvertTo-DryADDistinguishedName -Name $DomainGPOLink.path -Case 'Ignore'
             } 
         }
 
@@ -585,7 +596,12 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     }
                     # Convert to $GroupCase
                     $User.name = ConvertTo-DryADCase -Name $User.name -Case $UserCase
+
+                    # Ensure Path is a distinguishedname
+                    $User.path = ConvertTo-DryADDistinguishedName -Name $User.path -Case 'Ignore'
                 }
+
+                
             }
         }
 
@@ -943,7 +959,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                         }
                     }
                 }
-                olad i "Creating Security Group", "$($SecurityGroup.name)" 
+                olad i "Creating Security Group", "$($SecurityGroup.name) => $($SecurityGroup.path)"
                 New-DryADSecurityGroup @NewDryADSecurityGroupParams
             }
 

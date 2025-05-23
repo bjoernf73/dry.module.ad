@@ -136,7 +136,7 @@ function Out-DryADLog {
                 verbose     = [PSCustomObject]@{ display_location = $true;  }
                 debug       = [PSCustomObject]@{ display_location = $true;  }
                 warning     = [PSCustomObject]@{ display_location = $true;  }
-                information = [PSCustomObject]@{ display_location = $true; }
+                information = [PSCustomObject]@{ display_location = $false; }
                 error       = [PSCustomObject]@{ display_location = $true;  }
             }
         }
