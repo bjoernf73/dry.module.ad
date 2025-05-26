@@ -23,7 +23,7 @@
     RootModule = 'dry.module.ad.psm1'
 
     # Version number of this module.
-    ModuleVersion = '0.1.5'
+    ModuleVersion = '0.1.6'
 
     # Supported PSEditions
     CompatiblePSEditions  = @('Desktop','Core')

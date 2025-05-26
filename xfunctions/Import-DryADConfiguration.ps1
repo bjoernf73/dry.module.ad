@@ -362,7 +362,6 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             }
         }
         While ($AnOUWasResolved)
-
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 
         #   ORGANIZATIONAL UNITS PATHS
@@ -453,10 +452,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     # Convert to $GroupCase 
                     $SecurityGroup.name = ConvertTo-DryADCase -Name $SecurityGroup.name -Case $Groupcase
                 }
-            }
-
-            # Ensure Path is a distinguishedname
-            foreach ($SecurityGroup in $DomainSecurityGroups) {
+                # Ensure Path is a distinguishedname
                 $SecurityGroup.path = ConvertTo-DryADDistinguishedName -Name $SecurityGroup.path -Case 'Ignore'
             }
         }
@@ -502,9 +498,10 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                         # Once resolved, remove Alias. 
                         $DomainRight.PSObject.Properties.Remove('Alias')
                     }
+                    # Ensure Path is a distinguishedname
+                    $DomainRight.path = ConvertTo-DryADDistinguishedName -Name $DomainRight.path -Case 'Ignore'
                 }
-                # Ensure Path is a distinguishedname
-                $DomainRight.path = ConvertTo-DryADDistinguishedName -Name $DomainRight.path -Case 'Ignore'
+                
             }
         }
 
@@ -560,9 +557,10 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                         $Path = Get-DryADOUPathFromAlias -Alias $DomainGPOLink.alias -OUs $DomainOUs
                         $DomainGPOLink | Add-Member -MemberType NoteProperty -Name Path -Value $Path
                     }
+                    # Ensure Path is a distinguishedname
+                    $DomainGPOLink.path = ConvertTo-DryADDistinguishedName -Name $DomainGPOLink.path -Case 'Ignore'
                 }
-                # Ensure Path is a distinguishedname
-                $DomainGPOLink.path = ConvertTo-DryADDistinguishedName -Name $DomainGPOLink.path -Case 'Ignore'
+                
             } 
         }
 
@@ -599,9 +597,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
                     # Ensure Path is a distinguishedname
                     $User.path = ConvertTo-DryADDistinguishedName -Name $User.path -Case 'Ignore'
-                }
-
-                
+                }  
             }
         }
 
