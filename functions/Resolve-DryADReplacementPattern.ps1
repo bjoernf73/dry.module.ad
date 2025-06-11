@@ -18,9 +18,9 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-function Resolve-DryADReplacementPattern {
+function Resolve-DryADReplacementPattern{
     [CmdletBinding()]
-    param (
+    param(
         [Parameter(Position = 0, Mandatory)]
         [AllowEmptyString()]
         [string]$InputText,
@@ -29,9 +29,9 @@ function Resolve-DryADReplacementPattern {
         [System.Collections.Generic.List[PSObject]]$Variables
     )
     
-    foreach ($Variable in $Variables) {
+    foreach($Variable in $Variables){
         $Pattern = "###$($Variable.Name)###"
-        if ($InputText -match $Pattern) {
+        if($InputText -match $Pattern){
             $Value = $Variable.Value 
             $InputText = $InputText -replace $Pattern, $Value
             olad d "Replacing '$Pattern' with '$Value'. Value after replacement: '$InputText'"

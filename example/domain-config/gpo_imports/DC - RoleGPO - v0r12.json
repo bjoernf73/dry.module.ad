@@ -5,9 +5,9 @@
     "UserSettingsEnabled":  false,
     "WMIFilter":  null,
     "Permissions":  "O:DAG:DAD:PAI(A;CIIO;CCDCLCSWRPWPDTLOSDRCWDWO;;;CO)(A;CI;LCRPLORC;;;ED)(A;CI;LCRPLORC;;;AU)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;SY)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;DA)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;####Replace[DOMAIN\\Enterprise Admins])(OA;CI;CR;edacfd8f-ffb3-11d1-b41d-00a0c968f939;;AU)",
-    "PolicySettings":  {
+    "PolicySettings": {
                            "RegistrySettings":  [
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Netlogon\\Parameters",
                                                         "ValueType":  "REG_DWORD",
@@ -15,7 +15,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Netlogon\\Parameters",
                                                         "ValueType":  "REG_DWORD",
@@ -23,7 +23,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Netlogon\\Parameters",
                                                         "ValueType":  "REG_DWORD",
@@ -31,7 +31,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall",
                                                         "ValueType":  "REG_DWORD",
@@ -39,7 +39,7 @@
                                                         "ValueData":  "543",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -47,7 +47,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -55,7 +55,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -63,7 +63,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -71,7 +71,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -79,7 +79,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -87,7 +87,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -95,7 +95,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -103,7 +103,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -111,7 +111,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=22|App=%SystemRoot%\\System32\\OpenSSH\\sshd.exe|Name=OpenSSH Server|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -119,7 +119,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=5985|App=System|Name=WinRM 5985|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -127,7 +127,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=5986|App=System|Name=WinRM 5986|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -135,7 +135,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=445|App=System|Name=@FirewallAPI.dll,-28511|Desc=@FirewallAPI.dll,-28514|EmbedCtxt=@FirewallAPI.dll,-28502|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -143,7 +143,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=3389|App=%SystemRoot%\\system32\\svchost.exe|Svc=termservice|Name=@FirewallAPI.dll,-28775|Desc=@FirewallAPI.dll,-28756|EmbedCtxt=@FirewallAPI.dll,-28752|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -151,7 +151,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=3389|App=%SystemRoot%\\system32\\svchost.exe|Svc=termservice|Name=@FirewallAPI.dll,-28776|Desc=@FirewallAPI.dll,-28777|EmbedCtxt=@FirewallAPI.dll,-28752|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -159,7 +159,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=135|App=%SystemRoot%\\system32\\svchost.exe|Svc=rpcss|Name=@FirewallAPI.dll,-34252|Desc=@FirewallAPI.dll,-34253|EmbedCtxt=@FirewallAPI.dll,-34251|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -167,7 +167,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|App=%SystemRoot%\\system32\\svchost.exe|Svc=winmgmt|Name=@FirewallAPI.dll,-34254|Desc=@FirewallAPI.dll,-34255|EmbedCtxt=@FirewallAPI.dll,-34251|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -175,7 +175,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=58|ICMP6=128:*|App=System|Name=@FirewallAPI.dll,-37631|Desc=@FirewallAPI.dll,-37632|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -183,7 +183,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=1|ICMP4=8:*|App=System|Name=@FirewallAPI.dll,-37627|Desc=@FirewallAPI.dll,-37628|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -191,7 +191,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=123|App=%systemroot%\\System32\\svchost.exe|Svc=w32time|Name=@FirewallAPI.dll,-37612|Desc=@FirewallAPI.dll,-37625|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -199,7 +199,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=445|App=System|Name=@FirewallAPI.dll,-37610|Desc=@FirewallAPI.dll,-37623|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -207,7 +207,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=445|App=System|Name=@FirewallAPI.dll,-37609|Desc=@FirewallAPI.dll,-37622|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -215,7 +215,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=3269|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37606|Desc=@FirewallAPI.dll,-37619|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -223,7 +223,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=3268|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37605|Desc=@FirewallAPI.dll,-37618|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -231,7 +231,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=636|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37604|Desc=@FirewallAPI.dll,-37617|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -239,7 +239,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=389|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37603|Desc=@FirewallAPI.dll,-37616|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -247,7 +247,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=389|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37602|Desc=@FirewallAPI.dll,-37615|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -255,7 +255,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC-EPMap|App=%systemroot%\\system32\\svchost.exe|Svc=rpcss|Name=@FirewallAPI.dll,-37636|Desc=@FirewallAPI.dll,-37614|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -263,7 +263,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%systemroot%\\System32\\lsass.exe|Name=@FirewallAPI.dll,-37635|Desc=@FirewallAPI.dll,-37613|EmbedCtxt=@FirewallAPI.dll,-37601|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -271,7 +271,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=9389|App=%systemroot%\\ADWS\\Microsoft.ActiveDirectory.WebServices.exe|Svc=adws|Name=@%SystemRoot%\\system32\\firewallapi.dll,-53427|Desc=@%SystemRoot%\\system32\\firewallapi.dll,-53425|EmbedCtxt=@%SystemRoot%\\system32\\firewallapi.dll,-53426|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -279,7 +279,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=445|App=System|Name=@FirewallAPI.dll,-37809|Desc=@FirewallAPI.dll,-37810|EmbedCtxt=@FirewallAPI.dll,-37802|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -287,7 +287,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%systemroot%\\system32\\svchost.exe|Svc=winmgmt|Name=@FirewallAPI.dll,-37807|Desc=@FirewallAPI.dll,-37808|EmbedCtxt=@FirewallAPI.dll,-37802|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -295,7 +295,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=135|App=%systemroot%\\system32\\svchost.exe|Svc=RPCSS|Name=@FirewallAPI.dll,-37805|Desc=@FirewallAPI.dll,-37806|EmbedCtxt=@FirewallAPI.dll,-37802|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -303,7 +303,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%systemroot%\\system32\\dfsfrsHost.exe|Name=@FirewallAPI.dll,-37803|Desc=@FirewallAPI.dll,-37804|EmbedCtxt=@FirewallAPI.dll,-37802|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -311,7 +311,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC-EPMap|App=%systemroot%\\system32\\svchost.exe|Svc=RpcSs|Name=@FirewallAPI.dll,-37705|Desc=@FirewallAPI.dll,-37706|EmbedCtxt=@FirewallAPI.dll,-37702|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -319,7 +319,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%SystemRoot%\\system32\\dfsrs.exe|Svc=Dfsr|Name=@FirewallAPI.dll,-37703|Desc=@FirewallAPI.dll,-37704|EmbedCtxt=@FirewallAPI.dll,-37702|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -327,7 +327,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%systemroot%\\System32\\dns.exe|Svc=dns|Name=@firewallapi.dll,-53003|Desc=@firewallapi.dll,-53009|EmbedCtxt=@firewallapi.dll,-53012|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -335,7 +335,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=53|App=%systemroot%\\System32\\dns.exe|Svc=dns|Name=@firewallapi.dll,-53002|Desc=@firewallapi.dll,-53008|EmbedCtxt=@firewallapi.dll,-53012|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -343,7 +343,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=53|App=%systemroot%\\System32\\dns.exe|Svc=dns|Name=@firewallapi.dll,-53001|Desc=@firewallapi.dll,-53007|EmbedCtxt=@firewallapi.dll,-53012|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -351,7 +351,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC-EPMap|App=%systemroot%\\system32\\svchost.exe|Svc=rpcss|Name=@firewallapi.dll,-53000|Desc=@firewallapi.dll,-53006|EmbedCtxt=@firewallapi.dll,-53012|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -359,7 +359,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=464|App=%systemroot%\\System32\\lsass.exe|Name=@kdcsvc.dll,-1003|Desc=@kdcsvc.dll,-1007|EmbedCtxt=@kdcsvc.dll,-1008|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -367,7 +367,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=464|App=%systemroot%\\System32\\lsass.exe|Name=@kdcsvc.dll,-1002|Desc=@kdcsvc.dll,-1006|EmbedCtxt=@kdcsvc.dll,-1008|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -375,7 +375,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=17|LPort=88|App=%systemroot%\\System32\\lsass.exe|Name=@kdcsvc.dll,-1001|Desc=@kdcsvc.dll,-1005|EmbedCtxt=@kdcsvc.dll,-1008|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -383,7 +383,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=88|App=%systemroot%\\System32\\lsass.exe|Name=@kdcsvc.dll,-1000|Desc=@kdcsvc.dll,-1004|EmbedCtxt=@kdcsvc.dll,-1008|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -391,7 +391,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%systemroot%\\system32\\lsass.exe|Svc=Kdssvc|Name=@Kdssvc.dll,-1005|Desc=@kdssvc.dll,-1006|EmbedCtxt=@kdssvc.dll,-1004|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -399,7 +399,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC-EPMap|App=%systemroot%\\system32\\lsass.exe|Svc=RPCSS|Name=@Kdssvc.dll,-1002|Desc=@KdsSvc.dll,-1003|EmbedCtxt=@KdsSvc.dll,-1001|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -407,7 +407,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=RPC|App=%SystemRoot%\\System32\\lsass.exe|Name=@netlogon.dll,-1008|Desc=@netlogon.dll,-1009|EmbedCtxt=@netlogon.dll,-1010|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules",
                                                         "ValueType":  "REG_SZ",
@@ -415,7 +415,7 @@
                                                         "ValueData":  "v2.28|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=445|App=System|Name=@netlogon.dll,-1003|Desc=@netlogon.dll,-1006|EmbedCtxt=@netlogon.dll,-1010|",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -423,7 +423,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -431,7 +431,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -439,7 +439,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -447,7 +447,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -455,7 +455,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -463,7 +463,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -471,7 +471,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -479,7 +479,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -487,7 +487,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -495,7 +495,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -503,7 +503,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -511,7 +511,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -519,7 +519,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -527,7 +527,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -608,23 +608,23 @@
                                                ],
                            "UserComments":  null,
                            "Scripts":  [
-                                           {
+                                          {
                                                "Target":  "Machine",
-                                               "ScriptsIni":  {
+                                               "ScriptsIni": {
 
                                                               },
-                                               "PSScriptsIni":  {
+                                               "PSScriptsIni": {
 
                                                                 },
                                                "ScriptFiles":  null,
                                                "ObjectType":  "Scripts"
                                            },
-                                           {
+                                          {
                                                "Target":  "User",
-                                               "ScriptsIni":  {
+                                               "ScriptsIni": {
 
                                                               },
-                                               "PSScriptsIni":  {
+                                               "PSScriptsIni": {
 
                                                                 },
                                                "ScriptFiles":  null,
@@ -632,7 +632,7 @@
                                            }
                                        ],
                            "GroupPolicyPreferences":  [
-                                                          {
+                                                         {
                                                               "Target":  "Machine",
                                                               "Type":  "Folders",
                                                               "XmlFileName":  "Folders.xml",
@@ -646,7 +646,7 @@
                                                                              ],
                                                               "ObjectType":  "GroupPolicyPreference"
                                                           },
-                                                          {
+                                                         {
                                                               "Target":  "Machine",
                                                               "Type":  "ScheduledTasks",
                                                               "XmlFileName":  "ScheduledTasks.xml",
@@ -749,7 +749,7 @@
                                                                                  "                \u003cActions Context=\"Author\"\u003e",
                                                                                  "                    \u003cExec\u003e",
                                                                                  "                        \u003cCommand\u003eC:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\u003c/Command\u003e",
-                                                                                 "                        \u003cArguments\u003e-ExecutionPolicy Bypass -Command \"(\u0026amp; netsh advfirewall show currentprofile)[1] | % { if ($_ -notmatch \u0027^Domain\u0027) { Restart-Service -Name \u0027nlasvc\u0027 -force}}\"\u003c/Arguments\u003e",
+                                                                                 "                        \u003cArguments\u003e-ExecutionPolicy Bypass -Command \"(\u0026amp; netsh advfirewall show currentprofile)[1] | %{ if($_ -notmatch \u0027^Domain\u0027){ Restart-Service -Name \u0027nlasvc\u0027 -force}}\"\u003c/Arguments\u003e",
                                                                                  "                    \u003c/Exec\u003e",
                                                                                  "                \u003c/Actions\u003e",
                                                                                  "            \u003c/Task\u003e",
@@ -759,7 +759,7 @@
                                                                              ],
                                                               "ObjectType":  "GroupPolicyPreference"
                                                           },
-                                                          {
+                                                         {
                                                               "Target":  "Machine",
                                                               "Type":  "Shortcuts",
                                                               "XmlFileName":  "Shortcuts.xml",

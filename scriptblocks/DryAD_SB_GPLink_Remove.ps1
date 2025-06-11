@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_GPLink_Remove = {
-    param (
+[ScriptBlock]$DryAD_SB_GPLink_Remove ={
+    param(
         $OU,
         $LinkToRemove,
         $Server
@@ -27,7 +27,7 @@
     
     $Status = $false
     $ErrorString = ''
-    try {
+    try{
         $RemoveLinkParams = @{
             Name        = $LinkToRemove
             Target      = $OU
@@ -38,7 +38,7 @@
         $Status = $true
         return @($Status, $ErrorString)
     }
-    catch {
+    catch{
         $ErrorString = $_.ToString()
         @($Status, $ErrorString)
     }

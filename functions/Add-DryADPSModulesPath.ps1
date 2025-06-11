@@ -19,9 +19,9 @@ using NameSpace System.Management.Automation.Runspaces
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Add-DryADPSModulesPath {
+function Add-DryADPSModulesPath{
     [CmdletBinding()]
-    param (
+    param(
         [Parameter(Mandatory)]
         [PSSession]$PSSession,
 
@@ -32,7 +32,7 @@ function Add-DryADPSModulesPath {
         [string[]]$Modules
     )
 
-    try {
+    try{
         
         
         # Add Path to $env:PSModulePath on the remote system, so functions are
@@ -51,17 +51,17 @@ function Add-DryADPSModulesPath {
         $RemotePSModulePaths = Invoke-Command @InvokePSModPathParams
 
         olad v @('The PSModulePath on remote system', "'$RemotePSModulePaths'")
-        switch ($RemotePSModulePaths) {
-            { $RemotePSModulePaths -Match $PathRegEx } {
+        switch($RemotePSModulePaths){
+           { $RemotePSModulePaths -Match $PathRegEx }{
                 olad v @('Successfully added to remote PSModulePath', "'$Path'")
             }
-            default {
+            default{
                 olad w @('Failed to add path to remote PSModulePath', "'$Path'")
                 throw "The RemoteRootPath '$Path' was not added to the PSModulePath in the remote session"
             }
         }
 
-        if ($Modules) {
+        if($Modules){
             $ImportModsParams = @{
                 Session      = $PSSession 
                 ScriptBlock  = $DryAD_SB_ImportMods 
@@ -70,21 +70,21 @@ function Add-DryADPSModulesPath {
             }   
             $ImportResult = Invoke-Command @ImportModsParams
     
-            switch ($ImportResult) {
-                $true {
+            switch($ImportResult){
+                $true{
                     olad v "The modules '$Modules' were imported into PSSession to $($PSSession.ComputerName)"
                 }
-                default {
+                default{
                     olad w "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
                     throw "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
                 }
             }
         }
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
-    finally {
+    finally{
         $ProgressPreference = $OriginalProgressPreference
     }
 }

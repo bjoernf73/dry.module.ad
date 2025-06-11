@@ -1,13 +1,13 @@
-function Convert-DNToUnixPath {
-    param (
+function Convert-DNToUnixPath{
+    param(
         [string]$DistinguishedName,
 
         [switch]$RemoveLeaf
     )
     # Split the DN by commas, filter out 'DC=' components, reverse and replace 'OU='
     $pathParts = @($DistinguishedName -split "," | 
-        Where-Object { $_ -notmatch "^DC=" } | 
-        ForEach-Object { $_ -replace "^OU=", "" })
+        Where-Object{ $_ -notmatch "^DC=" } | 
+        ForEach-Object{ $_ -replace "^OU=", "" })
     
     # remove the object itself - we only want the path
     if($RemoveLeaf){
@@ -17,7 +17,7 @@ function Convert-DNToUnixPath {
     # if there are CN's in the path, we cannot convert to unix path - just delete the DC-part
     $containsCN = $false
     foreach($part in $pathParts){
-        if ($part -match '^CN='){
+        if($part -match '^CN='){
             $containsCN = $true
         }
     }
@@ -26,17 +26,17 @@ function Convert-DNToUnixPath {
         # just return the distingushedname without DC-part - but remove the element itself 
         return ($pathParts -join ",")
     }
-    else {
+    else{
         [array]::Reverse($pathParts)
         # Convert to Unix-like path
         return ($pathParts -join "/")
     }
 }
 
-function Get-ADSecurityGroupsInfo {
-    $groups = Get-ADGroup -Filter * -Properties Description, GroupCategory, GroupScope, DistinguishedName, MemberOf | Where-Object { $_.GroupCategory -eq 'Security'}
+function Get-ADSecurityGroupsInfo{
+    $groups = Get-ADGroup -Filter * -Properties Description, GroupCategory, GroupScope, DistinguishedName, MemberOf | Where-Object{ $_.GroupCategory -eq 'Security'}
     $output = @()
-    foreach ($group in $Groups) {
+    foreach($group in $Groups){
         $groupInfo = [ordered]@{
             "Name" = $group.Name
             "Path" = $(Convert-DNToUnixPath -DistinguishedName $group.DistinguishedName -RemoveLeaf)
@@ -45,7 +45,7 @@ function Get-ADSecurityGroupsInfo {
             "MemberOf" = @()
         }
         # Get groups that the current group is a member of
-        foreach ($parentGroup in $group.MemberOf) {
+        foreach($parentGroup in $group.MemberOf){
             $parentGroupName = (Get-ADGroup -Identity $parentGroup).Name
             $groupInfo.MemberOf += $parentGroupName
         }
@@ -55,10 +55,10 @@ function Get-ADSecurityGroupsInfo {
     $output
 }
 
-function Get-ADOrganizationalUnitsInfo {
+function Get-ADOrganizationalUnitsInfo{
     $OUs = Get-ADOrganizationalUnit -Filter * -Properties Description, DistinguishedName
     $output = @()
-    foreach ($ou in $OUs) {
+    foreach($ou in $OUs){
         $OUInfo = [ordered]@{
             "Path" = $(Convert-DNToUnixPath -DistinguishedName $ou.DistinguishedName)
             "Description" = $ou.Description

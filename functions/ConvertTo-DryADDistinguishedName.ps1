@@ -23,9 +23,9 @@
     Translates a path 'Servers/Serverroles/CA' (from root to leaf) to a 
     domainDN like OU=CA,OU=ServerRoles,OU=Servers (from leaf to root). 
 #> 
-function ConvertTo-DryADDistinguishedName {
+function ConvertTo-DryADDistinguishedName{
     [CmdletBinding()]
-    param (
+    param(
         [Parameter(Mandatory)]
         [AllowEmptyString()]
         [string]$Name,
@@ -40,27 +40,27 @@ function ConvertTo-DryADDistinguishedName {
     $Name = $Name.Trim('/')
     olad d @('Input', $Name)   
    
-    try {
+    try{
         [string]$ConvertedName = ""
         
-        if (
+        if(
             ($Name -match "^ou=") -or 
             ($Name -match "^cn=")
-        ) {
+        ){
             # the name is alerady a dN
             olad d @('The input is already a DistinguishedName', $Name)   
             $ConvertedName = "$Name"
         }
-        elseif ($name -eq '') {
+        elseif($name -eq ''){
             olad d 'Empty string (probably root of domain - return empty string then'
             $ConvertedName = $name
         }
-        else {
+        else{
             # names like root/middle/leaf will be converted 
             # to ou=leaf,ou=middle,ou=root. Must assume that 
             # these are OUs, not CNs (or DCs)
             $NameArr = @($Name -split "/")
-            for ($c = ($nameArr.Count - 1); $c -ge 0; $c--) {  
+            for ($c = ($nameArr.Count - 1); $c -ge 0; $c--){  
                 $ConvertedName += "OU=$($nameArr[$c]),"
             }
             # The accumulated name ends with ',', chop that off
@@ -73,7 +73,7 @@ function ConvertTo-DryADDistinguishedName {
         olad d @('Returning', "$ConvertedName")  
         $ConvertedName
     }
-    catch {
+    catch{
         olad w "Error converting '$Name' to distinguishedName"  
         $PSCmdlet.ThrowTerminatingError($_)
     }

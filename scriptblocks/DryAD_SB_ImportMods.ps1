@@ -18,11 +18,11 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_ImportMods = {
-    param (
+[ScriptBlock]$DryAD_SB_ImportMods ={
+    param(
         [array]$Modules
     )
-    try {
+    try{
         $Modules.foreach({
             $ImportParams = @{
                 Name        = $_
@@ -33,7 +33,7 @@
         })
         $true
     }
-    catch {
+    catch{
         $false
     }
 }

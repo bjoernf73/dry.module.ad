@@ -18,26 +18,26 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock] $DryAD_SB_GroupMember_Get = {
-    param (
+[ScriptBlock] $DryAD_SB_GroupMember_Get ={
+    param(
         $Group,
         $Member,
         $Server
     )
-    try {
+    try{
         $GetADGroupMemberParams = @{
             Identity    = $Group 
             Server      = $Server
             ErrorAction = 'Stop'
         }
-        if ((Get-ADGroupMember @GetADGroupMemberParams | Select-Object -Property Name).Name -Contains $Member) {
+        if((Get-ADGroupMember @GetADGroupMemberParams | Select-Object -Property Name).Name -Contains $Member){
             $true
         } 
-        else {
+        else{
             $false
         }
     }
-    catch {
+    catch{
         $_
     }
 }

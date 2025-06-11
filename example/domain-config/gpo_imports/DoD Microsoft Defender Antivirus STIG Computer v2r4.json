@@ -5,9 +5,9 @@
     "UserSettingsEnabled":  false,
     "WMIFilter":  null,
     "Permissions":  "O:DAG:DAD:PAI(A;CIIO;CCDCLCSWRPWPDTLOSDRCWDWO;;;CO)(A;CI;LCRPLORC;;;ED)(A;CI;LCRPLORC;;;AU)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;SY)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;DA)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;####Replace[DOMAIN\\Enterprise Admins])(OA;CI;CR;edacfd8f-ffb3-11d1-b41d-00a0c968f939;;AU)",
-    "PolicySettings":  {
+    "PolicySettings": {
                            "RegistrySettings":  [
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender",
                                                         "ValueType":  "REG_DWORD",
@@ -15,7 +15,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Exclusions",
                                                         "ValueType":  "REG_DWORD",
@@ -23,7 +23,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Scan",
                                                         "ValueType":  "REG_DWORD",
@@ -31,7 +31,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Scan",
                                                         "ValueType":  "REG_DWORD",
@@ -39,7 +39,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Scan",
                                                         "ValueType":  "REG_DWORD",
@@ -47,7 +47,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Signature Updates",
                                                         "ValueType":  "REG_DWORD",
@@ -55,7 +55,7 @@
                                                         "ValueData":  "7",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Signature Updates",
                                                         "ValueType":  "REG_DWORD",
@@ -63,7 +63,7 @@
                                                         "ValueData":  "7",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Signature Updates",
                                                         "ValueType":  "REG_DWORD",
@@ -71,7 +71,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Spynet",
                                                         "ValueType":  "REG_DWORD",
@@ -79,7 +79,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Spynet",
                                                         "ValueType":  "REG_DWORD",
@@ -87,7 +87,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Spynet",
                                                         "ValueType":  "REG_DWORD",
@@ -95,7 +95,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Threats",
                                                         "ValueType":  "REG_DWORD",
@@ -103,7 +103,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Threats\\ThreatSeverityDefaultAction",
                                                         "ValueType":  "REG_SZ",
@@ -111,7 +111,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Threats\\ThreatSeverityDefaultAction",
                                                         "ValueType":  "REG_SZ",
@@ -119,7 +119,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Threats\\ThreatSeverityDefaultAction",
                                                         "ValueType":  "REG_SZ",
@@ -127,7 +127,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Threats\\ThreatSeverityDefaultAction",
                                                         "ValueType":  "REG_SZ",
@@ -135,7 +135,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR",
                                                         "ValueType":  "REG_DWORD",
@@ -143,7 +143,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules",
                                                         "ValueType":  "REG_SZ",
@@ -151,7 +151,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules",
                                                         "ValueType":  "REG_SZ",
@@ -159,7 +159,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules",
                                                         "ValueType":  "REG_SZ",
@@ -167,7 +167,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules",
                                                         "ValueType":  "REG_SZ",
@@ -175,7 +175,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules",
                                                         "ValueType":  "REG_SZ",
@@ -183,7 +183,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules",
                                                         "ValueType":  "REG_SZ",
@@ -191,7 +191,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules",
                                                         "ValueType":  "REG_SZ",
@@ -199,7 +199,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\Network Protection",
                                                         "ValueType":  "REG_DWORD",

@@ -5,9 +5,9 @@
     "UserSettingsEnabled":  false,
     "WMIFilter":  null,
     "Permissions":  "O:DAG:DAD:PAI(A;CIIO;CCDCLCSWRPWPDTLOSDRCWDWO;;;CO)(A;CI;LCRPLORC;;;ED)(A;CI;LCRPLORC;;;AU)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;SY)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;DA)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;####Replace[DOMAIN\\Enterprise Admins])(OA;CI;CR;edacfd8f-ffb3-11d1-b41d-00a0c968f939;;AU)",
-    "PolicySettings":  {
+    "PolicySettings": {
                            "RegistrySettings":  [
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall",
                                                         "ValueType":  "REG_DWORD",
@@ -15,7 +15,7 @@
                                                         "ValueData":  "539",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -23,7 +23,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -31,7 +31,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -39,7 +39,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -47,7 +47,7 @@
                                                         "ValueData":  "16384",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -55,7 +55,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -63,7 +63,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -71,7 +71,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -79,7 +79,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -87,7 +87,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -95,7 +95,7 @@
                                                         "ValueData":  "16384",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -103,7 +103,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -111,7 +111,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -119,7 +119,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -127,7 +127,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -135,7 +135,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -143,7 +143,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
                                                         "ValueType":  "REG_DWORD",
@@ -151,7 +151,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -159,7 +159,7 @@
                                                         "ValueData":  "16384",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -167,7 +167,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging",
                                                         "ValueType":  "REG_DWORD",
@@ -190,7 +190,7 @@
                            "MachineComments":  null,
                            "UserComments":  null,
                            "Scripts":  [
-                                           {
+                                          {
                                                "Target":  "Machine",
                                                "ScriptsIni":  null,
                                                "PSScriptsIni":  null,

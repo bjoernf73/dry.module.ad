@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock] $DryAD_SB_MoveComputer_Get = { 
-    param (
+[ScriptBlock] $DryAD_SB_MoveComputer_Get ={ 
+    param(
         [string]
         $ComputerName,
 
@@ -30,11 +30,11 @@
         $Server
     ) 
     
-    try {
+    try{
         [string]$DomainDN = (Get-ADDomain -Server $Server -ErrorAction Stop | 
                 Select-Object -Property distinguishedName).distinguishedName
         
-        if ($TargetOU -notmatch "$DomainDN$") {
+        if($TargetOU -notmatch "$DomainDN$"){
             $TargetOU = $TargetOU + ",$DomainDN"
         }
         $TargetComputerDN = "CN=$ComputerName,$TargetOU"
@@ -43,14 +43,14 @@
             Server   = $Server
             Identity = $ComputerName
         }
-        if ((Get-ADComputer @GetADComputerParams | Select-Object -Property distinguishedName).distinguishedName -eq "$TargetComputerDN") {
+        if((Get-ADComputer @GetADComputerParams | Select-Object -Property distinguishedName).distinguishedName -eq "$TargetComputerDN"){
             $true
         } 
-        else {
+        else{
             $false
         }
     }
-    catch {
+    catch{
         $_
     }
 }

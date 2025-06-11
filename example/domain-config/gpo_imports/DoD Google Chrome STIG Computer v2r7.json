@@ -5,9 +5,9 @@
     "UserSettingsEnabled":  false,
     "WMIFilter":  null,
     "Permissions":  "O:DAG:DAD:PAI(A;CIIO;CCDCLCSWRPWPDTLOSDRCWDWO;;;CO)(A;CI;LCRPLORC;;;ED)(A;CI;LCRPLORC;;;AU)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;SY)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;DA)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;####Replace[DOMAIN\\Enterprise Admins])(OA;CI;CR;edacfd8f-ffb3-11d1-b41d-00a0c968f939;;AU)",
-    "PolicySettings":  {
+    "PolicySettings": {
                            "RegistrySettings":  [
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -15,7 +15,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -23,7 +23,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -31,7 +31,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_SZ",
@@ -39,7 +39,7 @@
                                                         "ValueData":  "Google Encrypted",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -47,7 +47,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -55,7 +55,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -63,7 +63,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -71,7 +71,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -79,7 +79,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -87,7 +87,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -95,7 +95,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -103,7 +103,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -111,7 +111,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -119,7 +119,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -127,7 +127,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -135,7 +135,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -143,7 +143,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -151,7 +151,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -159,7 +159,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -167,7 +167,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -175,7 +175,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -183,7 +183,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -191,7 +191,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -199,7 +199,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -207,7 +207,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -215,7 +215,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -223,7 +223,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -231,7 +231,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -239,7 +239,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -247,7 +247,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -255,7 +255,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_SZ",
@@ -263,7 +263,7 @@
                                                         "ValueData":  "https://www.google.com/search?q={searchTerms}",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -271,7 +271,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -279,7 +279,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -287,7 +287,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_DWORD",
@@ -295,7 +295,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome",
                                                         "ValueType":  "REG_SZ",
@@ -303,7 +303,7 @@
                                                         "ValueData":  "tls1.2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome\\AutoplayAllowlist",
                                                         "ValueType":  "REG_SZ",
@@ -311,7 +311,7 @@
                                                         "ValueData":  " ",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome\\AutoplayAllowlist",
                                                         "ValueType":  "REG_SZ",
@@ -319,7 +319,7 @@
                                                         "ValueData":  "[*.]mil",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome\\AutoplayAllowlist",
                                                         "ValueType":  "REG_SZ",
@@ -327,7 +327,7 @@
                                                         "ValueData":  "[*.]gov",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome\\CookiesSessionOnlyForUrls",
                                                         "ValueType":  "REG_SZ",
@@ -335,7 +335,7 @@
                                                         "ValueData":  " ",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome\\ExtensionInstallAllowlist",
                                                         "ValueType":  "REG_SZ",
@@ -343,7 +343,7 @@
                                                         "ValueData":  " ",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome\\ExtensionInstallAllowlist",
                                                         "ValueType":  "REG_SZ",
@@ -351,7 +351,7 @@
                                                         "ValueData":  "oiigbmnaadbkfbmpbfijlflahbdbdgdf",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome\\ExtensionInstallBlocklist",
                                                         "ValueType":  "REG_SZ",
@@ -359,7 +359,7 @@
                                                         "ValueData":  " ",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome\\ExtensionInstallBlocklist",
                                                         "ValueType":  "REG_SZ",
@@ -367,7 +367,7 @@
                                                         "ValueData":  "*",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome\\URLBlocklist",
                                                         "ValueType":  "REG_SZ",
@@ -375,7 +375,7 @@
                                                         "ValueData":  " ",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Chrome\\URLBlocklist",
                                                         "ValueType":  "REG_SZ",
@@ -383,7 +383,7 @@
                                                         "ValueData":  "javascript://*",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "Software\\Policies\\Google\\Update",
                                                         "ValueType":  "REG_DWORD",
@@ -419,7 +419,7 @@
                                                ],
                            "UserComments":  null,
                            "Scripts":  [
-                                           {
+                                          {
                                                "Target":  "Machine",
                                                "ScriptsIni":  null,
                                                "PSScriptsIni":  null,

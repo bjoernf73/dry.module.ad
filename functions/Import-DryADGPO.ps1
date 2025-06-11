@@ -18,9 +18,9 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Import-DryADGPO {
+function Import-DryADGPO{
     [CmdletBinding(DefaultParameterSetName = 'Local')]
-    param (
+    param(
         [Parameter(Mandatory)]
         [PSObject]
         $GPO,
@@ -38,7 +38,7 @@ function Import-DryADGPO {
         $DomainController,
 
         [Parameter()]
-        [HashTable]
+        [hashtable]
         $ReplacementHash,
 
         [Parameter(HelpMessage = "Renames existing GPO, and removes all it's links")]
@@ -46,12 +46,12 @@ function Import-DryADGPO {
         $Force
     )
 
-    if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+    if($PSCmdlet.ParameterSetName -eq 'Remote'){
         $Server = 'localhost'
         olad v @('Session Type', 'Remote')
         olad v @('Remoting to Domain Controller', "$($PSSession.ComputerName)")
     }
-    else {
+    else{
         $Server = $DomainController
         olad v @('Session Type', 'Local')
         olad v @('Using Domain Controller', "$Server")
@@ -60,8 +60,8 @@ function Import-DryADGPO {
     olad v @('GPO Name', "'$($GPO.TargetName)'")
     olad v @('GPO Type', "'$($GPO.Type)'")
     
-    switch ($GPO.type) {
-        'backup' {
+    switch($GPO.type){
+        'backup'{
             $BackupGPOPath = Join-Path -Path $GPOsPath -ChildPath $GPO.Name
             olad v @('GPO Folder Path', "'$BackupGPOPath'")
 
@@ -69,7 +69,7 @@ function Import-DryADGPO {
                 [string] $GPO.Name,
                 [string] $GPO.TargetName,
                 [string] $BackupGPOPath,
-                [HashTable]$ReplacementHash
+                [hashtable]$ReplacementHash
                 [string] $Server,
                 [Bool] $Force
             )
@@ -80,7 +80,7 @@ function Import-DryADGPO {
                 ErrorAction  = 'Continue'
             }
 
-            if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+            if($PSCmdlet.ParameterSetName -eq 'Remote'){
                 $InvokeCommandParams += @{
                     Session = $PSSession
                 }
@@ -89,19 +89,19 @@ function Import-DryADGPO {
             $GPOImportResult = Invoke-Command @InvokeCommandParams
             
             # Log all remote messages to Out-DryADLog regardless of result
-            foreach ($ResultMessage in $GPOImportResult[2]) {
+            foreach($ResultMessage in $GPOImportResult[2]){
                 olad d "[BACKUPGPO] $ResultMessage"
             }
 
-            if ($GPOImportResult[0] -eq $true) {
+            if($GPOImportResult[0] -eq $true){
                 olad v @('Successful import of backup GPO', "'$($GPO.Name)'")
             }
-            else {
+            else{
                 olad e "Failed to import backup GPO $($GPO.Name): $($GPOImportResults[1].ToString())"
                 throw "Failed to import backup GPO $($GPO.Name): $($GPOImportResults[1].ToString())"
             }
         }
-        'json' {
+        'json'{
             # GPO in json-format
             $JsonGPOFilePath = Join-Path -Path $GPOsPath -ChildPath "$($GPO.Name).json"
             olad v @('GPO File Path', "'$JsonGPOFilePath'")
@@ -109,10 +109,10 @@ function Import-DryADGPO {
             # Unless the json-gpo specifies a (bool) value for defaultpermissions, it is set to true, meaning
             # meaning that permissions in the json-GPO is ignored, and the default security descriptor of the 
             # groupPolicyContainer schema class is used.      
-            if ($null -eq $GPO.defaultpermissions) {
+            if($null -eq $GPO.defaultpermissions){
                 [Bool]$GPODefaultPermissions = $true
             }
-            else {
+            else{
                 [Bool]$GPODefaultPermissions = $GPO.defaultpermissions
             }
 
@@ -122,7 +122,7 @@ function Import-DryADGPO {
                 [string]$Server,
                 [Bool]$Force,
                 [Bool]$GPODefaultPermissions,
-                [HashTable]$ReplacementHash
+                [hashtable]$ReplacementHash
             )
 
             $InvokeCommandParams = @{
@@ -131,7 +131,7 @@ function Import-DryADGPO {
                 ErrorAction  = 'Continue'
             }
 
-            if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+            if($PSCmdlet.ParameterSetName -eq 'Remote'){
                 $InvokeCommandParams += @{
                     Session = $PSSession
                 }
@@ -139,17 +139,17 @@ function Import-DryADGPO {
             $GPOImportResult = $null
             $GPOImportResult = Invoke-Command @InvokeCommandParams
 
-            switch ($GPOImportResult[0]) {
-                $true {
+            switch($GPOImportResult[0]){
+                $true{
                     olad d "$($GPOImportResult[2])"
                 }
-                default {
+                default{
                     olad d "$($GPOImportResult[2])"
                     throw $GPOImportResult[1].ToString()
                 }
             }
         }
-        default {
+        default{
             throw "Unknown GPO type: $($GPO.Type)"
         }
     }

@@ -18,15 +18,15 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_ADForestProperty_Get = {
-    param (
+[ScriptBlock]$DryAD_SB_ADForestProperty_Get ={
+    param(
         $Property,
         $Server
     ) 
-    try {
+    try{
         (Get-ADForest -Server $Server -ErrorAction Stop)."$Property"
     }
-    catch {
+    catch{
         $_
     }
 }

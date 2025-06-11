@@ -18,18 +18,18 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock] $DryAD_SB_CreateDir = {
-    param (
+[ScriptBlock] $DryAD_SB_CreateDir ={
+    param(
         $Directory
     )
-    try {
-        if (-not (Test-Path -Path $Directory -ErrorAction Ignore)) {
+    try{
+        if(-not (Test-Path -Path $Directory -ErrorAction Ignore)){
             New-Item -Path $Directory -ItemType Directory -Force -ErrorAction Stop |
                 Out-Null
         }
         $true
     }
-    catch {
+    catch{
         $_
     }
 }

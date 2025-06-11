@@ -17,33 +17,33 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Get-DryADOUPathFromAlias {
+function Get-DryADOUPathFromAlias{
     [cmdletbinding()]
-    param (
+    param(
         [Parameter(Mandatory)]
         [string]$Alias,
 
         [Parameter(Mandatory)]
-        [Array]$OUs
+        [array]$OUs
     )
 
-    $ReferencedOU = $OUs | Where-Object {  
+    $ReferencedOU = $OUs | Where-Object{  
         $_.Alias -eq $Alias
     }
     olad d 'Alias', "$Alias"
 
-    if ($null -eq $ReferencedOU) {
+    if($null -eq $ReferencedOU){
         olad e @('Unable to resolve OU from Alias', 'No OUs found')
         throw "Unable to find OU for Alias '$Alias': No references found"
     } 
 
-    if ($ReferencedOU -is [Array]) {
+    if($ReferencedOU -is [array]){
         olad e @('Unable to resolve OU from Alias', 'Multiple OUs found')
         throw "Unable to find single OU for Alias '$Alias': Multiple references found"
     }
     
     $Path = $ReferencedOU.Path
-    if ($null -eq $Path) {
+    if($null -eq $Path){
         olad e "Found OU '$($OU.Alias)', but it contains no path"
         throw "Found OU '$($OU.Alias)', but it contains no path"
     }

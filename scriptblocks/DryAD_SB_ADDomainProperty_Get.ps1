@@ -18,15 +18,15 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_ADDomainProperty_Get = {
-    param (
+[ScriptBlock]$DryAD_SB_ADDomainProperty_Get ={
+    param(
         $Property,
         $Server
     ) 
-    try {
+    try{
         (Get-ADDomain -Server $Server -ErrorAction Stop)."$Property"
     }
-    catch {
+    catch{
         $_
     }
 }

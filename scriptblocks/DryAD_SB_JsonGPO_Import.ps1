@@ -18,9 +18,9 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_JsonGPO_Import = {
+[ScriptBlock]$DryAD_SB_JsonGPO_Import ={
     [CmdLetBinding()] 
-    param (
+    param(
         [string]
         $Name,
 
@@ -36,12 +36,12 @@
         [Bool]
         $DefaultPermissions,
 
-        [HashTable]
+        [hashtable]
         $Replacements
     )
     $Result = @($false, $null, '')
     
-    try {
+    try{
         if(-not($null = get-command -Name 'Import-GroupPolicyToAD' -ErrorAction Ignore)){
             Import-Module -Name 'dry.ad.gpohelper' -Force -ErrorAction 'Stop' | Out-Null
         }
@@ -52,11 +52,11 @@
         }
         [Bool]$GPOExistsAlready = Test-GroupPolicyExistenceInAD @GPOExistsAlreadyParams
     
-        if ($GPOExistsAlready -and (-not $Force)) {
+        if($GPOExistsAlready -and (-not $Force)){
             $Result[2] = 'GPO exists already and you didn''t -force (no change)'
             $Result[0] = $true
         }
-        else {
+        else{
             $ImportGroupPolicyToADParams = @{
                 Name                    = $Name
                 FileName                = $FileName
@@ -71,22 +71,22 @@
             Import-GroupPolicyToAD @ImportGroupPolicyToADParams
             $Result[0] = $true
             
-            if ($GPOExistsAlready -and $Force) {
+            if($GPOExistsAlready -and $Force){
                 $Result[2] = 'An existing GPO was replaced (original renamed)'
             }
-            else {
+            else{
                 $Result[2] = 'The GPO was imported'
             }
         }
         return $Result
     }
-    catch {
+    catch{
         $Result[0] = $false
         $Result[1] = $_
         $Result[2] = 'The GPO import failed'
         return $Result    
     }
-    finally {
+    finally{
         @('GPOExistsAlreadyParams',
             'ImportGroupPolicyToADParams',
             'GPOExistsAlready'

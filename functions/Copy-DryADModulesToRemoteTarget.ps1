@@ -19,9 +19,9 @@ using NameSpace System.Management.Automation.Runspaces
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Copy-DryADModulesToRemoteTarget {
+function Copy-DryADModulesToRemoteTarget{
     [CmdletBinding()]
-    param (
+    param(
         [Parameter(Mandatory)]
         [PSSession]$PSSession,
 
@@ -38,12 +38,12 @@ function Copy-DryADModulesToRemoteTarget {
         [switch]$Force
     )
 
-    try {
+    try{
         # While copying multiple tiny files, the progress bar is flickering and not informative at all, so suppress it
         $OriginalProgressPreference = $ProgressPreference
         $ProgressPreference = 'SilentlyContinue'
        
-        if ($Force) {
+        if($Force){
             $InvokeDirParams = @{
                 ScriptBlock  = $DryAD_SB_RemoveAndReCreateDir
                 Session      = $PSSession
@@ -51,33 +51,33 @@ function Copy-DryADModulesToRemoteTarget {
             }
             $DirResult = Invoke-Command @InvokeDirParams
             
-            switch ($DirResult) {
-                $true {
+            switch($DirResult){
+                $true{
                     olad d 'Created remote directory', "$RemoteRootPath"
                 }
-                { $DirResult -is [ErrorRecord] } {
+               { $DirResult -is [ErrorRecord] }{
                     olad w 'Unable to create remote directory', "$RemoteRootPath"
                     $PSCmdlet.ThrowTerminatingError($DirResult)
                 }
-                default {
+                default{
                     throw "Unable to create remote directory: $($DirResult.ToString())"
                 }
             }
         }
 
-        foreach ($Module in $Modules) {
+        foreach($Module in $Modules){
             [PSModuleInfo]$ModuleObj = Get-Module -Name $Module -ListAvailable -ErrorAction Stop
-            if ($null -eq $ModuleObj) {
+            if($null -eq $ModuleObj){
                 throw "Unable to find module '$Module'"
             }
-            else {
+            else{
                 $ModuleFolder = Split-Path -Path $ModuleObj.Path
-                try { 
+                try{ 
                     [system.version](Split-Path -Path $ModuleFolder -Leaf) | Out-Null
                     olad v "Module '$Module' is a versioned module, it's root folder must be: '$(Split-Path -Path $ModuleFolder)'"
                     $ModuleFolder = Split-Path -Path $ModuleFolder
                 } 
-                catch { 
+                catch{ 
                     olad v "Module '$Module' is not a versioned module, it's root folder must be: '$ModuleFolder'"
                 }
                 $CopyItemsParams = @{
@@ -93,8 +93,8 @@ function Copy-DryADModulesToRemoteTarget {
             }
         }
 
-        foreach ($ModuleFolder in $Folders) {
-            try {
+        foreach($ModuleFolder in $Folders){
+            try{
                 [system.io.directoryinfo]$ModuleObj = Get-Item -Name $ModuleFolder -ErrorAction Stop
                 $CopyItemsParams = @{
                     Path        = $ModuleFolder
@@ -106,7 +106,7 @@ function Copy-DryADModulesToRemoteTarget {
                 olad d @("Copying module to '$($PSSession.ComputerName)'", "'$ModuleFolder'")
                 Copy-Item @CopyItemsParams
             }
-            catch {
+            catch{
                 throw "Failed to copy '$ModuleFolder' to remote target"
             }
         }
@@ -128,17 +128,17 @@ function Copy-DryADModulesToRemoteTarget {
         $RemotePSModulePaths = Invoke-Command @InvokePSModPathParams
 
         olad d @('The PSModulePath on remote system', "'$RemotePSModulePaths'")
-        switch ($RemotePSModulePaths) {
-            { $RemotePSModulePaths -Match $RemoteRootPathRegEx } {
+        switch($RemotePSModulePaths){
+           { $RemotePSModulePaths -Match $RemoteRootPathRegEx }{
                 olad v @('Successfully added to remote PSModulePath', "'$RemoteRootPath'")
             }
-            default {
+            default{
                 olad w @('Failed to add path to remote PSModulePath', "'$RemoteRootPath'")
                 throw "The RemoteRootPath '$RemoteRootPath' was not added to the PSModulePath in the remote session"
             }
         }
 
-        if ($Force) {
+        if($Force){
             $ImportModsParams = @{
                 Session      = $PSSession 
                 ScriptBlock  = $DryAD_SB_ImportMods 
@@ -147,21 +147,21 @@ function Copy-DryADModulesToRemoteTarget {
             }   
             $ImportResult = Invoke-Command @ImportModsParams
     
-            switch ($ImportResult) {
-                $true {
+            switch($ImportResult){
+                $true{
                     olad v "The modules '$Modules' were imported into PSSession to $($PSSession.ComputerName)"
                 }
-                default {
+                default{
                     olad w "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
                     throw "The modules '$Modules' were not imported into PSSession to $($PSSession.ComputerName)"
                 }
             }
         }
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
-    finally {
+    finally{
         $ProgressPreference = $OriginalProgressPreference
     }
 }

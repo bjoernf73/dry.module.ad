@@ -17,9 +17,9 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Get-DryADJson {
+function Get-DryADJson{
     [CmdletBinding()]
-    param (
+    param(
         [ValidateScript({ (Test-Path $_ -PathType 'leaf') -and (($_ -match ".json$") -or ($_ -match ".jsonc$")) })]
         [Parameter(Mandatory, ParameterSetName = 'stringpath')]
         [string]$Path,
@@ -28,16 +28,16 @@ function Get-DryADJson {
         [Parameter(Mandatory, ParameterSetName = 'fileinfo')]
         [System.IO.FileInfo]$File
     )
-    try {
-        if ($Path) {
+    try{
+        if($Path){
             [System.IO.FileInfo]$Item = Get-Item -Path $Path -ErrorAction Stop
         }
-        else {
+        else{
             [System.IO.FileInfo]$Item = $File
         }
         
         # Get all lines that does not start with comment, i.e "//"
-        [Array]$ContentArray = Get-Content -Path $Item -ErrorAction Stop | Where-Object { 
+        [array]$ContentArray = Get-Content -Path $Item -ErrorAction Stop | Where-Object{ 
             $_.Trim() -notmatch "^//" 
         }
 
@@ -46,7 +46,7 @@ function Get-DryADJson {
         # Convert to PSObject and return
         ConvertFrom-Json -InputObject $ContentString -ErrorAction 'Stop'
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
 }

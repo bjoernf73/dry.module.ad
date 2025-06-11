@@ -18,54 +18,54 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_User_Set = { 
-    param (
+[ScriptBlock]$DryAD_SB_User_Set ={ 
+    param(
         $UserSpec,
         $ExecutionType,
         $Server,
         $Secret
     ) 
     
-    try {
+    try{
         # The function that finds certificate, decrypts, converts to secure string
-        function Convert-DryADEncryptedBase64ToSecureString {
+        function Convert-DryADEncryptedBase64ToSecureString{
             [CmdletBinding()]
             [OutputType([System.Security.SecureString])]
-            param (
+            param(
                 [Parameter(Mandatory)]
                 [ValidateNotNullOrEmpty()]
                 [string] $EncryptedBase64String
             )
-            try {
+            try{
                 # Try to find a certificate in the LocalMachine\My (Personal) Store with
                 #   - a private key accessible
                 #   - of type SHA256 RSA (ECDH does not work)
                 #   - 'Server Authentiaction' as part of the Enhanced Key Usage
                 $Cert = Get-ChildItem -Path Cert:\LocalMachine\My -ErrorAction Stop | 
-                    Where-Object { 
+                    Where-Object{ 
                     ($_.HasPrivateKey -eq $true) -and 
                     ($_.SignatureAlgorithm.FriendlyName -eq 'SHA256RSA') -and
                     (@(($_.EnhancedKeyUsageList).FriendlyName) -contains 'Server Authentication')  
                     }
         
                 # If multiple, use first
-                if ($Cert -is [Array]) {
+                if($Cert -is [array]){
                     $Cert = $Cert[0]
                 }
                 
-                if ($Cert) {
+                if($Cert){
                     $EncryptedByteArray = [Convert]::FromBase64String($EncryptedBase64String)
                     $ClearText = [System.Text.Encoding]::UTF8.GetString($Cert.PrivateKey.Decrypt($EncryptedByteArray, $true))
                 }
-                else {
+                else{
                     throw "Server Authentication Certificate with Private Key not found!"
                 }
                 return (ConvertTo-SecureString -String $ClearText -AsPlainText -Force)
             }
-            catch {
+            catch{
                 $PSCmdlet.ThrowTerminatingError($_)
             }
-            finally {
+            finally{
                 Remove-Variable -Name ClearText -ErrorAction Continue
             }
         }
@@ -75,15 +75,15 @@
         $DomainDN = $ADRootDSE.DefaultNamingContext
         
         # Add DomainDN to path if not already added
-        if ($UserSpec['Path'] -notmatch "$DomainDN$") {
+        if($UserSpec['Path'] -notmatch "$DomainDN$"){
             $UserSpec['Path'] = $UserSpec['Path'] + ",$DomainDN"
         }
-        switch ($ExecutionType) {
-            'Remote' {
+        switch($ExecutionType){
+            'Remote'{
                 # Decrypt the encypted password, and create a SecureString
                 [System.Security.SecureString]$SecureStringPassword = Convert-DryADEncryptedBase64ToSecureString -EncryptedBase64String $Secret
             }
-            'Local' {
+            'Local'{
                 [System.Security.SecureString]$SecureStringPassword = $Secret
             }
         }
@@ -93,7 +93,7 @@
         New-ADUser @UserSpec -Server $Server -ErrorAction Stop
         $true, ''
     }
-    catch {
+    catch{
         $false, "$($_.ToString())"
     }
 }

@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_GPLink_New = {
-    param (
+[ScriptBlock]$DryAD_SB_GPLink_New ={
+    param(
         $OU,
         $GPO,
         $Order,
@@ -30,7 +30,7 @@
     
     $Status = $false
     $ErrorString = ''
-    try {
+    try{
         $NewLinkParams = @{
             Name        = $GPO
             Target      = $OU
@@ -45,7 +45,7 @@
         $Status = $true
         return @($Status, $ErrorString)
     }
-    catch {
+    catch{
         # If caught, get the string
         $ErrorString = $_.ToString()
         return @($Status, $ErrorString)

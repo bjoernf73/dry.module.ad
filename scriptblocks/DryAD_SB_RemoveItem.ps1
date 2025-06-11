@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_RemoveItem = {
-    param (
+[ScriptBlock]$DryAD_SB_RemoveItem ={
+    param(
         [Parameter(Mandatory)]
         [string]
         $Path,
@@ -28,10 +28,10 @@
         [System.Management.Automation.ActionPreference]
         $ErrorAction = 'Stop'
     )
-    try {
+    try{
         Remove-Item -Path $Path -Confirm:$false -ErrorAction $ErrorAction
     }
-    catch {
+    catch{
         $_
     }
 }

@@ -18,9 +18,9 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function New-DryADSecurityGroup {
+function New-DryADSecurityGroup{
     [CmdletBinding(DefaultParameterSetName = 'Local')]
-    param (   
+    param(   
         [Parameter(Mandatory,
             HelpMessage = "Enter name of the group")]
         [ValidateNotNullOrEmpty()]
@@ -60,67 +60,67 @@ function New-DryADSecurityGroup {
         If executing on a remote session to a DC, use localhost as  
         server. If not, the $DomainController param is required
     #>
-    if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+    if($PSCmdlet.ParameterSetName -eq 'Remote'){
         $Server = 'localhost'
         olad d @('Session Type', 'Remote')
         olad d @('Remoting to Domain Controller', "$($PSSession.ComputerName)")
     }
-    else {
+    else{
         $Server = $DomainController
         olad d @('Session Type', 'Local')
         olad d @('Using Domain Controller', "$Server")
     }
     
-    try {
+    try{
         $GetArgumentList = @($Name, $Server)
         $GetParams = @{
             ScriptBlock  = $DryAD_SB_SecurityGroup_Get
             ArgumentList = $GetArgumentList
         }
-        if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+        if($PSCmdlet.ParameterSetName -eq 'Remote'){
             $GetParams += @{
                 Session = $PSSession
             }
         }
         $GetResult = Invoke-Command @GetParams
 
-        switch ($GetResult) {
-            $true {
+        switch($GetResult){
+            $true{
                 olad v @("The AD Group exists already", $Name)
                 Return
             }
-            $false {
+            $false{
                 olad v @("The Group does not exist, and must be created", $Name)
             }
-            default {
+            default{
                 olad e @("Error trying to get Group", "$Name")
                 throw $GetResult
             }
         } 
     }
-    catch {
+    catch{
         olad e @("Failed trying to get group", "$Name")
         throw $_
     }
     
-    if ($GetResult -eq $false) {
+    if($GetResult -eq $false){
         $SetArgumentList = @($Name, $Path, $Description, $GroupCategory, $GroupScope, $Server)
         $SetParams = @{
             ScriptBlock  = $DryAD_SB_SecurityGroup_Set
             ArgumentList = $SetArgumentList
         }
-        if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+        if($PSCmdlet.ParameterSetName -eq 'Remote'){
             $SetParams += @{
                 Session = $PSSession
             }
         }
         $SetResult = Invoke-Command @SetParams
         
-        switch ($SetResult) {
-            $true {
+        switch($SetResult){
+            $true{
                 olad v @("AD Group was created", $Name)
             }
-            default {
+            default{
                 olad e @('Error creating AD Group', $Name)
                 throw $SetResult
             }

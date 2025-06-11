@@ -18,9 +18,9 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Get-DryADServiceProperty {
+function Get-DryADServiceProperty{
     [CmdletBinding(DefaultParameterSetName = 'Local')] 
-    param ( 
+    param( 
         [Parameter(Mandatory, HelpMessage = "The property to get")]
         [string] 
         $Property,
@@ -41,22 +41,22 @@ function Get-DryADServiceProperty {
         $DomainController
     )
 
-    try {
-        if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+    try{
+        if($PSCmdlet.ParameterSetName -eq 'Remote'){
             $Server = 'localhost'
         }
-        else {
+        else{
             $Server = $DomainController
         }
 
-        switch ($Service) {
-            'domain' {
+        switch($Service){
+            'domain'{
                 $ScriptBlock = $DryAD_SB_ADDomainProperty_Get
             }
-            'forest' {
+            'forest'{
                 $ScriptBlock = $DryAD_SB_ADForestProperty_Get
             } 
-            'rootdse' {
+            'rootdse'{
                 $ScriptBlock = $DryAD_SB_ADRootDseProperty_Get
             }
         }
@@ -66,7 +66,7 @@ function Get-DryADServiceProperty {
             ScriptBlock  = $ScriptBlock
             ArgumentList = $ArgumentList
         }
-        if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+        if($PSCmdlet.ParameterSetName -eq 'Remote'){
             $InvokeParams += @{
                 Session = $PSSession
             }
@@ -74,14 +74,14 @@ function Get-DryADServiceProperty {
         $return = $null; 
         $return = Invoke-Command @InvokeParams
 
-        if ($return -is [ErrorRecord]) {
+        if($return -is [ErrorRecord]){
             throw $Return
         }
-        else {
+        else{
             return $Return
         }
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
 }

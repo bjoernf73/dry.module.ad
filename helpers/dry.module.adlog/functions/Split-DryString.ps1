@@ -1,4 +1,4 @@
-function Split-DryString {
+function Split-DryString{
     param(
         [Parameter(Mandatory,HelpMessage="The string to split into lines of a certain maximum length")]
         [ValidateNotNullOrEmpty()]
@@ -39,24 +39,24 @@ function Split-DryString {
                 ($Line.Substring($Line.Length-1) -ne ' ')
             ){
                 $LastWhiteSpace = ($Line.Substring($Line.Length-$WhiteSpaceAtEndChars)).LastIndexOf(' ')
-                if ($LastWhiteSpace -ge 0){
+                if($LastWhiteSpace -ge 0){
                     $cutindex = $WhiteSpaceAtEndChars - ($LastWhiteSpace+1)
                     $Lines += ($String.Substring($i,$Length-$cutindex)).Trim()
                     $i += $Length-$cutindex
                 }
-                else {
+                else{
                     # No Whitespace found
                     $Lines += ($String.Substring($i,$Length)).Trim()
                     $i += $Length
                 }
             }
-            else {
+            else{
                 # Just add to $Lines and add $Length to $i
                 $Lines += ($String.Substring($i,$Length)).Trim()
                 $i += $Length
             }
         }
-        else {
+        else{
             $Lines += ($String.Substring($i,$Length)).Trim()
             $i += $Length
         }

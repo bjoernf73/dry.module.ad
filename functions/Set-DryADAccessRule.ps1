@@ -18,9 +18,9 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Set-DryADAccessRule {
+function Set-DryADAccessRule{
     [CmdletBinding(DefaultParameterSetName = 'Local')] 
-    param ( 
+    param( 
         [Parameter(HelpMessage = "Name of user to delegate rights to. 
         Never used by DryDeploy, since rights are always delegated to groups")]
         [string]
@@ -71,16 +71,16 @@ function Set-DryADAccessRule {
         $DomainController
     )
 
-    try {
-        if ($Group -and (-not $User)) {
+    try{
+        if($Group -and (-not $User)){
             $TargetName = $Group
             $TargetType = 'group'
         }
-        elseif ($User -and (-not $Group)) {
+        elseif($User -and (-not $Group)){
             $TargetName = $User
             $TargetType = 'user'
         }
-        else {
+        else{
             throw "Specify either a Group or a User to delegate permissions to - and not both"
         }
         
@@ -89,13 +89,13 @@ function Set-DryADAccessRule {
         olad v @('TargetType', "$TargetType")
         
 
-        if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+        if($PSCmdlet.ParameterSetName -eq 'Remote'){
             $Server = 'localhost'
             $ExecutionType = 'Remote'
             olad v @('Session Type', 'Remote')
             olad v @('Remoting to Domain Controller', $PSSession.ComputerName)
         }
-        else {
+        else{
             $Server = $DomainController
             $ExecutionType = 'Local'
             olad v @('Session Type', 'Local')
@@ -103,9 +103,9 @@ function Set-DryADAccessRule {
         }
 
         # Since parameters cannot be splatted, or named in -Argumentslist, make sure all exists
-        if (-not $ObjectType) { [string]$ObjectType = '' }
-        if (-not $InheritedObjectType) { [string]$InheritedObjectType = '' }
-        if (-not $ActiveDirectorySecurityInheritance) { [string]$ActiveDirectorySecurityInheritance = '' }
+        if(-not $ObjectType){ [string]$ObjectType = '' }
+        if(-not $InheritedObjectType){ [string]$InheritedObjectType = '' }
+        if(-not $ActiveDirectorySecurityInheritance){ [string]$ActiveDirectorySecurityInheritance = '' }
             
         $ArgumentList = @(
             $Path,
@@ -123,7 +123,7 @@ function Set-DryADAccessRule {
             ScriptBlock  = $DryAD_SB_ADAccessRule_Set
             ArgumentList = $ArgumentList
         }
-        if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+        if($PSCmdlet.ParameterSetName -eq 'Remote'){
             $InvokeParams += @{
                 Session = $PSSession
             }
@@ -131,26 +131,26 @@ function Set-DryADAccessRule {
         $return = $null; $return = Invoke-Command @InvokeParams
 
         # Send every string in $Return[0] to Debug via Out-DryADLog
-        foreach ($ReturnString in $Return[0]) {
+        foreach($ReturnString in $Return[0]){
             olad d "$ReturnString"
         }
         
         # Test the ReturnValue in $Return[1]
-        if ($Return[1] -eq $true) {
+        if($Return[1] -eq $true){
             olad v "Successfully configured AD right"
             $true
         } 
-        else {
+        else{
             olad w "Failed to configure AD right"
-            if ($null -ne $Return[2]) {
+            if($null -ne $Return[2]){
                 throw ($Return[2]).ToString()
             } 
-            else {
+            else{
                 throw "ReturnValue false, but no ErrorRecord returned - check debug"
             }
         }  
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
 }

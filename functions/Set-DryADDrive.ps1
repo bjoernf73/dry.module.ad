@@ -18,9 +18,9 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Set-DryADDrive {
+function Set-DryADDrive{
     [CmdletBinding(DefaultParameterSetName = 'Local')] 
-    param ( 
+    param( 
         [Parameter(Mandatory, ParameterSetName = 'Remote',
             HelpMessage = "PSSession to run the script blocks in")]
         [PSSession] 
@@ -32,14 +32,14 @@ function Set-DryADDrive {
         $DomainController
     )
 
-    try {
-        if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+    try{
+        if($PSCmdlet.ParameterSetName -eq 'Remote'){
             olad v @("Making sure AD Drive on DC $($PSSession.ComputerName) targets", 'localhost')
             $Server = 'localhost'
             olad d @('Session Type', 'Remote')
             olad d @('Remoting to Domain Controller', $PSSession.ComputerName)
         }
-        else {
+        else{
             olad v @('Making sure AD Drive on local system targets DC', "$DomainController")
             $Server = $DomainController
             olad d @('Session Type', 'Local')
@@ -51,7 +51,7 @@ function Set-DryADDrive {
             ScriptBlock  = $DryAD_SB_ADDrive_Set
             ArgumentList = $ArgumentList
         }
-        if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+        if($PSCmdlet.ParameterSetName -eq 'Remote'){
             $InvokeParams += @{
                 Session = $PSSession
             }
@@ -59,25 +59,25 @@ function Set-DryADDrive {
         $return = $null; $return = Invoke-Command @InvokeParams
 
         # Send every string in $Return[0] to Degug via Out-DryADLog
-        foreach ($ReturnString in $Return[0]) {
+        foreach($ReturnString in $Return[0]){
             olad d "$ReturnString"
         }
         
         # Test the ReturnValue in $Return[2]
-        if ($Return[1] -eq $true) {
+        if($Return[1] -eq $true){
             olad v "Successfully set AD Drive to target Domain Controller"
         } 
-        else {
+        else{
             olad w "Failed to set AD Drive to target Domain Controller"
-            if ($null -ne $Return[2]) {
+            if($null -ne $Return[2]){
                 throw ($Return[2]).ToString()
             } 
-            else {
+            else{
                 throw "ReturnValue false, but no ErrorRecord returned - check debug"
             }
         }  
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
 }

@@ -18,14 +18,14 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_WMIFilter_Set = {
-    param (
+[ScriptBlock]$DryAD_SB_WMIFilter_Set ={
+    param(
         $Name,
         $Description,
         $Query,
         $Server
     )
-    try {
+    try{
         $ADRootDSE = Get-ADRootDSE -Server $Server -ErrorAction Stop
         $DomainDN = $ADRootDSE.DefaultNamingContext
         $WMIPath = ("CN=SOM,CN=WMIPolicy,CN=System,$DomainDN")
@@ -36,7 +36,7 @@
         $WMIDistinguishedName = "CN=$WMIGUID,$WMIPath"
         $msWMIParm1 = "$Description " # Fails if empty, therefore the space at the end...
         $msWMIParm2 = $Query.Count.ToString() + ";"
-        $Query | foreach-Object {
+        $Query | foreach-Object{
             $msWMIParm2 += "3;10;" + $_.Length + ";WQL;root\CIMv2;" + $_ + ";"
         }
 
@@ -64,7 +64,7 @@
         New-ADObject @NewADObjectParams
         $true
     }
-    catch {
+    catch{
         $_
     }
 }

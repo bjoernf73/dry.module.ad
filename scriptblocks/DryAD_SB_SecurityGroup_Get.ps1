@@ -18,12 +18,12 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock] $DryAD_SB_SecurityGroup_Get = { 
-    param (
+[ScriptBlock] $DryAD_SB_SecurityGroup_Get ={ 
+    param(
         $Name,
         $Server
     )
-    try {
+    try{
         $GetADGroupParams = @{
             Identity    = $Name
             Server      = $Server
@@ -32,12 +32,12 @@
         Get-ADGroup @GetADGroupParams | Out-Null
         $true
     }
-    catch {
-        if($_.CategoryInfo.Reason -eq 'ADIdentityNotFoundException') {
+    catch{
+        if($_.CategoryInfo.Reason -eq 'ADIdentityNotFoundException'){
             # The Object does not exist
             $false
         }
-        else {
+        else{
             $_
         }
     }

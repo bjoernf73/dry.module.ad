@@ -18,12 +18,12 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_WMIFilter_Get = {
-    param (
+[ScriptBlock]$DryAD_SB_WMIFilter_Get ={
+    param(
         $Name,
         $Server
     ) 
-    try {
+    try{
         $ADRootDSE = Get-ADRootDSE -Server $Server -ErrorAction Stop
         $DomainDN = $ADRootDSE.DefaultNamingContext
         $WMIPath = ("CN=SOM,CN=WMIPolicy,CN=System,$DomainDN")
@@ -34,14 +34,14 @@
             Server      = $Server
             ErrorAction = 'Stop'
         }
-        if (Get-ADObject @GetADObjectParams ) {
+        if(Get-ADObject @GetADObjectParams ){
             $true
         } 
-        else {
+        else{
             $false
         }
     }
-    catch {
+    catch{
         $_
     }
 }

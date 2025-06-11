@@ -19,9 +19,9 @@ Using NameSpace System.Management.Automation.Runspaces
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Copy-DryADFilesToRemoteTarget {
+function Copy-DryADFilesToRemoteTarget{
     [CmdletBinding(DefaultParameterSetName = 'Local')]
-    param (
+    param(
         [Parameter(Mandatory)]
         [string]
         $TargetPath,
@@ -35,7 +35,7 @@ function Copy-DryADFilesToRemoteTarget {
         $PSSession
     )
     
-    try {
+    try{
         olad v @('Copy Type', "$($PSCmdlet.ParameterSetName)")
         olad v @('Source Path', "$SourcePath")
         olad v @('Target Path', "$TargetPath")
@@ -44,7 +44,7 @@ function Copy-DryADFilesToRemoteTarget {
         $OriginalProgressPreference = $ProgressPreference
         
         # Remove any double backslashes and wildcards from target
-        while ($TargetPath -match '\\\\') {
+        while ($TargetPath -match '\\\\'){
             $TargetPath = $TargetPath -Replace '\\\\', '\'
         }
         $TargetPathTrimmed = $TargetPath.TrimEnd('*')
@@ -53,7 +53,7 @@ function Copy-DryADFilesToRemoteTarget {
         olad v @('Trimmed Target Path', "$TargetPathTrimmed")
         
         # Remove any double backslashes and wildcards from source
-        while ($SourcePath -match '\\\\') {
+        while ($SourcePath -match '\\\\'){
             $SourcePath = $SourcePath -Replace '\\\\', '\'
         }
         $SourcePathTrimmed = $SourcePath.TrimEnd('*')
@@ -68,28 +68,28 @@ function Copy-DryADFilesToRemoteTarget {
             ScriptBlock  = $DryAD_SB_CreateDir
             ArgumentList = @($TargetDirectory)
         }
-        if ($PSSession) {
+        if($PSSession){
             $InvokeCommandParams += @{
                 Session = $PSSession
             }
         }
 
         $Result = Invoke-Command @InvokeCommandParams
-        switch ($Result) {
-            $true {
+        switch($Result){
+            $true{
                 olad v @('Successfully created directory', $TargetDirectory)
             }
-            { $Result -is [ErrorRecord] } {
+           { $Result -is [ErrorRecord] }{
                 $PSCmdlet.ThrowTerminatingError($Result)
             }
-            default {
+            default{
                 throw "Failed to create directory '$TargetDirectory'", $Result.ToString()
             }
         }
 
         <#
         $SourceDirectories = Get-ChildItem -Path $SourcePathTrimmed -Recurse -Directory -ErrorAction Stop
-        foreach ($SourceDirectory in $SourceDirectories) {
+        foreach($SourceDirectory in $SourceDirectories){
             $TargetDirectory = $TargetPathTrimmed + $($SourceDirectory.FullName).SubString($SourcePathTrimmed.Length)
             olad d @('Trying to create directory', $TargetDirectory)
             
@@ -97,21 +97,21 @@ function Copy-DryADFilesToRemoteTarget {
                 ScriptBlock  = $DryAD_SB_CreateDir
                 ArgumentList = @($TargetDirectory)
             }
-            if ($PSSession) {
+            if($PSSession){
                 $InvokeCommandParams += @{
                     Session = $PSSession
                 }
             }
 
             $Result = Invoke-Command @InvokeCommandParams
-            switch ($Result) {
-                $true {
+            switch($Result){
+                $true{
                     olad v @('Successfully created directory', $TargetDirectory)
                 }
-                { $Result -is [ErrorRecord] } {
+               { $Result -is [ErrorRecord] }{
                     $PSCmdlet.ThrowTerminatingError($Result)
                 }
-                default {
+                default{
                     throw "Failed to create directory '$TargetDirectory'", $Result.ToString()
                 }
             }
@@ -127,7 +127,7 @@ function Copy-DryADFilesToRemoteTarget {
             Force       = $true
             ErrorAction = 'Stop'
         }
-        if ($PSSession) {
+        if($PSSession){
             $CopyItemParams += @{
                 ToSession = $PSSession
             }
@@ -136,10 +136,10 @@ function Copy-DryADFilesToRemoteTarget {
         Copy-Item @CopyItemParams
         olad v @('Successfully copied files to directory', $TargetPathTrimmed)
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
-    finally {
+    finally{
         $ProgressPreference = $OriginalProgressPreference
         
         @('TargetPath',

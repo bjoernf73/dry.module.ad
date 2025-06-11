@@ -31,21 +31,21 @@ $Functions             = Resolve-Path -Path $FunctionsPath -ErrorAction Stop
 $Classes               = Resolve-Path -Path $ClassesPath -ErrorAction Stop
 $ExportedFunctions     = Resolve-Path -Path $ExportedFunctionsPath -ErrorAction Stop
 
-foreach ($ScriptBlock in $ScriptBlocks) {
+foreach($ScriptBlock in $ScriptBlocks){
     . $ScriptBlock.Path
 }
-foreach ($function in $Functions) {
+foreach($function in $Functions){
     . $Function.Path
 }
-foreach ($Class in $Classes) {
+foreach($Class in $Classes){
     . $Class.Path
 }
-foreach ($Exportedfunction in $ExportedFunctions) {
+foreach($Exportedfunction in $ExportedFunctions){
     . $ExportedFunction.Path
 }
 
 # ensure the helper modules are in $env:psmodulepath
 $modulePath = Join-Path -Path $PSScriptRoot -child 'helpers'
-if (-not ($env:PSModulePath -split ";" | ForEach-Object { $_.Trim() } | Where-Object { $_ -ieq $modulePath })) {
+if(-not ($env:PSModulePath -split ";" | ForEach-Object{ $_.Trim() } | Where-Object{ $_ -ieq $modulePath })){
     $env:PSModulePath += ";$modulePath"
 } 

@@ -19,9 +19,9 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-function Resolve-DryADReplacementPatterns {
+function Resolve-DryADReplacementPatterns{
     [CmdletBinding()]
-    param (
+    param(
         [Parameter(ParametersetName = "InputObject", Position = 0, Mandatory)]
         [PSCustomObject]$InputObject,
 
@@ -34,52 +34,52 @@ function Resolve-DryADReplacementPatterns {
         [List[PSObject]]$Variables
     )
 
-    try {
-        if (($InputObject -is [Array]) -and $InputObject.count -eq 0) {
+    try{
+        if(($InputObject -is [array]) -and $InputObject.count -eq 0){
             Return
         } 
-        elseif ($InputObject) {
+        elseif($InputObject){
             # make a copy of the object, or else the changes 
             # may be written back to the original object
             $CopyObject = $InputObject.PSObject.Copy()
             # loop through all properties of $InputObject
-            if ($CopyObject -is [Array]) {
+            if($CopyObject -is [array]){
                 $ResultArray = @()
-                foreach ($arrItem in $CopyObject) {
+                foreach($arrItem in $CopyObject){
                     $ResultArray += Resolve-DryADReplacementPatterns -InputObject $arrItem -Variables $Variables
                 }
                 $ResultArray
             }
-            else {
-                $CopyObject.PSObject.Properties | foreach-Object {
+            else{
+                $CopyObject.PSObject.Properties | foreach-Object{
                     $PropertyName = $_.Name
                     $PropertyValue = $_.Value
                     # The pattern definitions themselves (common_variables and resource_variables), 
                     # may be sent to this function. Avoid replacing the pattern definitions themselves, 
                     # just return the original object
-                    if ($PropertyName -match "common_variables$") {
+                    if($PropertyName -match "common_variables$"){
                         olad d "Skipping replacement for the common_variables object itself ($PropertyName)"
                     }
-                    elseif ($PropertyName -match "resource_variables$") {
+                    elseif($PropertyName -match "resource_variables$"){
                         olad d "Skipping replacement for the resource_variables object itself ($PropertyName)"
                     }
                     # If Key is a string, we can do the replacement. If it is an object, we must make a nested 
                     # call. If array, make nested call for each element of the array
-                    elseif ($PropertyValue -is [string]) {
+                    elseif($PropertyValue -is [string]){
                         # call Resolve-DryADReplacementPattern that returns the replaced string
                         $PropertyValue = Resolve-DryADReplacementPattern -InputText $PropertyValue -Variables $Variables     
                     }
-                    elseif ($PropertyValue -is [PSObject]) {
+                    elseif($PropertyValue -is [PSObject]){
                         # make a nested call to this function
                         $PropertyValue = Resolve-DryADReplacementPatterns -InputObject $PropertyValue -Variables $Variables
                     } 
-                    elseif ($PropertyValue -is [Array]) {
+                    elseif($PropertyValue -is [array]){
                         # nested call for each array element
-                        $PropertyValue = @(  $PropertyValue | foreach-Object { 
-                                if ($_ -is [string]) {
+                        $PropertyValue = @(  $PropertyValue | foreach-Object{ 
+                                if($_ -is [string]){
                                     Resolve-DryADReplacementPatterns -InputText $_ -Variables $Variables
                                 } 
-                                else {
+                                else{
                                     Resolve-DryADReplacementPatterns -InputObject $_ -Variables $Variables
                                 }
                             })
@@ -90,13 +90,13 @@ function Resolve-DryADReplacementPatterns {
                 return $CopyObject
             }
         } 
-        else {
+        else{
             # Any property will eventually end up here 
             $InputText = Resolve-DryADReplacementPattern -InputText $InputText -Variables $Variables
             return $InputText
         }
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
 }

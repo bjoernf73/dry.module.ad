@@ -5,9 +5,9 @@
     "UserSettingsEnabled":  false,
     "WMIFilter":  null,
     "Permissions":  "O:DAG:DAD:PAI(A;CIIO;CCDCLCSWRPWPDTLOSDRCWDWO;;;CO)(A;CI;LCRPLORC;;;ED)(A;CI;LCRPLORC;;;AU)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;SY)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;DA)(A;CI;CCDCLCSWRPWPDTLOSDRCWDWO;;;####Replace[DOMAIN\\Enterprise Admins])(OA;CI;CR;edacfd8f-ffb3-11d1-b41d-00a0c968f939;;AU)",
-    "PolicySettings":  {
+    "PolicySettings": {
                            "RegistrySettings":  [
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Classes\\batfile\\shell\\runasuser",
                                                         "ValueType":  "REG_DWORD",
@@ -15,7 +15,7 @@
                                                         "ValueData":  "4096",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Classes\\cmdfile\\shell\\runasuser",
                                                         "ValueType":  "REG_DWORD",
@@ -23,7 +23,7 @@
                                                         "ValueData":  "4096",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Classes\\exefile\\shell\\runasuser",
                                                         "ValueType":  "REG_DWORD",
@@ -31,7 +31,7 @@
                                                         "ValueData":  "4096",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Classes\\mscfile\\shell\\runasuser",
                                                         "ValueType":  "REG_DWORD",
@@ -39,7 +39,7 @@
                                                         "ValueData":  "4096",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\wcmsvc\\wifinetworkmanager\\config",
                                                         "ValueType":  "REG_DWORD",
@@ -47,7 +47,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\CredUI",
                                                         "ValueType":  "REG_DWORD",
@@ -55,7 +55,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
                                                         "ValueType":  "REG_DWORD",
@@ -63,7 +63,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
                                                         "ValueType":  "REG_DWORD",
@@ -71,7 +71,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
                                                         "ValueType":  "REG_DWORD",
@@ -79,7 +79,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
                                                         "ValueType":  "REG_DWORD",
@@ -87,7 +87,7 @@
                                                         "ValueData":  "255",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
                                                         "ValueType":  "REG_DWORD",
@@ -95,7 +95,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
                                                         "ValueType":  "REG_DWORD",
@@ -103,7 +103,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
                                                         "ValueType":  "REG_DWORD",
@@ -111,7 +111,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
                                                         "ValueType":  "REG_DWORD",
@@ -119,7 +119,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Audit",
                                                         "ValueType":  "REG_DWORD",
@@ -127,7 +127,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters",
                                                         "ValueType":  "REG_DWORD",
@@ -135,7 +135,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters",
                                                         "ValueType":  "REG_DWORD",
@@ -143,7 +143,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Biometrics\\FacialFeatures",
                                                         "ValueType":  "REG_DWORD",
@@ -151,7 +151,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002",
                                                         "ValueType":  "REG_MULTI_SZ",
@@ -159,7 +159,7 @@
                                                         "ValueData":  "NistP384\u0000NistP256\u0000",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\FVE",
                                                         "ValueType":  "REG_DWORD",
@@ -167,7 +167,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\FVE",
                                                         "ValueType":  "REG_DWORD",
@@ -175,7 +175,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\FVE",
                                                         "ValueType":  "REG_DWORD",
@@ -183,7 +183,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\FVE",
                                                         "ValueType":  "REG_DWORD",
@@ -191,7 +191,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\FVE",
                                                         "ValueType":  "REG_DWORD",
@@ -199,7 +199,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\FVE",
                                                         "ValueType":  "REG_DWORD",
@@ -207,7 +207,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\FVE",
                                                         "ValueType":  "REG_DWORD",
@@ -215,7 +215,7 @@
                                                         "ValueData":  "6",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Internet Explorer\\Feeds",
                                                         "ValueType":  "REG_DWORD",
@@ -223,7 +223,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Internet Explorer\\Feeds",
                                                         "ValueType":  "REG_DWORD",
@@ -231,7 +231,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\PassportForWork",
                                                         "ValueType":  "REG_DWORD",
@@ -239,7 +239,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\PassportForWork\\ExcludeSecurityDevices",
                                                         "ValueType":  "REG_DWORD",
@@ -247,7 +247,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\PassportForWork\\PINComplexity",
                                                         "ValueType":  "REG_DWORD",
@@ -255,7 +255,7 @@
                                                         "ValueData":  "6",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\0e796bdb-100d-47d6-a2d5-f7d2daa51f51",
                                                         "ValueType":  "REG_DWORD",
@@ -263,7 +263,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\0e796bdb-100d-47d6-a2d5-f7d2daa51f51",
                                                         "ValueType":  "REG_DWORD",
@@ -271,7 +271,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\AppCompat",
                                                         "ValueType":  "REG_DWORD",
@@ -279,7 +279,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy",
                                                         "ValueType":  "REG_DWORD",
@@ -287,7 +287,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
                                                         "ValueType":  "REG_DWORD",
@@ -295,7 +295,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\CredentialsDelegation",
                                                         "ValueType":  "REG_DWORD",
@@ -303,7 +303,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection",
                                                         "ValueType":  "REG_DWORD",
@@ -311,7 +311,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection",
                                                         "ValueType":  "REG_DWORD",
@@ -319,7 +319,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization",
                                                         "ValueType":  "REG_DWORD",
@@ -327,7 +327,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard",
                                                         "ValueType":  "REG_DWORD",
@@ -335,7 +335,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard",
                                                         "ValueType":  "REG_DWORD",
@@ -343,7 +343,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard",
                                                         "ValueType":  "REG_DWORD",
@@ -351,7 +351,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard",
                                                         "ValueType":  "REG_DWORD",
@@ -359,7 +359,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard",
                                                         "ValueType":  "REG_DWORD",
@@ -367,7 +367,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard",
                                                         "ValueType":  "REG_DWORD",
@@ -375,7 +375,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\EventLog\\Application",
                                                         "ValueType":  "REG_DWORD",
@@ -383,7 +383,7 @@
                                                         "ValueData":  "32768",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\EventLog\\Security",
                                                         "ValueType":  "REG_DWORD",
@@ -391,7 +391,7 @@
                                                         "ValueData":  "1024000",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\EventLog\\System",
                                                         "ValueType":  "REG_DWORD",
@@ -399,7 +399,7 @@
                                                         "ValueData":  "32768",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
                                                         "ValueType":  "REG_DWORD",
@@ -407,7 +407,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
                                                         "ValueType":  "REG_DWORD",
@@ -415,7 +415,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
                                                         "ValueType":  "REG_DWORD",
@@ -423,7 +423,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR",
                                                         "ValueType":  "REG_DWORD",
@@ -431,7 +431,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Group Policy\\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}",
                                                         "ValueType":  "REG_DWORD",
@@ -439,7 +439,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Group Policy\\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}",
                                                         "ValueType":  "REG_DWORD",
@@ -447,7 +447,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Installer",
                                                         "ValueType":  "REG_DWORD",
@@ -455,7 +455,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Installer",
                                                         "ValueType":  "REG_DWORD",
@@ -463,7 +463,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Installer",
                                                         "ValueType":  "REG_DWORD",
@@ -471,7 +471,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA Protection",
                                                         "ValueType":  "REG_DWORD",
@@ -479,7 +479,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation",
                                                         "ValueType":  "REG_DWORD",
@@ -487,7 +487,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Network Connections",
                                                         "ValueType":  "REG_DWORD",
@@ -495,7 +495,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths",
                                                         "ValueType":  "REG_SZ",
@@ -503,7 +503,7 @@
                                                         "ValueData":  "RequireMutualAuthentication=1, RequireIntegrity=1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths",
                                                         "ValueType":  "REG_SZ",
@@ -511,7 +511,7 @@
                                                         "ValueData":  "RequireMutualAuthentication=1, RequireIntegrity=1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Personalization",
                                                         "ValueType":  "REG_DWORD",
@@ -519,7 +519,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Personalization",
                                                         "ValueType":  "REG_DWORD",
@@ -527,7 +527,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging",
                                                         "ValueType":  "REG_DWORD",
@@ -535,7 +535,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging",
                                                         "ValueType":  "REG_SZ",
@@ -543,7 +543,7 @@
                                                         "ValueData":  " ",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription",
                                                         "ValueType":  "REG_DWORD",
@@ -551,7 +551,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription",
                                                         "ValueType":  "REG_SZ",
@@ -559,7 +559,7 @@
                                                         "ValueData":  "C:\\ProgramData\\PS_Transcript",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription",
                                                         "ValueType":  "REG_SZ",
@@ -567,7 +567,7 @@
                                                         "ValueData":  " ",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\System",
                                                         "ValueType":  "REG_DWORD",
@@ -575,7 +575,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\System",
                                                         "ValueType":  "REG_DWORD",
@@ -583,7 +583,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\System",
                                                         "ValueType":  "REG_DWORD",
@@ -591,7 +591,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\System",
                                                         "ValueType":  "REG_SZ",
@@ -599,7 +599,7 @@
                                                         "ValueData":  "Block",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\System",
                                                         "ValueType":  "REG_DWORD",
@@ -607,7 +607,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\WcmSvc\\GroupPolicy",
                                                         "ValueType":  "REG_DWORD",
@@ -615,7 +615,7 @@
                                                         "ValueData":  "3",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\WcmSvc\\GroupPolicy",
                                                         "ValueType":  "REG_DWORD",
@@ -623,7 +623,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
                                                         "ValueType":  "REG_DWORD",
@@ -631,7 +631,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client",
                                                         "ValueType":  "REG_DWORD",
@@ -639,7 +639,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client",
                                                         "ValueType":  "REG_DWORD",
@@ -647,7 +647,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client",
                                                         "ValueType":  "REG_DWORD",
@@ -655,7 +655,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service",
                                                         "ValueType":  "REG_DWORD",
@@ -663,7 +663,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service",
                                                         "ValueType":  "REG_DWORD",
@@ -671,7 +671,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service",
                                                         "ValueType":  "REG_DWORD",
@@ -679,7 +679,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers",
                                                         "ValueType":  "REG_DWORD",
@@ -687,7 +687,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers",
                                                         "ValueType":  "REG_DWORD",
@@ -695,7 +695,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc",
                                                         "ValueType":  "REG_DWORD",
@@ -703,7 +703,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
                                                         "ValueType":  "REG_DWORD",
@@ -711,7 +711,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
                                                         "ValueType":  "REG_SZ",
@@ -719,7 +719,7 @@
                                                         "ValueData":  " ",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
                                                         "ValueType":  "REG_SZ",
@@ -727,7 +727,7 @@
                                                         "ValueData":  " ",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
                                                         "ValueType":  "REG_SZ",
@@ -735,7 +735,7 @@
                                                         "ValueData":  " ",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
                                                         "ValueType":  "REG_SZ",
@@ -743,7 +743,7 @@
                                                         "ValueData":  " ",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
                                                         "ValueType":  "REG_DWORD",
@@ -751,7 +751,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
                                                         "ValueType":  "REG_DWORD",
@@ -759,7 +759,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
                                                         "ValueType":  "REG_DWORD",
@@ -767,7 +767,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
                                                         "ValueType":  "REG_DWORD",
@@ -775,7 +775,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
                                                         "ValueType":  "REG_DWORD",
@@ -783,7 +783,7 @@
                                                         "ValueData":  "3",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SOFTWARE\\Policies\\Microsoft\\WindowsInkWorkspace",
                                                         "ValueType":  "REG_DWORD",
@@ -791,7 +791,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest",
                                                         "ValueType":  "REG_DWORD",
@@ -799,7 +799,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel",
                                                         "ValueType":  "REG_DWORD",
@@ -807,7 +807,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch",
                                                         "ValueType":  "REG_DWORD",
@@ -815,7 +815,7 @@
                                                         "ValueData":  "3",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
                                                         "ValueType":  "REG_DWORD",
@@ -823,7 +823,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\MrxSmb10",
                                                         "ValueType":  "REG_DWORD",
@@ -831,7 +831,7 @@
                                                         "ValueData":  "4",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\Netbt\\Parameters",
                                                         "ValueType":  "REG_DWORD",
@@ -839,7 +839,7 @@
                                                         "ValueData":  "1",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
                                                         "ValueType":  "REG_DWORD",
@@ -847,7 +847,7 @@
                                                         "ValueData":  "2",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
                                                         "ValueType":  "REG_DWORD",
@@ -855,7 +855,7 @@
                                                         "ValueData":  "0",
                                                         "ObjectType":  "RegistrySetting"
                                                     },
-                                                    {
+                                                   {
                                                         "Target":  "Machine",
                                                         "KeyName":  "SYSTEM\\CurrentControlSet\\Services\\Tcpip6\\Parameters",
                                                         "ValueType":  "REG_DWORD",
@@ -865,7 +865,7 @@
                                                     }
                                                 ],
                            "AuditSettings":  [
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Credential Validation",
@@ -875,7 +875,7 @@
                                                      "Setting Value":  "3",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Security Group Management",
@@ -885,7 +885,7 @@
                                                      "Setting Value":  "1",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit User Account Management",
@@ -895,7 +895,7 @@
                                                      "Setting Value":  "3",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit PNP Activity",
@@ -905,7 +905,7 @@
                                                      "Setting Value":  "1",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Process Creation",
@@ -915,7 +915,7 @@
                                                      "Setting Value":  "1",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Account Lockout",
@@ -925,7 +925,7 @@
                                                      "Setting Value":  "2",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Group Membership",
@@ -935,7 +935,7 @@
                                                      "Setting Value":  "1",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Logoff",
@@ -945,7 +945,7 @@
                                                      "Setting Value":  "1",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Logon",
@@ -955,7 +955,7 @@
                                                      "Setting Value":  "3",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Other Logon/Logoff Events",
@@ -965,7 +965,7 @@
                                                      "Setting Value":  "3",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Special Logon",
@@ -975,7 +975,7 @@
                                                      "Setting Value":  "1",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Detailed File Share",
@@ -985,7 +985,7 @@
                                                      "Setting Value":  "2",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit File Share",
@@ -995,7 +995,7 @@
                                                      "Setting Value":  "3",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Other Object Access Events",
@@ -1005,7 +1005,7 @@
                                                      "Setting Value":  "3",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Removable Storage",
@@ -1015,7 +1015,7 @@
                                                      "Setting Value":  "3",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Audit Policy Change",
@@ -1025,7 +1025,7 @@
                                                      "Setting Value":  "1",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Authentication Policy Change",
@@ -1035,7 +1035,7 @@
                                                      "Setting Value":  "1",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Authorization Policy Change",
@@ -1045,7 +1045,7 @@
                                                      "Setting Value":  "1",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit MPSSVC Rule-Level Policy Change",
@@ -1055,7 +1055,7 @@
                                                      "Setting Value":  "3",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Other Policy Change Events",
@@ -1065,7 +1065,7 @@
                                                      "Setting Value":  "3",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Sensitive Privilege Use",
@@ -1075,7 +1075,7 @@
                                                      "Setting Value":  "3",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit IPsec Driver",
@@ -1085,7 +1085,7 @@
                                                      "Setting Value":  "2",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Other System Events",
@@ -1095,7 +1095,7 @@
                                                      "Setting Value":  "3",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Security State Change",
@@ -1105,7 +1105,7 @@
                                                      "Setting Value":  "1",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit Security System Extension",
@@ -1115,7 +1115,7 @@
                                                      "Setting Value":  "1",
                                                      "ObjectType":  "AuditSetting"
                                                  },
-                                                 {
+                                                {
                                                      "Machine Name":  "",
                                                      "Policy Target":  "System",
                                                      "SubCategory":  "Audit System Integrity",
@@ -1252,7 +1252,7 @@
                                                 "\u003c/policyComments\u003e"
                                             ],
                            "Scripts":  [
-                                           {
+                                          {
                                                "Target":  "Machine",
                                                "ScriptsIni":  null,
                                                "PSScriptsIni":  null,

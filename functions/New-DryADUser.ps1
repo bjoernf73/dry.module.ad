@@ -20,9 +20,9 @@ Using NameSpace System.Security
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function New-DryADUser {
+function New-DryADUser{
     [CmdletBinding(DefaultParameterSetName = 'Local')] 
-    param (
+    param(
         [Parameter(Mandatory, HelpMessage = "User Object Specification")]
         [ValidateNotNullOrEmpty()]
         [PSObject]
@@ -57,14 +57,14 @@ function New-DryADUser {
     )
 
     # Test if object exists. Currently does not test properties, only if it exists or not
-    try {
-        if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+    try{
+        if($PSCmdlet.ParameterSetName -eq 'Remote'){
             $Server = 'localhost'
             $ExecutionType = 'Remote'
             olad v @('Session Type', 'Remote')
             olad v @('Remoting to Domain Controller', $PSSession.ComputerName)
         }
-        else {
+        else{
             $Server = $DomainController
             $ExecutionType = 'Local'
             olad v @('Session Type', 'Local')
@@ -79,30 +79,30 @@ function New-DryADUser {
             ScriptBlock  = $DryAD_SB_User_Get
             ArgumentList = $GetArgumentList
         }
-        if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+        if($PSCmdlet.ParameterSetName -eq 'Remote'){
             $InvokeGetParams += @{
                 Session = $PSSession
             }
         }
         $GetResult = Invoke-Command @InvokeGetParams
         
-        switch ($GetResult) {
-            $true {
+        switch($GetResult){
+            $true{
                 olad v @('The User exists already', "$($User.Name)")
             }
-            $false {
+            $false{
                 olad v @('The user does not exist', "$($User.Name)")
             }
-            default {
+            default{
                 olad e @('Error trying to get user', "$($User.Name)")
                 throw $GetResult
             }
         }
         
-        if ($GetResult -eq $false) {
+        if($GetResult -eq $false){
             
             # If $User.Enabled not specified, enable the account
-            if ($null -eq $User.Enabled) {
+            if($null -eq $User.Enabled){
                 $User | Add-Member -MemberType 'NoteProperty' -Name 'Enabled' -Value $true
             }
             
@@ -113,8 +113,8 @@ function New-DryADUser {
                 'memberof',
                 'password'
             )
-            $User.PSObject.Properties | foreach-Object {
-                if ($_.Name -notin $ExcludeProperties) {
+            $User.PSObject.Properties | foreach-Object{
+                if($_.Name -notin $ExcludeProperties){
                     $UserSpec += @{$_.Name = $_.Value }
                 }
             }
@@ -122,16 +122,16 @@ function New-DryADUser {
             $GetDryADCredentialParams = @{
                 UserName = "$DomainNB\$($User.Name)"
             }
-            if ($User.password.get_or_generate -eq 'generate') {
+            if($User.password.get_or_generate -eq 'generate'){
                 $GetDryADCredentialParams += @{
                     Random = $true
                 }
-                if ($User.password.length) {
+                if($User.password.length){
                     $GetDryADCredentialParams += @{
                         Length = [int]$User.password.length
                     }
                 }
-                if ($User.password.nonalphabetics) {
+                if($User.password.nonalphabetics){
                     $GetDryADCredentialParams += @{
                         NonAlphabetics = [int]$User.password.nonalphabetics
                     }
@@ -139,24 +139,24 @@ function New-DryADUser {
                 
                 [PSCredential]$UserCredential = Get-DryADCredential @GetDryADCredentialParams
 
-                if ($DryDeploy) {
+                if($DryDeploy){
                     # This sessions is running from DryDeploy - so add to DryDeploy Credential Store
                     Add-DryCredential -Alias $User.Name -Credential $UserCredential
                 }
             }
-            else {
-                if ($DryDeploy) {
+            else{
+                if($DryDeploy){
                     # Using function from DryDeploy to get Credential from it's Credential's Store
                     [PSCredential]$UserCredential = Get-DryCredential -Alias $User.Name -EnvConfig $GLOBAL:dry_var_global_ConfigCombo.envconfig.name
                 }
-                else {
+                else{
                     # Invoking an interactive prompt
                     [PSCredential]$UserCredential = Get-DryADCredential @GetDryADCredentialParams
                 }
             }
  
-            switch ($ExecutionType) {
-                'Remote' {
+            switch($ExecutionType){
+                'Remote'{
                     # If remote execution, we must send the password over the network. 
                     # If so, make sure the password is encrypted with the target Domain 
                     # Controller's Server Certificate
@@ -167,14 +167,14 @@ function New-DryADUser {
                     $Base64EncodedPass = Convert-DryADClearTextToEncryptedString @ConvertPwdParams
                     olad v @("Encrypted password for $($User.Name)", "$Base64EncodedPass")
                 }
-                'Local' {
+                'Local'{
                     # If local execution, we must send the password to Invoke-Command. 
                     # It is good practise to use SecureString, which ensures that only
                     # the local system may decrypt it, so if it is accidentally sent 
                     # over a PSSession to a remote system, it is unusable
                     [SecureString]$SecureString = $UserCredential.Password
                 }
-                default {
+                default{
                     throw "Unknown ExecutionType: $ExecutionType"
                 }
             }
@@ -184,11 +184,11 @@ function New-DryADUser {
                 $ExecutionType,
                 $Server
             )
-            switch ($ExecutionType) {
-                'Remote' {
+            switch($ExecutionType){
+                'Remote'{
                     $SetArgumentList += $Base64EncodedPass
                 }
-                'Local' {
+                'Local'{
                     $SetArgumentList += $SecureString
                 }
             }
@@ -197,27 +197,27 @@ function New-DryADUser {
                 ScriptBlock  = $DryAD_SB_User_Set
                 ArgumentList = $SetArgumentList
             }
-            switch ($ExecutionType) {
-                'Remote' {
+            switch($ExecutionType){
+                'Remote'{
                     $InvokeSetParams += @{
                         Session = $PSSession
                     }
                 }
-                default {
+                default{
                 }
             }
             $SetResult = Invoke-Command @InvokeSetParams
             
-            if ($SetResult[0] -eq $true) {
+            if($SetResult[0] -eq $true){
                 olad v @('Successfully created user', "$($User.Name)")
             }
-            else {
+            else{
                 olad e "Error creating user $($User.Name): $($SetResult[1])"
                 throw "$($SetResult[1])"
             }
         }
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
 }

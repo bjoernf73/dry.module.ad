@@ -17,45 +17,45 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Convert-DryADEncryptedBase64ToSecureString {
+function Convert-DryADEncryptedBase64ToSecureString{
     [CmdletBinding()]
     [OutputType([System.Security.SecureString])]
-    param (
+    param(
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
         [string] $EncryptedBase64String
     )
-    try {
+    try{
         # Try to find a certificate in the LocalMachine\My (Personal) Store with
         #   - a private key accessible
         #   - of type SHA256 RSA (ECDH does not work)
         #   - 'Server Authentiaction' as part of the Enhanced Key Usage
         $Cert = Get-ChildItem -Path Cert:\LocalMachine\My -ErrorAction Stop | 
-            Where-Object { 
+            Where-Object{ 
             ($_.HasPrivateKey -eq $true) -and 
             ($_.SignatureAlgorithm.FriendlyName -eq 'SHA256RSA') -and
             (@(($_.EnhancedKeyUsageList).FriendlyName) -contains 'Server Authentication')  
             }
 
         # If multiple, use first
-        if ($Cert -is [Array]) {
+        if($Cert -is [array]){
             $Cert = $Cert[0]
         }
         
-        if ($Cert) {
+        if($Cert){
             $EncryptedByteArray = [Convert]::FromBase64String($EncryptedBase64String)
             $ClearText = [System.Text.Encoding]::UTF8.GetString($Cert.PrivateKey.Decrypt($EncryptedByteArray, $true))
         }
-        else {
+        else{
             throw "Server Authentication Certificate with Private Key not found!"
         }
 
         return (ConvertTo-SecureString -String $ClearText -AsPlainText -Force)
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
-    finally {
+    finally{
         Remove-Variable -Name ClearText -ErrorAction Continue
     }
 }

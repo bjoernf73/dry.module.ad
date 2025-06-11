@@ -18,9 +18,9 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Get-DryADRemotePublicCertificate {
+function Get-DryADRemotePublicCertificate{
     [CmdletBinding()]
-    param (
+    param(
         [Parameter(Mandatory, HelpMessage = "PSSession to a Domain Controller")]
         [PSSession]
         $PSSession,
@@ -30,7 +30,7 @@ function Get-DryADRemotePublicCertificate {
         $CertificateFile
     )
 
-    try {
+    try{
         $InvokeCommandParams = @{
             ScriptBlock  = $DryAD_SB_RemoteWebCert_Export
             Session      = $PSSession
@@ -38,18 +38,18 @@ function Get-DryADRemotePublicCertificate {
         }
         $Result = Invoke-Command @InvokeCommandParams
         
-        if ($Result[0] -eq $true) {
+        if($Result[0] -eq $true){
             Copy-Item -FromSession $PSSession -Path 'C:\PublicCertificate.cer' -Destination "$CertificateFile" -Force -ErrorAction Stop
             olad v @('Fetched public certificate', "$CertificateFile")
         }
-        else {
+        else{
             throw "Failed getting remote public certificate: $($Result[1].ToString())"
         }
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
-    finally {
+    finally{
         $InvokeRemoveParams = @{
             ScriptBlock  = $DryAD_SB_RemoveItem
             Session      = $PSSession

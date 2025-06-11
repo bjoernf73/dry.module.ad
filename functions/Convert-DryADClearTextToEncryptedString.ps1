@@ -17,10 +17,10 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Convert-DryADClearTextToEncryptedString {
+function Convert-DryADClearTextToEncryptedString{
     [CmdletBinding()]
     [OutputType([System.String])]
-    param ( 
+    param( 
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
         [string]$ClearText,
@@ -30,7 +30,7 @@ function Convert-DryADClearTextToEncryptedString {
         [string] $CertificateFile
     )
 
-    try {
+    try{
         # Encrypts 
         olad v @("CertificateFile", $CertificateFile)
         $PublicCert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($CertificateFile)
@@ -40,7 +40,7 @@ function Convert-DryADClearTextToEncryptedString {
         $EncryptedBase64String = [Convert]::ToBase64String($EncryptedByteArray)
         return $EncryptedBase64String 
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
 }

@@ -18,38 +18,38 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_ADDrive_Set = {
-    param ($Server)
-    try {
+[ScriptBlock]$DryAD_SB_ADDrive_Set ={
+    param($Server)
+    try{
         $ReturnError = $null
         $ReturnValue = $false
         $VerboseReturnStrings = @("Entered Scriptblock")
 
         # Make sure ActiveDirectory module is loaded, so the AD drive is mounted
-        if ((Get-Module | Select-Object -Property Name).Name -notcontains 'ActiveDirectory') {
-            try {
+        if((Get-Module | Select-Object -Property Name).Name -notcontains 'ActiveDirectory'){
+            try{
                 Import-Module -Name 'ActiveDirectory' -ErrorAction Stop
                 $VerboseReturnStrings += @("The AD PSModule was not loaded, but I loaded it successfully")
                 Start-Sleep -Seconds 4
             }
-            catch {
+            catch{
                 $PSCmdlet.ThrowTerminatingError($_)
             }
         }
-        else {
+        else{
             $VerboseReturnStrings += @("The AD PSModule was already loaded in session")
         }
 
         # However, that is not necessarily the case. That ActiveDirectory module is a bit sloppy 
-        try {
+        try{
             Get-PSDrive -Name 'AD' -ErrorAction Stop | 
                 Out-Null
             $VerboseReturnStrings += @("The AD Drive exists already")
         }
-        Catch [System.Management.Automation.DriveNotFoundException] {
+        Catch [System.Management.Automation.DriveNotFoundException]{
             $VerboseReturnStrings += @("The AD Drive does not exist - trying to create it")
             
-            try {
+            try{
                 $NewPSDriveParams = @{
                     Name        = 'AD' 
                     PSProvider  = 'ActiveDirectory' 
@@ -58,12 +58,12 @@
                 }
                 New-PSDrive @NewPSDriveParams | Out-Null
             }
-            catch {
+            catch{
                 $VerboseReturnStrings += @("Failed to create the AD Drive: $($_.ToString())")
                 $PSCmdlet.ThrowTerminatingError($_)
             }
         }
-        catch {
+        catch{
             $VerboseReturnStrings += @("The AD Drive did not exist, and an error occurred trying to get it?")
             $PSCmdlet.ThrowTerminatingError($_)
         }
@@ -77,11 +77,11 @@
         # If we reached this, assume success
         $ReturnValue = $true
     }
-    catch {
+    catch{
         $VerboseReturnStrings += "Set-DryADDrive failed"
         $ReturnError = $_
     }
-    finally {
+    finally{
         @($VerboseReturnStrings, $ReturnValue, $ReturnError)
     }
 }

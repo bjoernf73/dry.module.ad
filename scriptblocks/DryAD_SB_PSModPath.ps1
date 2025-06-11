@@ -18,18 +18,18 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_PSModPath = { 
-    param (
+[ScriptBlock]$DryAD_SB_PSModPath ={ 
+    param(
         $Path,
         $PathRegEx
     )
-    try {
-        if ($($ENV:PSModulePath) -notmatch "$PathRegEx") {
+    try{
+        if($($ENV:PSModulePath) -notmatch "$PathRegEx"){
             $ENV:PSModulePath = "$($ENV:PSModulePath);$Path"
         }
         return "$($ENV:PSModulePath)"
     }
-    catch {
+    catch{
         # just ignore, we will test the output instead
     }
 }

@@ -20,9 +20,9 @@ Using Namespace Microsoft.Win32
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-function Set-DryADRemoteRegistry {
+function Set-DryADRemoteRegistry{
     [CmdletBinding()] 
-    param (
+    param(
         [Parameter()]
         [ValidateSet('HKEY_CLASSES_ROOT', 'HKEY_CURRENT_USER', 'HKEY_LOCAL_MACHINE', 'HKEY_USERS', 'HKEY_CURRENT_CONFIG', 'HKEY_DYN_DATA')]
         [string]$BaseKey = 'HKEY_LOCAL_MACHINE',
@@ -43,42 +43,42 @@ function Set-DryADRemoteRegistry {
         [Parameter(HelpMessage = "PSSession to the target system")]
         [PSSession]$PSSession
     )
-    try {
+    try{
     
-        switch ($BaseKey) {
-            'HKEY_CLASSES_ROOT' { 
+        switch($BaseKey){
+            'HKEY_CLASSES_ROOT'{ 
                 [uint32]$BaseKeyInt = 2147483648 
             }
-            'HKEY_CURRENT_USER' { 
+            'HKEY_CURRENT_USER'{ 
                 [uint32]$BaseKeyInt = 2147483649 
             }
-            'HKEY_LOCAL_MACHINE' { 
+            'HKEY_LOCAL_MACHINE'{ 
                 [uint32]$BaseKeyInt = 2147483650 
             }
-            'HKEY_USERS' { 
+            'HKEY_USERS'{ 
                 [uint32]$BaseKeyInt = 2147483651 
             }
-            'HKEY_CURRENT_CONFIG' { 
+            'HKEY_CURRENT_CONFIG'{ 
                 [uint32]$BaseKeyInt = 2147483653 
             }
-            'HKEY_DYN_DATA' { 
+            'HKEY_DYN_DATA'{ 
                 [uint32]$BaseKeyInt = 2147483654 
             }
-            default { 
+            default{ 
                 throw "Unknown BaseKey: $BaseKey"
             }
         }
         $LeafKey = $LeafKey.Replace('\\', '\')
       
-        switch ($ValueType) {
-            'Binary' {
+        switch($ValueType){
+            'Binary'{
                 # System.Management.ManagementBaseObject GetBinaryValue(System.UInt32 hDefKey, System.String sSubKeyName, System.String sValueName)
                 olad e "Value Type 'Binary' is not implemented"
                 $CurrentValue = $Class.GetBinaryValue($BaseKeyInt, $LeafKey, $ValueName)
             }
-            'Dword' {
-                [ScriptBlock]$DwordScriptBlock = {
-                    param (
+            'Dword'{
+                [ScriptBlock]$DwordScriptBlock ={
+                    param(
                         [Uint32] $BaseKeyInt,
                         [string] $LeafKey,
                         [string] $ValueName,
@@ -86,7 +86,7 @@ function Set-DryADRemoteRegistry {
                     )
 
                     $Result = @($false, $null)
-                    try {     
+                    try{     
                         $InvokeCimMethodParams = @{
                             'Namespace'   = 'root\cimv2' 
                             'ClassName'   = 'StdRegProv' 
@@ -97,10 +97,10 @@ function Set-DryADRemoteRegistry {
                         Invoke-CimMethod @InvokeCimMethodParams | Out-Null
                         $Result[0] = $true
                     } 
-                    catch {
+                    catch{
                         $Result[1] = $_
                     }  
-                    finally {
+                    finally{
                         $Result
                     }
                 }
@@ -110,48 +110,48 @@ function Set-DryADRemoteRegistry {
                     'ArgumentList' = @($BaseKeyInt, $LeafKey, $ValueName, $ValueData)
                 }
 
-                if ($PSSession) {
+                if($PSSession){
                     $InvokeCommandParams += @{
                         'Session' = $PSSession
                     }
                 }
                 $Result = Invoke-Command @InvokeCommandParams    
             }
-            'ExpandString' {
+            'ExpandString'{
                 # System.Management.ManagementBaseObject GetExpandedStringValue(System.UInt32 hDefKey, System.String sSubKeyName, System.String sValueName)
                 olad e "Value Type 'ExpandString' is not implemented"
                 $CurrentValue = $Class.GetExpandedStringValue($BaseKeyInt, $LeafKey, $ValueName)
             }
-            'MultiString' {
+            'MultiString'{
                 # System.Management.ManagementBaseObject GetMultiStringValue(System.UInt32 hDefKey, System.StringsSubKeyName, System.String sValueName)
                 olad e "Value Type 'MultiString' is not implemented"
                 $CurrentValue = $Class.GetMultiStringValue($BaseKeyInt, $LeafKey, $ValueName)
             } 
-            'QWord' {
+            'QWord'{
                 olad e "Value Type 'Qword' is not implemented"
                 $CurrentValue = $Class.GetQWordValue($BaseKeyInt, $LeafKey, $ValueName)
             } 
-            'String' {
+            'String'{
                 # System.Management.ManagementBaseObject GetStringValue(System.UInt32 hDefKey, System.String sSubKeyName, System.String sValueName)
                 olad e "Value Type 'String' is not implemented"
                 $CurrentValue = $Class.GetStringValue($BaseKeyInt, $LeafKey, $ValueName)
             }
         }
 
-        switch ($Result[0]) {
-            $true {
+        switch($Result[0]){
+            $true{
                 olad v "Successfully configured remote registry"
             }
-            $false {
+            $false{
                 olad e "Failed to configure remote registry"
                 throw $Result[1]
             }
         }
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
-    finally {
+    finally{
         
     } 
 }

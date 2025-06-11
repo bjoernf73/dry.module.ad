@@ -18,6 +18,6 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_Template = {
+[ScriptBlock]$DryAD_SB_Template ={
   
 }

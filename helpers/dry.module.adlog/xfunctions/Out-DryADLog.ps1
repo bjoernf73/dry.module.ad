@@ -81,10 +81,10 @@ olad v "this is a small header" -sh                                             
 VERBOSE:    this is a small header   .............................................................
 
 #>
-function Out-DryADLog {
+function Out-DryADLog{
     [CmdletBinding(DefaultParameterSetName="message")]
     [Alias("olad")]
-    param (
+    param(
         [Alias("t")]
         [Parameter(Mandatory,Position=0)]
         [string]$Type,
@@ -125,11 +125,11 @@ function Out-DryADLog {
         [int]$Callstacklevel = 1
     )
 
-    try {
-        if ($null -eq $GLOBAL:ADLoggingOptions) {
+    try{
+        if($null -eq $GLOBAL:ADLoggingOptions){
             $GLOBAL:ADLoggingOptions = [PSCustomObject]@{
                 log_to_file                = $false;
-                path                       = & { if ($PSVersionTable.Platform -eq 'Unix') { "$($env:HOME)/dry.module.ad/dry.module.ad.log" } else { ("$($env:UserProfile)\dry.module.ad\dry.module.ad.log").Replace('\','\\')}};
+                path                       = &{ if($PSVersionTable.Platform -eq 'Unix'){ "$($env:HOME)/dry.module.ad/dry.module.ad.log" } else{ ("$($env:UserProfile)\dry.module.ad\dry.module.ad.log").Replace('\','\\')}};
                 console_width_threshold    = 70;
                 post_buffer                = 3;
                 array_first_element_length = 45;
@@ -142,18 +142,18 @@ function Out-DryADLog {
         }
         $ADLoggingOptions = $GLOBAL:ADLoggingOptions
 
-        if ($ADLoggingOptions.log_to_file -eq $true) {
-            if ($ADLoggingOptions.path) {
+        if($ADLoggingOptions.log_to_file -eq $true){
+            if($ADLoggingOptions.path){
                 $LogFile = $ADLoggingOptions.path
-                if (($GLOBAL:DoNotLogToFile -ne $true) -and (-not (Test-Path $LogFile))) {
+                if(($GLOBAL:DoNotLogToFile -ne $true) -and (-not (Test-Path $LogFile))){
                     New-Item -ItemType File -Path $LogFile -Force -ErrorAction Continue | Out-Null
                 }
             }
-            else {
+            else{
                 throw "You must define ADLoggingOptions.path to log to file"
             }
         }
-        else {
+        else{
             $LogFile = $null
         }
         # Get the calling cmdlet/script and line number
@@ -170,85 +170,85 @@ function Out-DryADLog {
             5 Debug
             6 Information
         #>
-        switch ($Type) {
-            {$_ -in ('e','error')} {
+        switch($Type){
+           {$_ -in ('e','error')}{
                 $Type = 'error'
                 $TypeStringLength = 14  # "Out-DryADLog: "
             }
-            {$_ -in ('w','warning')} {
+           {$_ -in ('w','warning')}{
                 $Type = 'warning'
                 $TypeStringLength = 9  # "WARNING: "
             }
-            {$_ -in ('d','debug')} {
+           {$_ -in ('d','debug')}{
                 $Type = 'debug'
                 $TypeStringLength = 7  # "DEBUG: "
             }
-            {$_ -in ('i','information','info')} {
+           {$_ -in ('i','information','info')}{
                 $Type = 'information'
                 $TypeStringLength = 0
             }
-            default {
+            default{
                 $Type = 'verbose'
                 $TypeStringLength = 9
             }
         }
 
-        if ($ADLoggingOptions."$Type".display_location) {
+        if($ADLoggingOptions."$Type".display_location){
             $DisplayLocation = $ADLoggingOptions."$Type".display_location
         }  
         # determine the console width
-        if ($ADLoggingOptions.force_console_width) {
+        if($ADLoggingOptions.force_console_width){
             $ConsoleWidth = $ADLoggingOptions.force_console_width
         }
-        else {
+        else{
             $ConsoleWidth = $Host.UI.RawUI.WindowSize.Width
         }
 
-        if ($DisplayLocation) {
+        if($DisplayLocation){
             $TargetMessageLength = $ConsoleWidth - ($ADLoggingOptions.post_buffer + $LocationString.Length + $TypeStringLength)
         }
-        else {
+        else{
             $TargetMessageLength = $ConsoleWidth - ($ADLoggingOptions.post_buffer + $TypeStringLength)
         }
 
-        if ($Header) {
+        if($Header){
             $HeaderLine,$Message = New-DryHeader -Message $Message -TargetMessageLength $TargetMessageLength -HeaderChars $HeaderChars -Air:$Air
         }
-        elseif ($SmallHeader) {
+        elseif($SmallHeader){
             $Message = New-DryHeader -Message $Message -Small -TargetMessageLength $TargetMessageLength -HeaderChars $HeaderChars -Air:$Air
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'message') {
+        if($PSCmdlet.ParameterSetName -eq 'message'){
             # If $TargetMessageLength is greater than the $ADLoggingOptions.console_width_threshold, and
             # $Message is longer than $TargetMessageLength, we want to split the message
             # into chunks so they fit nicely in the console
-            if (($TargetMessageLength -gt $ADLoggingOptions.console_width_threshold) -and
-                ($Message.Length -gt $TargetMessageLength)) {
+            if(($TargetMessageLength -gt $ADLoggingOptions.console_width_threshold) -and
+                ($Message.Length -gt $TargetMessageLength)){
                 [array]$Messages = Split-DryString -Length $TargetMessageLength -String $Message
             }
-            else {
-                if ($HeaderLine) {
+            else{
+                if($HeaderLine){
                     [array]$Messages += $HeaderLine
                 }
                 [array]$Messages += $Message
             }
         }
-        elseif ($PSCmdlet.ParameterSetName -eq 'array') {
+        elseif($PSCmdlet.ParameterSetName -eq 'array'){
             $FirstElement = $MsgArr[0]
             $SecondElement = $MsgArr[1]
             $BlankFirstElement = ''
             $ArrayMessages = $null
             $ArrayMessage = $null
 
-            if ($FirstElement.length -lt ($ADLoggingOptions.array_first_element_length + (14-$TypeStringLength))){
-                do {
+            if($FirstElement.length -lt ($ADLoggingOptions.array_first_element_length + (14-$TypeStringLength))){
+                do{
                     $FirstElement = "$FirstElement "
                 }
                 while ($FirstElement.length -lt ($ADLoggingOptions.array_first_element_length + (14-$TypeStringLength)))
             }
             
-            if ($BlankFirstElement.length -lt ($ADLoggingOptions.array_first_element_length + (14-$TypeStringLength))){
-                do {
+            if($BlankFirstElement.length -lt ($ADLoggingOptions.array_first_element_length + (14-$TypeStringLength))){
+                do{
                     $BlankFirstElement = "$BlankFirstElement "
                 }
                 while ($BlankFirstElement.length -lt ($ADLoggingOptions.array_first_element_length + (14-$TypeStringLength)))
@@ -256,89 +256,89 @@ function Out-DryADLog {
             
             $ArrayMessage = "$($FirstElement): $($SecondElement)"
             
-            if (($TargetMessageLength -gt $ADLoggingOptions.console_width_threshold) -and
-                ($ArrayMessage.Length -gt $TargetMessageLength)) {
+            if(($TargetMessageLength -gt $ADLoggingOptions.console_width_threshold) -and
+                ($ArrayMessage.Length -gt $TargetMessageLength)){
                 $ArrayMessages = $null
                 [array]$ArrayMessages = Split-DryString -Length ($TargetMessageLength - ("$($FirstElement): ").length ) -String $SecondElement
                 
-                switch ($ArrayMessages.count) {
-                    {$_ -eq 1 } {
+                switch($ArrayMessages.count){
+                   {$_ -eq 1 }{
                         [System.Collections.Generic.List[string]]$Messages = @("$($ArrayMessages[0])")
                     }
-                    {$_ -gt 1 } {
+                   {$_ -gt 1 }{
                         [System.Collections.Generic.List[string]]$Messages = @("$($FirstElement): $($ArrayMessages[0])")
-                        for ($m = 1; $m -le $ArrayMessages.count; $m++) {
+                        for ($m = 1; $m -le $ArrayMessages.count; $m++){
                             $Messages.Add("$($BlankFirstElement)  $($ArrayMessages[$m])")
                         }
                     }
                 }
             }
-            else {
+            else{
                 [System.Collections.Generic.List[string]]$Messages = @("$ArrayMessage")
             }                
         }
-        foreach ($MessageChunk in $Messages) {
+        foreach($MessageChunk in $Messages){
             if($MessageChunk.length -lt $TargetMessageLength){
-                do {
+                do{
                     $MessageChunk = "$MessageChunk "
                 }
                 while ($MessageChunk.length -lt $TargetMessageLength)
             }
             
             # Attach the pieces
-            if ($DisplayLocation) {
+            if($DisplayLocation){
                 $FullMessageChunk = $MessageChunk + $LocationString
             }
-            else {
+            else{
                 $FullMessageChunk = $MessageChunk
             }
             switch($Type){
-                'information' {
+                'information'{
                     Write-Output $FullMessageChunk
                 }
-                'verbose' {
-                    if ($PSBoundParameters.ContainsKey('Verbose') -or ($GLOBAL:VerbosePreference -eq 'Continue')) {
+                'verbose'{
+                    if($PSBoundParameters.ContainsKey('Verbose') -or ($GLOBAL:VerbosePreference -eq 'Continue')){
                         $VerbosePreference = 'Continue'
                         Write-Verbose $FullMessageChunk
                     }
                 }
-                'debug' {
-                    if ($PSBoundParameters.ContainsKey('Debug') -or ($GLOBAL:DebugPreference -eq 'Continue')) {
+                'debug'{
+                    if($PSBoundParameters.ContainsKey('Debug') -or ($GLOBAL:DebugPreference -eq 'Continue')){
                         $DebugPreference = 'Continue'
                         Write-Debug $FullMessageChunk
                     }
                 }
-                'warning' {
+                'warning'{
                     Write-Warning $FullMessageChunk
                 }
-                'error' {
+                'error'{
                     Write-Error $FullMessageChunk
                 }
             }
         }
 
         # Log to file
-        switch ($ADLoggingOptions.log_to_file) {
-            $true {
-                switch ($PSCmdlet.ParameterSetName) {
-                    'message' {
-                        if (-not $Header) {
-                            $LogMessage = "{0} `$$<{1}><{2} {3}><thread={4}>" -f ($Message), $Location, (Get-Date -Format "MM-dd-yyyy"), (Get-Date -Format "HH:mm:ss.ffffff"), $PID
+        switch($ADLoggingOptions.log_to_file){
+            $true{
+                switch($PSCmdlet.ParameterSetName){
+                    'message'{
+                        if(-not $Header){
+                            $LogMessage = "{0} `$$<{1}><{2}{3}><thread={4}>" -f ($Message), $Location, (Get-Date -Format "MM-dd-yyyy"), (Get-Date -Format "HH:mm:ss.ffffff"), $PID
                             $LogMessage | Out-File -Append -Encoding UTF8 -FilePath ("filesystem::{0}" -f $LogFile) -Force
                         }
                     }
-                    'array' {
-                        $LogMessage = "{0} `$$<{1}><{2} {3}><thread={4}>" -f ($MsgArr[0] + ' => ' + $MsgArr[1] ), $Location, (Get-Date -Format "MM-dd-yyyy"), (Get-Date -Format "HH:mm:ss.ffffff"), $PID
+                    'array'{
+                        $LogMessage = "{0} `$$<{1}><{2}{3}><thread={4}>" -f ($MsgArr[0] + ' => ' + $MsgArr[1] ), $Location, (Get-Date -Format "MM-dd-yyyy"), (Get-Date -Format "HH:mm:ss.ffffff"), $PID
                         $LogMessage | Out-File -Append -Encoding UTF8 -FilePath ("filesystem::{0}" -f $LogFile) -Force
                     }
                 }
             }
-            default {
+            default{
                 # do nothing
             }
         }
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
 }

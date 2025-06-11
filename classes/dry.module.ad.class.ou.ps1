@@ -20,7 +20,7 @@ Using Namespace System.Management.Automation.Runspaces
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Class OU {
+Class OU{
     [string]       $OUDN
     [string]       $ObjectType
     [string]       $DomainFQDN
@@ -36,18 +36,18 @@ Class OU {
         [string]    $DomainFQDN,
         [PSSession] $PSSession
     )
-    {
+   {
         $This.OUDN = $OUDN
-        if ($This.OUDN -match "^CN=*") {
+        if($This.OUDN -match "^CN=*"){
             $This.ObjectType   = 'container' 
         }
-        elseif ($This.OUDN -match "^OU=*") {
+        elseif($This.OUDN -match "^OU=*"){
             $This.ObjectType   = 'organizationalUnit' 
         }
-        elseif ($This.OUDN.Trim() -eq '') {
+        elseif($This.OUDN.Trim() -eq ''){
             $This.ObjectType   = 'DomainRoot' 
         }
-        else { 
+        else{ 
             olad e "Unknown Object Type (not CN, OU or Domain Root): $($This.OUDN)"
             throw "Unknown Object Type (not CN, OU) or Domain Root: $($This.OUDN)"
         }  
@@ -65,18 +65,18 @@ Class OU {
         [string]       $DomainController,
         [PSCredential] $Credential
     )
-    {
+   {
         $This.OUDN = $OUDN
-        if ($This.OUDN -match "^CN=*") {
+        if($This.OUDN -match "^CN=*"){
             $This.ObjectType   = 'container' 
         }
-        elseif ($This.OUDN -match "^OU=*") {
+        elseif($This.OUDN -match "^OU=*"){
             $This.ObjectType   = 'organizationalUnit' 
         }
-        elseif ($This.OUDN.Trim() -eq '') {
+        elseif($This.OUDN.Trim() -eq ''){
             $This.ObjectType   = 'DomainRoot' 
         }
-        else { 
+        else{ 
             olad w "Unknown Object Type (not CN or OU): $($This.OUDN)"
             throw "Unknown Object Type (not CN or OU): $($This.OUDN)"
         } 
@@ -93,18 +93,18 @@ Class OU {
         [string]       $DomainFQDN,
         [string]       $DomainController
     )
-    {
+   {
         $This.OUDN = $OUDN
-        if ($This.OUDN -match "^CN=*") {
+        if($This.OUDN -match "^CN=*"){
             $This.ObjectType   = 'container' 
         }
-        elseif ($This.OUDN -match "^OU=*") {
+        elseif($This.OUDN -match "^OU=*"){
             $This.ObjectType   = 'organizationalUnit' 
         }
-        elseif ($This.OUDN.Trim() -eq '') {
+        elseif($This.OUDN.Trim() -eq ''){
             $This.ObjectType   = 'domainRoot' 
         }
-        else { 
+        else{ 
             olad e "Unknown Object Type (not CN or OU): $($This.OUDN)"
             throw "Unknown Object Type (not CN or OU): $($This.OUDN)"
         } 
@@ -115,15 +115,15 @@ Class OU {
         $This.DomainController = $DomainController
     } 
 
-    [void]CreateOU () {
-        if ($This.ObjectType -eq 'domainRoot') {
+    [void]CreateOU (){
+        if($This.ObjectType -eq 'domainRoot'){
             olad d "Trying to create root of domain - just return"
         } 
-        else {
+        else{
             # Create an array of elements. Start with making sure  
             # root level exist, looping out to the leaf
             $DNParts = $This.OUDN.Split(',')
-            for ($c = ($DNParts.Count -1); $c -ge 0; $c--) {    
+            for ($c = ($DNParts.Count -1); $c -ge 0; $c--){    
                 
                 $CurrentDN             = [string]::Join(',', ($DNParts[$c..($DNParts.Count -1)]))
                 $CurrentDomainDN       = ($CurrentDN + ',' + $This.DomainDN).TrimStart(',')
@@ -131,11 +131,11 @@ Class OU {
                 $CurrentParent         = ($currentDN -split (",",2))[1]
                 $CurrentParentDomainDN = ($CurrentParent + ',' + $This.DomainDN).TrimStart(',')
                 
-                if ($CurrentParent -eq '') {
+                if($CurrentParent -eq ''){
                     olad d "'$CurrentName'. The parent domainDN is $CurrentParentDomainDN"
                 }
                 
-                else {
+                else{
                     olad d 'LeafOU (CurrentName)',"'$CurrentName'" 
                     olad d 'Parent (CurrentParent)',"'$CurrentParent'"
                     olad d 'Parent domainDN (CurrentParentDomainDN)',"'$CurrentParentDomainDN'"
@@ -143,21 +143,21 @@ Class OU {
                 }
                 
                 # Test if object exists
-                try {
-                    [ScriptBlock] $GetResultScriptBlock = { 
-                        param (
+                try{
+                    [ScriptBlock] $GetResultScriptBlock ={ 
+                        param(
                             $ObjectDN,
                             $Server,
                             $Credential
                         )
                         
-                        try {
+                        try{
                             $GetADObjectParams = @{
                                 Identity = $ObjectDN
                                 Server = $Server
                                 ErrorAction = 'Stop'
                             }
-                            if ($Credential) {
+                            if($Credential){
                                 $GetADObjectParams += @{
                                     Credential = $Credential
                                 }   
@@ -166,12 +166,12 @@ Class OU {
                             # The Object exists already
                             $true
                         }
-                        catch {
-                            if($_.CategoryInfo.Reason -eq 'ADIdentityNotFoundException') {
+                        catch{
+                            if($_.CategoryInfo.Reason -eq 'ADIdentityNotFoundException'){
                                 # The Object does not exist
                                 $false
                             }
-                            else {
+                            else{
                                 # The Object does not exist
                                 olad e "Error trying to get OU '$CurrentName' in parent '$CurrentParent'"
                                 olad e $_.Exception.Message
@@ -193,34 +193,34 @@ Class OU {
                         ScriptBlock  = $GetResultScriptBlock
                         ArgumentList = $GetArgumentList
                     }
-                    if ($This.ExecutionType -eq 'Remote') {
+                    if($This.ExecutionType -eq 'Remote'){
                         $GetParams  += @{
                             Session  = $This.PSSession
                         }
                     }
                     $GetResult = Invoke-Command @GetParams
 
-                    switch ($GetResult) {
-                        $true {
+                    switch($GetResult){
+                        $true{
                             olad d "The OU '$CurrentName' in parent '$CurrentParent' exists already."
                         }
-                        $false {
+                        $false{
                             olad d "The OU '$CurrentName' in parent '$CurrentParent' does not exist, must be created"
                         }
-                        default {
+                        default{
                             olad e "Error trying to get OU '$CurrentName' in parent '$CurrentParent'"
                             throw $GetResult
                         }
                     } 
                 }
-                catch {
+                catch{
                     olad e "Failed to test '$CurrentDomainDN'" 
                     throw $_
                 }  
 
-                if ($GetResult -eq $false) {
-                    [ScriptBlock] $SetResultScriptBlock = { 
-                        param (
+                if($GetResult -eq $false){
+                    [ScriptBlock] $SetResultScriptBlock ={ 
+                        param(
                             $Name,
                             $Type,
                             $Path,
@@ -228,7 +228,7 @@ Class OU {
                             $Credential
                         )
                         
-                        try {
+                        try{
                             $NewADObjectParams = @{
                                 Name        = $Name
                                 Type        = $Type
@@ -236,7 +236,7 @@ Class OU {
                                 Server      = $Server
                                 ErrorAction = 'Stop'
                             }
-                            if ($Credential) {
+                            if($Credential){
                                 $NewADObjectParams += @{
                                     Credential = $Credential
                                 }   
@@ -245,7 +245,7 @@ Class OU {
                             # The Object was created
                             $true
                         }
-                        catch {
+                        catch{
                             $_
                         }
                     } 
@@ -255,20 +255,20 @@ Class OU {
                         ScriptBlock  = $SetResultScriptBlock
                         ArgumentList = $SetArgumentList
                     }
-                    if ($This.ExecutionType -eq 'Remote') {
+                    if($This.ExecutionType -eq 'Remote'){
                         $SetParams  += @{
                             Session  = $This.PSSession
                         }
                     }
                     $SetResult       = Invoke-Command @SetParams
 
-                    switch ($SetResult) {
-                        $true {
+                    switch($SetResult){
+                        $true{
                             olad d "OU '$CurrentName' in parent '$CurrentParent' was created"
                             $OUsWasCreated = $true
                         }
                         
-                        default {
+                        default{
                             olad e "Failed to create OU '$CurrentName' in parent '$CurrentParent'"
                             throw $SetResult.ToString()
                         }

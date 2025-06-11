@@ -18,12 +18,12 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock] $DryAD_SB_RemoveAndRecreateDir = {
-    param (
+[ScriptBlock] $DryAD_SB_RemoveAndRecreateDir ={
+    param(
         $Path
     )
-    try {
-        if (Test-Path -Path $Path -ErrorAction Ignore) {
+    try{
+        if(Test-Path -Path $Path -ErrorAction Ignore){
             $RemoveItemParams = @{
                 Path        = "$Path*" 
                 Recurse     = $true
@@ -42,10 +42,10 @@
         New-Item @NewItemParams | Out-Null
         $true
     }
-    catch {
+    catch{
         $_
     }
-    finally {
+    finally{
         @('RemoveItemParams', 'NewItemParams').foreach({
             Remove-Variable -Name $_ -ErrorAction Ignore | Out-Null
         }) 

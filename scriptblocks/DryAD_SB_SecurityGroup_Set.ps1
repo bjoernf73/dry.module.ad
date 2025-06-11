@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock] $DryAD_SB_SecurityGroup_Set = { 
-    param (
+[ScriptBlock] $DryAD_SB_SecurityGroup_Set ={ 
+    param(
         $Name,
         $Path,
         $Description,
@@ -32,11 +32,11 @@
     $DomainDN = $ADRootDSE.DefaultNamingContext
     
     # Add DomainDN to path if not already added
-    if ($Path -notmatch "$DomainDN$") {
+    if($Path -notmatch "$DomainDN$"){
         $Path = $Path + ",$DomainDN"
     }
     
-    try {
+    try{
         $NewADGroupParams = @{
             Name          = $Name 
             Path          = $Path 
@@ -49,7 +49,7 @@
         New-ADGroup @NewADGroupParams | Out-Null
         $true
     }
-    catch {
+    catch{
         $_
     }
 }

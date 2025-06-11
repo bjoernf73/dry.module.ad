@@ -18,18 +18,18 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_GPLink_Get = {
-    param (
+[ScriptBlock]$DryAD_SB_GPLink_Get ={
+    param(
         $OU,
         $DomainController
     ) 
     $CurrentLinks = @()
     $ErrorString = ''
-    try {
-        [Array]$CurrentLinks = ((Get-GPInheritance -Target $OU -Server $DomainController).gpolinks | Select-Object -Property DisplayName).DisplayName
+    try{
+        [array]$CurrentLinks = ((Get-GPInheritance -Target $OU -Server $DomainController).gpolinks | Select-Object -Property DisplayName).DisplayName
         return @($CurrentLinks, $ErrorString)
     }
-    catch {
+    catch{
         # If caught, get the string
         $ErrorString = $_.ToString()
         return @($CurrentLinks, $ErrorString)

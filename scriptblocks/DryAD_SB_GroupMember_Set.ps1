@@ -18,13 +18,13 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock] $DryAD_SB_GroupMember_Set = { 
-    param (
+[ScriptBlock] $DryAD_SB_GroupMember_Set ={ 
+    param(
         $Group,
         $Member,
         $Server
     ) 
-    try {
+    try{
         $AddADGroupMemberParams = @{
             Identity    = $Group 
             Members     = $Member 
@@ -34,7 +34,7 @@
         Add-ADGroupMember @AddADGroupMemberParams | Out-Null
         $true
     }
-    catch {
+    catch{
         $_
     }
 }

@@ -18,21 +18,21 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_User_Get = {
-    param (
+[ScriptBlock]$DryAD_SB_User_Get ={
+    param(
         $Name,
         $Server
     ) 
-    try {
+    try{
         Get-ADUser -Identity $Name -Server $Server | Out-Null
         $true
     }
-    catch {
-        if($_.CategoryInfo.Reason -eq 'ADIdentityNotFoundException') {
+    catch{
+        if($_.CategoryInfo.Reason -eq 'ADIdentityNotFoundException'){
             # The Object does not exist
             $false
         }
-        else {
+        else{
             $_
         }
     }

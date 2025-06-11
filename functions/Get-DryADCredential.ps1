@@ -17,9 +17,9 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Get-DryADCredential {
+function Get-DryADCredential{
     [CmdletBinding()]
-    param (
+    param(
         [Parameter(Mandatory)]
         [ValidateScript({ ("$_" -split '\\').count -eq 2 })]
         [string]$UserName,
@@ -32,20 +32,20 @@ function Get-DryADCredential {
 
         [Switch]$Random
     )
-    try {
-        if ($Random) {
+    try{
+        if($Random){
             [SecureString]$SecStringPassword = Get-DryADRandomString -Length $Length -NonAlphabetics $NonAlphabetics -Secure
             [PSCredential]$Credential = New-Object System.Management.Automation.PSCredential ($UserName, $SecStringPassword)
         }
-        else {
+        else{
             [PSCredential]$Credential = Get-Credential -UserName $UserName -Message "Specify password for '$UserName'"
         }
         return $Credential
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
-    finally {
+    finally{
         $SecStringPassword = $null
     }
 }

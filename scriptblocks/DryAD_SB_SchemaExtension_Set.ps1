@@ -18,21 +18,21 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
 
-[ScriptBlock]$DryAD_SB_SchemaExtension_Set = {
-    param (
+[ScriptBlock]$DryAD_SB_SchemaExtension_Set ={
+    param(
         $LDFContent,
         $SchemaMaster
     )
-    try {
+    try{
         $LDFFilePath = Join-Path -Path $ENV:LOCALAPPDATA -ChildPath 'LdfContent.ldf' -ErrorAction Stop
         $LDFContent | Out-File -FilePath $LDFFilePath -Encoding ASCII -Force -ErrorAction Stop
         $LdifdeResult = & ldifde -i -k -s "$SchemaMaster" -f "$LDFFilePath" -v
         return @('', $LdifdeResult)
     }
-    catch {
+    catch{
         return @($_.ToString(), $LdifdeResult)
     }
-    finally {
+    finally{
         Remove-Item -Path $LDFFilePath -Force -ErrorAction Ignore
         @('LDFFilePath', 'LDFContent', 'LdifdeResult').foreach({
             Remove-Variable -Name $_ -ErrorAction Ignore

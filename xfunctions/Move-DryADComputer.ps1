@@ -19,9 +19,9 @@ Using NameSpace System.Management.Automation.Runspaces
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #>
-function Move-DryADComputer {
+function Move-DryADComputer{
     [CmdletBinding(DefaultParameterSetName = 'Local')] 
-    param (
+    param(
         [Parameter(Mandatory)]
         [string]
         $ComputerName,
@@ -47,14 +47,14 @@ function Move-DryADComputer {
     olad v @("Moving: '$ComputerName' to OU", "$TargetOU")
 
     # Is the Object already in place??
-    try {
-        if ($PSCmdlet.ParameterSetName -eq 'Remote') {
+    try{
+        if($PSCmdlet.ParameterSetName -eq 'Remote'){
             $Server = 'localhost'
             $ExecutionType = 'Remote'
             olad v @('Session Type', 'Remote')
             olad v @('Remoting to Domain Controller', $PSSession.ComputerName)
         }
-        else {
+        else{
             $Server = $DomainController
             $ExecutionType = 'Local'
             olad v @('Session Type', 'Local')
@@ -66,63 +66,63 @@ function Move-DryADComputer {
             ScriptBlock  = $DryAD_SB_MoveComputer_Get
             ArgumentList = $GetArgumentList
         }
-        if ($ExecutionType -eq 'Remote') {
+        if($ExecutionType -eq 'Remote'){
             $InvokeGetParams += @{
                 Session = $PSSession
             }
         }
         $GetResult = Invoke-Command @InvokeGetParams 
 
-        switch ($GetResult) {
-            $true {
+        switch($GetResult){
+            $true{
                 olad v "'$ComputerName' is already in OU '$TargetOU'"
             }
-            $false {
+            $false{
                 olad v "'$ComputerName' is not in OU '$TargetOU' - trying to move it"
             }
-            { $GetResult -is [System.Management.Automation.ErrorRecord] } {
+           { $GetResult -is [System.Management.Automation.ErrorRecord] }{
                 $PSCmdlet.ThrowTerminatingError($GetResult)
             }
-            default {
+            default{
                 throw "An Error occured $($GetResult.ToString())"
             }
         }
     }
-    catch {
+    catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
 
-    if ($Test) {
+    if($Test){
         return $GetResult
     }
-    elseif ($GetResult -eq $false) {
-        try {     
+    elseif($GetResult -eq $false){
+        try{     
             
             $SetArgumentList = @($ComputerName, $TargetOU, $Server)
             $InvokeSetParams = @{
                 ScriptBlock  = $DryAD_SB_MoveComputer_Set
                 ArgumentList = $SetArgumentList
             }
-            if ($ExecutionType -eq 'Remote') {
+            if($ExecutionType -eq 'Remote'){
                 $InvokeSetParams += @{
                     Session = $PSSession
                 }
             }
             $SetResult = Invoke-Command @InvokeSetParams
 
-            switch ($SetResult) {
-                $true {
+            switch($SetResult){
+                $true{
                     olad v "'$ComputerName' was moved into OU '$TargetOU'"
                 }
-                { $SetResult -is [System.Management.Automation.ErrorRecord] } {
+               { $SetResult -is [System.Management.Automation.ErrorRecord] }{
                     $PSCmdlet.ThrowTerminatingError($SetResult)
                 }
-                default {
+                default{
                     throw "An Error occured $($SetResult.ToString())"
                 }
             }
         }
-        catch {
+        catch{
             $PSCmdlet.ThrowTerminatingError($_)
         }
     }
