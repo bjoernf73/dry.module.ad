@@ -1,11 +1,11 @@
-{ 
+{
 	"security_groups": [
 		{
 			"Name": "Right-AD-Group-DomainAdmins-Member",
 			"alias": "Rights-Protected",
 			"Description": "Member of Domain Admins in domain '###DomainFQDN###'",
 			"GroupScope": "global",
-			"MemberOf": [ 
+			"MemberOf": [
 					"Domain Admins"
 			]
 		},
@@ -32,7 +32,7 @@
 			"alias": "Rights",
 			"Description": "Right to CREate, MODify and DELete Server computer objects",
 			"GroupScope": "domainlocal",
-			"Rights": 
+			"Rights":
 			[
 				{
 					"alias": "Computer-Servers",
@@ -50,7 +50,7 @@
 					"InheritedObjectType":  "Computer",
 					"ActiveDirectoryRights":  "WriteProperty"
 				}
-			]	
+			]
 		},
 		{
 			"name": "Right-DC-BuiltinGroup-RemoteDesktopUsers",

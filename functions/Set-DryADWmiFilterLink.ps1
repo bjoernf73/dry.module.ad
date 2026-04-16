@@ -1,4 +1,4 @@
-﻿<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -14,14 +14,14 @@ function Set-DryADWmiFilterLink{
         [string]
         $WMIFilterName,
 
-        [Parameter(Mandatory, ParameterSetName = 'Remote', HelpMessage = "PSSession 
+        [Parameter(Mandatory, ParameterSetName = 'Remote', HelpMessage = "PSSession
         to run the script blocks in if Remote execution")]
-        [PSSession] 
+        [PSSession]
         $PSSession,
 
-        [Parameter(Mandatory, ParameterSetName = 'Local', HelpMessage = "Specify the 
+        [Parameter(Mandatory, ParameterSetName = 'Local', HelpMessage = "Specify the
         Domain Controller to target in Local Session")]
-        [string] 
+        [string]
         $DomainController
     )
 
@@ -48,7 +48,7 @@ function Set-DryADWmiFilterLink{
                     Filter      = $Filter
                     Server      = $Server
                     ErrorAction = 'Stop'
-                    
+
                 }
                 $ADObject = $null
                 $ADObject = Get-ADObject @GetADObjectParams
@@ -61,12 +61,12 @@ function Set-DryADWmiFilterLink{
                 throw $_
             }
         }
-    
+
         $Filters = @{
             GPO       = "(ObjectClass -eq 'groupPolicyContainer') -and (displayname -eq '$GPOName')"
-            WMIFilter = "(ObjectClass -eq 'msWMI-Som') -and (msWMI-name -eq '$WMIFilterName')" 
+            WMIFilter = "(ObjectClass -eq 'msWMI-Som') -and (msWMI-name -eq '$WMIFilterName')"
         }
-    
+
         $Filters.Keys.foreach({
                 $Filter = $Filters["$_"]
                 olad v "Searching for filter", "$Filter"
@@ -99,7 +99,7 @@ function Set-DryADWmiFilterLink{
                 $Server
             )
             try{
-                
+
                 $DomainFQDN = (Get-ADDomain -Server $Server -ErrorAction Stop).DnsRoot
                 $GetGPOParams = @{
                     Filter      = "(ObjectClass -eq 'groupPolicyContainer') -and (displayname -eq '$GPOName')"

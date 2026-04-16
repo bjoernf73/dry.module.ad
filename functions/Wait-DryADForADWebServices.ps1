@@ -1,5 +1,5 @@
-﻿Using NameSpace System.Management.Automation.Runspaces
-<#  
+Using NameSpace System.Management.Automation.Runspaces
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -18,24 +18,24 @@ function Wait-DryADForADWebServices{
         [Parameter(HelpMessage = "How long should I try this without success?")]
         [int]
         $WaitMinutes = 20
-  
+
     )
     [Boolean]$ADWebServicesUp = $false
     [string]$DomainControllersOUDN = "OU=Domain Controllers,$DomainDN"
     [DateTime]$StartTime = Get-Date
     Do{
-        $TestResult = Invoke-Command -Session $PSSession -ScriptBlock{ 
-            param($DomainControllersOUDN); 
+        $TestResult = Invoke-Command -Session $PSSession -ScriptBlock{
+            param($DomainControllersOUDN);
             try{
                 # If this works, return true
                 Get-ADObject -Identity $DomainControllersOUDN | Out-Null
                 $true
-            } 
+            }
             catch{
                 $false
             }
         } -ArgumentList $DomainControllersOUDN
-        
+
         switch($TestResult){
             $true{
                 olad v "Active Directory Web Services is now up and reachable."
@@ -50,7 +50,7 @@ function Wait-DryADForADWebServices{
                 olad e "Error testing Active Directory Web Services"
                 throw $TestResult
             }
-        } 
+        }
     }
     While (
         (-not $ADWebServicesUp) -and

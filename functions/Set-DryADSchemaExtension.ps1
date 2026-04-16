@@ -1,12 +1,12 @@
-﻿Using Namespace System.Management.Automation.Runspaces
+Using Namespace System.Management.Automation.Runspaces
 Using Namespace System.Collections.Generic
-<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
 #>
 function Set-DryADSchemaExtension{
-    [CmdletBinding(DefaultParameterSetName = 'Local')] 
+    [CmdletBinding(DefaultParameterSetName = 'Local')]
     param(
         [Parameter(Mandatory, HelpMessage = 'The Schema Extension type')]
         [string]
@@ -21,19 +21,19 @@ function Set-DryADSchemaExtension{
         [string]
         $Content,
 
-        [Parameter(HelpMessage = 'Variables used for replacements in LDFs. Each 
+        [Parameter(HelpMessage = 'Variables used for replacements in LDFs. Each
         `$var.name will be wrapped in trippel hashes (###$($var.name)###) and
         any match replaced with $var.value')]
         [List[PSObject]]
         $Variables,
 
-        [Parameter(Mandatory, ParameterSetName = 'Remote', HelpMessage = "PSSession 
+        [Parameter(Mandatory, ParameterSetName = 'Remote', HelpMessage = "PSSession
         to run the script blocks in")]
-        [PSSession] 
+        [PSSession]
         $PSSession,
 
         [Parameter(Mandatory, HelpMessage = "The Schema Master")]
-        [string] 
+        [string]
         $SchemaMaster
     )
     try{
@@ -71,15 +71,15 @@ function Set-DryADSchemaExtension{
             }
         }
         $ExtendSchemaResult = Invoke-Command @InvokeSchemaExtensionParams
-        
+
         if($ExtendSchemaResult[0] -eq ''){
             $MatchCount = 0
-            $ExtendSchemaResult[1].foreach({ 
-                    $CurrentString = $_; 
-                    $SuccessStrings.foreach({ 
-                            if($CurrentString -Match $_){ 
+            $ExtendSchemaResult[1].foreach({
+                    $CurrentString = $_;
+                    $SuccessStrings.foreach({
+                            if($CurrentString -Match $_){
                                 $MatchCount++
-                            } 
+                            }
                         })
                 })
             if($MatchCount -eq $SuccessCount){
@@ -98,7 +98,7 @@ function Set-DryADSchemaExtension{
         else{
             olad e "Schema extension failed"
             throw $ExtendSchemaResult[0]
-        }  
+        }
     }
     catch{
         $PSCmdlet.ThrowTerminatingError($_)

@@ -1,5 +1,5 @@
-﻿Using NameSpace System.Management.Automation.Runspaces
-<#  
+Using NameSpace System.Management.Automation.Runspaces
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -12,19 +12,19 @@
         [string] $KeyUsage
     )
     try{
-        $Cert = Get-ChildItem -Path Cert:\LocalMachine\My -ErrorAction Stop | Where-Object{ 
-            ($_.HasPrivateKey -eq $true) -and 
+        $Cert = Get-ChildItem -Path Cert:\LocalMachine\My -ErrorAction Stop | Where-Object{
+            ($_.HasPrivateKey -eq $true) -and
             ($_.SignatureAlgorithm.FriendlyName -in $SignatureAlgorithms) -and
-            (@(($_.EnhancedKeyUsageList).FriendlyName) -contains $KeyUsage)  
+            (@(($_.EnhancedKeyUsageList).FriendlyName) -contains $KeyUsage)
         }
 
         # If multiple, use first
         if($Cert -is [array]){
             $Cert = $Cert[0]
         }
-        
+
         if($Cert -is [System.Security.Cryptography.X509Certificates.X509Certificate2]){
-            Export-Certificate -Cert $Cert -FilePath $Path -Type CERT -Force -ErrorAction Stop | 
+            Export-Certificate -Cert $Cert -FilePath $Path -Type CERT -Force -ErrorAction Stop |
                 Out-Null
         }
         else{

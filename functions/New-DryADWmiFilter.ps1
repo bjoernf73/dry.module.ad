@@ -1,5 +1,5 @@
-﻿Using NameSpace System.Management.Automation.Runspaces
-<#  
+Using NameSpace System.Management.Automation.Runspaces
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -14,22 +14,22 @@ function New-DryADWmiFilter{
         [Parameter(HelpMessage = 'Optional Description of the WMI Query')]
         [string]
         $Description,
-    
+
         [Parameter(Mandatory, HelpMessage = 'The WMI Query itself')]
         [String[]]
         $Query,
-    
-        [Parameter(Mandatory, ParameterSetName = 'Remote', HelpMessage = "PSSession 
+
+        [Parameter(Mandatory, ParameterSetName = 'Remote', HelpMessage = "PSSession
         to run the script blocks in if Remote execution")]
-        [PSSession] 
+        [PSSession]
         $PSSession,
 
-        [Parameter(Mandatory, ParameterSetName = 'Local', HelpMessage = "Specify the 
+        [Parameter(Mandatory, ParameterSetName = 'Local', HelpMessage = "Specify the
         Domain Controller to target in Local Session")]
-        [string] 
+        [string]
         $DomainController
     )
-    
+
     if($PSCmdlet.ParameterSetName -eq 'Remote'){
         $Server = 'localhost'
         olad v @('Session Type', 'Remote')
@@ -40,8 +40,8 @@ function New-DryADWmiFilter{
         olad v @('Session Type', 'Local')
         olad v @('Using Domain Controller', $Server)
     }
-   
-    # Test if object exists. Currently does not  
+
+    # Test if object exists. Currently does not
     # test the content, only if it exists or not
     try{
         $GetArgumentList = @($Name, $Server)
@@ -67,11 +67,11 @@ function New-DryADWmiFilter{
                 olad w "Error trying to get WMIFilter '$Name'"
                 throw $GetResult.ToString()
             }
-        } 
+        }
     }
     catch{
         $PSCmdlet.ThrowTerminatingError($_)
-    }  
+    }
 
     if($GetResult -eq $false){
         try{
@@ -95,7 +95,7 @@ function New-DryADWmiFilter{
                     olad d "WMIFilter was not created"
                     throw $SetResult
                 }
-            } 
+            }
         }
         catch{
             $PSCmdlet.ThrowTerminatingError($_)

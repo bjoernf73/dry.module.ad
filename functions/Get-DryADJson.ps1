@@ -1,4 +1,4 @@
-﻿<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -21,10 +21,10 @@ function Get-DryADJson{
         else{
             [System.IO.FileInfo]$Item = $File
         }
-        
+
         # Get all lines that does not start with comment, i.e "//"
-        [array]$ContentArray = Get-Content -Path $Item -ErrorAction Stop | Where-Object{ 
-            $_.Trim() -notmatch "^//" 
+        [array]$ContentArray = Get-Content -Path $Item -ErrorAction Stop | Where-Object{
+            $_.Trim() -notmatch "^//"
         }
 
         [string]$ContentString = $ContentArray | Out-String -ErrorAction 'Stop'

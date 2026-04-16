@@ -1,12 +1,12 @@
-﻿Using NameSpace System.Management.Automation
+Using NameSpace System.Management.Automation
 Using NameSpace System.Management.Automation.Runspaces
-<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
 #>
 function Move-DryADComputer{
-    [CmdletBinding(DefaultParameterSetName = 'Local')] 
+    [CmdletBinding(DefaultParameterSetName = 'Local')]
     param(
         [Parameter(Mandatory)]
         [string]
@@ -22,12 +22,12 @@ function Move-DryADComputer{
 
         [Parameter(Mandatory, ParameterSetName = 'Remote',
         HelpMessage = "PSSession to run the script blocks in")]
-        [System.Management.Automation.Runspaces.PSSession] 
+        [System.Management.Automation.Runspaces.PSSession]
         $PSSession,
 
         [Parameter(Mandatory, ParameterSetName = 'Local',
         HelpMessage = "For 'Local' sessions, specify the Domain Controller to use")]
-        [string] 
+        [string]
         $DomainController
     )
     olad v @("Moving: '$ComputerName' to OU", "$TargetOU")
@@ -57,7 +57,7 @@ function Move-DryADComputer{
                 Session = $PSSession
             }
         }
-        $GetResult = Invoke-Command @InvokeGetParams 
+        $GetResult = Invoke-Command @InvokeGetParams
 
         switch($GetResult){
             $true{
@@ -82,8 +82,8 @@ function Move-DryADComputer{
         return $GetResult
     }
     elseif($GetResult -eq $false){
-        try{     
-            
+        try{
+
             $SetArgumentList = @($ComputerName, $TargetOU, $Server)
             $InvokeSetParams = @{
                 ScriptBlock  = $DryAD_SB_MoveComputer_Set

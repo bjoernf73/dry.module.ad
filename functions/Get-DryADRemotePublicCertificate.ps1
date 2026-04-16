@@ -1,5 +1,5 @@
-﻿Using NameSpace System.Management.Automation.Runspaces
-<#  
+Using NameSpace System.Management.Automation.Runspaces
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -10,7 +10,7 @@ function Get-DryADRemotePublicCertificate{
         [Parameter(Mandatory, HelpMessage = "PSSession to a Domain Controller")]
         [PSSession]
         $PSSession,
-        
+
         [Parameter(Mandatory)]
         [string]
         $CertificateFile
@@ -23,7 +23,7 @@ function Get-DryADRemotePublicCertificate{
             ArgumentList = @('C:\PublicCertificate.cer', @('SHA256RSA'), 'Server Authentication')
         }
         $Result = Invoke-Command @InvokeCommandParams
-        
+
         if($Result[0] -eq $true){
             Copy-Item -FromSession $PSSession -Path 'C:\PublicCertificate.cer' -Destination "$CertificateFile" -Force -ErrorAction Stop
             olad v @('Fetched public certificate', "$CertificateFile")

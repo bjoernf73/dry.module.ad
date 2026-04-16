@@ -1,4 +1,4 @@
-﻿<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -12,13 +12,13 @@
     )
     try{
         $GetADGroupMemberParams = @{
-            Identity    = $Group 
+            Identity    = $Group
             Server      = $Server
             ErrorAction = 'Stop'
         }
         if((Get-ADGroupMember @GetADGroupMemberParams | Select-Object -Property Name).Name -Contains $Member){
             $true
-        } 
+        }
         else{
             $false
         }

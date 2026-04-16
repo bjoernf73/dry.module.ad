@@ -1,4 +1,4 @@
-﻿<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -11,17 +11,17 @@
     try{
         if(Test-Path -Path $Path -ErrorAction Ignore){
             $RemoveItemParams = @{
-                Path        = "$Path*" 
+                Path        = "$Path*"
                 Recurse     = $true
                 Force       = $true
-                Confirm     = $false 
+                Confirm     = $false
                 ErrorAction = 'Stop'
             }
             Remove-Item @RemoveItemParams
         }
         $NewItemParams = @{
-            Path        = $Path 
-            ItemType    = 'Directory' 
+            Path        = $Path
+            ItemType    = 'Directory'
             Force       = $true
             ErrorAction = 'Stop'
         }
@@ -34,6 +34,6 @@
     finally{
         @('RemoveItemParams', 'NewItemParams').foreach({
             Remove-Variable -Name $_ -ErrorAction Ignore | Out-Null
-        }) 
+        })
     }
 }

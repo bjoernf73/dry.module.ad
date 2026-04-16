@@ -1,4 +1,4 @@
-﻿###########################################################
+###########################################################
 #
 #  Group Policy - Registry Policy parser module
 #
@@ -173,7 +173,7 @@ C:\PS> Read-PolFile -Path "C:\Registry.pol"
 #>
 Function Read-PolFile
 {
-    [Alias("Parse-PolFile")]    
+    [Alias("Parse-PolFile")]
     [OutputType([array])]
     param(
         [Parameter(Mandatory=$true,Position=0)]
@@ -303,7 +303,7 @@ Function Read-PolFile
     return $RegistryPolicies
 }
 
-<# 
+<#
 .SYNOPSIS
 Reads registry policies from a list of entries.
 
@@ -334,11 +334,11 @@ Function Read-RegistryPolicies
 
     [array] $RegistryPolicies = @()
 
-    switch($Division) 
+    switch($Division)
    {
         'LocalMachine'{ $Hive = [Microsoft.Win32.Registry]::LocalMachine }
         'CurrentUser' { $Hive = [Microsoft.Win32.Registry]::CurrentUser }
-        'Users'       { $Hive = [Microsoft.Win32.Registry]::Users } 
+        'Users'       { $Hive = [Microsoft.Win32.Registry]::Users }
     }
 
     foreach($entry in $Entries)
@@ -360,7 +360,7 @@ Function Read-RegistryPolicies
                 $rp = New-GPRegistryPolicy -keyName $entry -valueName '' -valueType $info.Type -valueLength $info.Size -valueData $info.Data
                 $RegistryPolicies += $rp
             }
-            
+
             if($Key.ValueCount -gt 0)
            {
                 # Copy values under the key
@@ -458,12 +458,12 @@ Function New-RegistrySettingsEntry
         [GPRegistryPolicy]
         $RegistryPolicy
     )
-        
+
     # Entry format: [key;value;type;size;data]
     [Byte[]] $Entry = @()
-        
+
     $Entry += [System.Text.Encoding]::Unicode.GetBytes('[') # Openning bracket
-        
+
     $Entry += [System.Text.Encoding]::Unicode.GetBytes($RP.KeyName + "`0")
 
     $Entry += [System.Text.Encoding]::Unicode.GetBytes(';') # semicolon as delimiter
@@ -550,7 +550,7 @@ Function Add-RegistryPolicies
         [string]
         $Path
     )
-        
+
     foreach($rp in $RegistryPolicies)
    {
         [Byte[]] $Entry =New-RegistrySettingsEntry -RegistryPolicy $rp
@@ -614,7 +614,7 @@ Function New-GPRegistryPolicyFile
     [System.BitConverter]::GetBytes($script:REGISTRY_FILE_VERSION) | Add-Content -Path $Path -Encoding Byte
 }
 
-<# 
+<#
 .SYNOPSIS
 Returns the type, size and data values of a given registry key.
 
@@ -735,7 +735,7 @@ Function Convert-StringToInt
         [System.Object[]]
         $ValueString
     )
-  
+
     if($ValueString.Length -le 4)
    {
         [int32] $result = 0

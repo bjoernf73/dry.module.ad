@@ -1,4 +1,4 @@
-﻿<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -26,20 +26,20 @@
             $VerboseReturnStrings += @("The AD PSModule was already loaded in session")
         }
 
-        # However, that is not necessarily the case. That ActiveDirectory module is a bit sloppy 
+        # However, that is not necessarily the case. That ActiveDirectory module is a bit sloppy
         try{
-            Get-PSDrive -Name 'AD' -ErrorAction Stop | 
+            Get-PSDrive -Name 'AD' -ErrorAction Stop |
                 Out-Null
             $VerboseReturnStrings += @("The AD Drive exists already")
         }
         Catch [System.Management.Automation.DriveNotFoundException]{
             $VerboseReturnStrings += @("The AD Drive does not exist - trying to create it")
-            
+
             try{
                 $NewPSDriveParams = @{
-                    Name        = 'AD' 
-                    PSProvider  = 'ActiveDirectory' 
-                    Root        = '//RootDSE/' 
+                    Name        = 'AD'
+                    PSProvider  = 'ActiveDirectory'
+                    Root        = '//RootDSE/'
                     ErrorAction = 'Stop'
                 }
                 New-PSDrive @NewPSDriveParams | Out-Null
@@ -54,9 +54,9 @@
             $PSCmdlet.ThrowTerminatingError($_)
         }
 
-        # Make sure the AD-drive is connected to $Server. This ensures that cmdlets operate on a specific Domain 
+        # Make sure the AD-drive is connected to $Server. This ensures that cmdlets operate on a specific Domain
         # Controller, so that configs that depend on other configs exist on that Domain Controller, without needing
-        # a full AD replication to have happened 
+        # a full AD replication to have happened
         $ADDrive = Get-PSDrive -Name 'AD' -ErrorAction Stop
         $ADDrive.Server = "$Server"
 

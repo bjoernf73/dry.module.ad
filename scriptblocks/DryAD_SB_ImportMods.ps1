@@ -1,4 +1,4 @@
-﻿<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -12,7 +12,7 @@
         $Modules.foreach({
             $ImportParams = @{
                 Name        = $_
-                Force       = $true 
+                Force       = $true
                 ErrorAction = 'Stop'
             }
             Import-Module @ImportParams

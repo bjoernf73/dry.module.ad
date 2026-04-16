@@ -1,6 +1,6 @@
-﻿Using Namespace System.Management.Automation
+Using Namespace System.Management.Automation
 Using Namespace System.Management.Automation.Runspaces
-<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -23,9 +23,9 @@ function Add-DryADGroupMember{
         [string]$DomainController
     )
     olad d @("Adding: $Member to", $Group)
-    
+
     <#
-        If executing on a remote session to a DC, use localhost as  
+        If executing on a remote session to a DC, use localhost as
         server. If not, the $DomainController param is required
     #>
     if($PSCmdlet.ParameterSetName -eq 'Remote'){
@@ -39,7 +39,7 @@ function Add-DryADGroupMember{
         olad v @('Using Domain Controller', $Server)
     }
 
-    try{     
+    try{
         $GetArgumentList = @($Group, $Member, $Server)
         $GetParams = @{
             ScriptBlock  = $DryAD_SB_GroupMember_Get
@@ -71,8 +71,8 @@ function Add-DryADGroupMember{
     catch{
         $PSCmdlet.ThrowTerminatingError($_)
     }
- 
-    try{     
+
+    try{
         $SetArgumentList = @($Group, $Member, $Server)
         $SetParams = @{
             ScriptBlock  = $DryAD_SB_GroupMember_Set
@@ -83,7 +83,7 @@ function Add-DryADGroupMember{
                 Session = $PSSession
             }
         }
-        $SetResult = Invoke-Command @SetParams 
+        $SetResult = Invoke-Command @SetParams
 
         switch($SetResult){
             $true{
@@ -99,5 +99,5 @@ function Add-DryADGroupMember{
     }
     catch{
         $PSCmdlet.ThrowTerminatingError($_)
-    }  
+    }
 }

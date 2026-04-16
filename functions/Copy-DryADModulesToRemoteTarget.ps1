@@ -1,6 +1,6 @@
-﻿using NameSpace System.Management.Automation
+using NameSpace System.Management.Automation
 using NameSpace System.Management.Automation.Runspaces
-<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -28,7 +28,7 @@ function Copy-DryADModulesToRemoteTarget{
         # While copying multiple tiny files, the progress bar is flickering and not informative at all, so suppress it
         $OriginalProgressPreference = $ProgressPreference
         $ProgressPreference = 'SilentlyContinue'
-       
+
         if($Force){
             $InvokeDirParams = @{
                 ScriptBlock  = $DryAD_SB_RemoveAndReCreateDir
@@ -36,7 +36,7 @@ function Copy-DryADModulesToRemoteTarget{
                 ArgumentList = @($RemoteRootPath)
             }
             $DirResult = Invoke-Command @InvokeDirParams
-            
+
             switch($DirResult){
                 $true{
                     olad d 'Created remote directory', "$RemoteRootPath"
@@ -58,19 +58,19 @@ function Copy-DryADModulesToRemoteTarget{
             }
             else{
                 $ModuleFolder = Split-Path -Path $ModuleObj.Path
-                try{ 
+                try{
                     [system.version](Split-Path -Path $ModuleFolder -Leaf) | Out-Null
                     olad v "Module '$Module' is a versioned module, it's root folder must be: '$(Split-Path -Path $ModuleFolder)'"
                     $ModuleFolder = Split-Path -Path $ModuleFolder
-                } 
-                catch{ 
+                }
+                catch{
                     olad v "Module '$Module' is not a versioned module, it's root folder must be: '$ModuleFolder'"
                 }
                 $CopyItemsParams = @{
                     Path        = $ModuleFolder
                     Container   = $true
                     Destination = Join-Path -Path $RemoteRootPath -ChildPath $(Split-Path -Path $ModuleFolder -Leaf)
-                    ToSession   = $PSSession 
+                    ToSession   = $PSSession
                     Recurse     = $true
                     Force       = $true
                 }
@@ -84,8 +84,8 @@ function Copy-DryADModulesToRemoteTarget{
                 [system.io.directoryinfo]$ModuleObj = Get-Item -Name $ModuleFolder -ErrorAction Stop
                 $CopyItemsParams = @{
                     Path        = $ModuleFolder
-                    Destination = $RemoteRootPath 
-                    ToSession   = $PSSession 
+                    Destination = $RemoteRootPath
+                    ToSession   = $PSSession
                     Recurse     = $true
                     Force       = $true
                 }
@@ -96,19 +96,19 @@ function Copy-DryADModulesToRemoteTarget{
                 throw "Failed to copy '$ModuleFolder' to remote target"
             }
         }
-        
+
         # Add RemoteRootPath to $env:PSModulePath on the remote system, so functions are
-        # available without explicit import. Prepare $RemoteRootPath and a $RemoteRootPathRegex 
-        # that allows us to test if the path is already added or not. 
-        
-        # Change double backslash to single, remove trailing backslash, and lastly make all 
+        # available without explicit import. Prepare $RemoteRootPath and a $RemoteRootPathRegex
+        # that allows us to test if the path is already added or not.
+
+        # Change double backslash to single, remove trailing backslash, and lastly make all
         # single backslashes double in the regex
-        $RemoteRootPath = ($RemoteRootPath.Replace('\\', '\')).TrimEnd('\')         
+        $RemoteRootPath = ($RemoteRootPath.Replace('\\', '\')).TrimEnd('\')
         $RemoteRootPathRegEx = $RemoteRootPath.Replace('\', '\\')
 
         $InvokePSModPathParams = @{
             ScriptBlock  = $DryAD_SB_PSModPath
-            Session      = $PSSession 
+            Session      = $PSSession
             ArgumentList = @($RemoteRootPath, $RemoteRootPathRegEx)
         }
         $RemotePSModulePaths = Invoke-Command @InvokePSModPathParams
@@ -126,13 +126,13 @@ function Copy-DryADModulesToRemoteTarget{
 
         if($Force){
             $ImportModsParams = @{
-                Session      = $PSSession 
-                ScriptBlock  = $DryAD_SB_ImportMods 
+                Session      = $PSSession
+                ScriptBlock  = $DryAD_SB_ImportMods
                 ArgumentList = @($Modules)
-                ErrorAction  = 'Stop' 
-            }   
+                ErrorAction  = 'Stop'
+            }
             $ImportResult = Invoke-Command @ImportModsParams
-    
+
             switch($ImportResult){
                 $true{
                     olad v "The modules '$Modules' were imported into PSSession to $($PSSession.ComputerName)"

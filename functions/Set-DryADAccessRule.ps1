@@ -1,21 +1,21 @@
-﻿Using NameSpace System.Management.Automation.Runspaces
-<#  
+Using NameSpace System.Management.Automation.Runspaces
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
 #>
 function Set-DryADAccessRule{
-    [CmdletBinding(DefaultParameterSetName = 'Local')] 
-    param( 
-        [Parameter(HelpMessage = "Name of user to delegate rights to. 
+    [CmdletBinding(DefaultParameterSetName = 'Local')]
+    param(
+        [Parameter(HelpMessage = "Name of user to delegate rights to.
         Never used by DryDeploy, since rights are always delegated to groups")]
         [string]
         $User,
 
         [Parameter(HelpMessage = "Name of group to delegate rights to")]
         [string]
-        $Group,    
-    
+        $Group,
+
         [Parameter(Mandatory,
             HelpMessage = "DistinguisheName of container object (ou or cn) to set rights on")]
         [string]
@@ -25,35 +25,35 @@ function Set-DryADAccessRule{
             HelpMessage = "Array of Active Directory standard or extended rights")]
         [String[]]
         $ActiveDirectoryRights,
-        
+
         [Parameter(Mandatory,
             HelpMessage = "Access Controlad Type, either 'Allow' or 'Deny'.")]
         [ValidateSet("Allow", "Deny")]
         [string]
-        $AccessControlType, 
-        
+        $AccessControlType,
+
         [Parameter(HelpMessage = "Inheritance")]
         [ValidateSet("All", "Children", "Descendents", "SelfAndChildren", "None")]
         [string]
-        $ActiveDirectorySecurityInheritance, 
+        $ActiveDirectorySecurityInheritance,
 
-        [Parameter(HelpMessage = "The AD object type that the right(s) applies to. 
+        [Parameter(HelpMessage = "The AD object type that the right(s) applies to.
         Like 'user','computer' or 'organizationalunit', or any other AD object type")]
         [string]
-        $ObjectType, 
-        
+        $ObjectType,
+
         [Parameter(HelpMessage = "The object type by name that should inherit the right(s).")]
         [string]
         $InheritedObjectType,
 
         [Parameter(Mandatory, ParameterSetName = 'Remote',
             HelpMessage = "PSSession to run the script blocks in")]
-        [PSSession] 
+        [PSSession]
         $PSSession,
 
         [Parameter(Mandatory, ParameterSetName = 'Local',
             HelpMessage = "For 'Local' sessions, specify the Domain Controller to use")]
-        [string] 
+        [string]
         $DomainController
     )
 
@@ -69,11 +69,11 @@ function Set-DryADAccessRule{
         else{
             throw "Specify either a Group or a User to delegate permissions to - and not both"
         }
-        
+
         olad v @('Path', "$Path")
         olad v @('TargetName', "$TargetName")
         olad v @('TargetType', "$TargetType")
-        
+
 
         if($PSCmdlet.ParameterSetName -eq 'Remote'){
             $Server = 'localhost'
@@ -92,7 +92,7 @@ function Set-DryADAccessRule{
         if(-not $ObjectType){ [string]$ObjectType = '' }
         if(-not $InheritedObjectType){ [string]$InheritedObjectType = '' }
         if(-not $ActiveDirectorySecurityInheritance){ [string]$ActiveDirectorySecurityInheritance = '' }
-            
+
         $ArgumentList = @(
             $Path,
             $TargetName,
@@ -120,21 +120,21 @@ function Set-DryADAccessRule{
         foreach($ReturnString in $Return[0]){
             olad d "$ReturnString"
         }
-        
+
         # Test the ReturnValue in $Return[1]
         if($Return[1] -eq $true){
             olad v "Successfully configured AD right"
             $true
-        } 
+        }
         else{
             olad w "Failed to configure AD right"
             if($null -ne $Return[2]){
                 throw ($Return[2]).ToString()
-            } 
+            }
             else{
                 throw "ReturnValue false, but no ErrorRecord returned - check debug"
             }
-        }  
+        }
     }
     catch{
         $PSCmdlet.ThrowTerminatingError($_)

@@ -1,4 +1,4 @@
-{ 
+{
 	"gpo_imports": [
 		{
 			"name": "DC - RoleGPO - v0r12",
@@ -123,7 +123,7 @@
 					"name": "###DomainNB### - Windows Server Baseline - Delta Policy - v0r9",
 					"order": 1,
 					"enforced": false
-				},	
+				},
 				{
 					"name": "###DomainNB### - Windows Server Baseline - 2019 Schannel Hardening - v0r7",
 					"order": 2,
@@ -148,7 +148,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"alias":  "Computer-Workstations-Win",
 			"description": "Windows 10 Security Baseline",
@@ -157,7 +157,7 @@
 					"name": "###DomainNB### - Windows Workstation Baseline - Delta Policy - v0r8",
 					"order": 1,
 					"enforced": false
-				},	
+				},
 				{
 					"name": "DoD Windows 11 Computer STIG v1r2",
 					"order": 2

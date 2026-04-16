@@ -1,6 +1,6 @@
-﻿using NameSpace System.Management.Automation
+using NameSpace System.Management.Automation
 using NameSpace System.Management.Automation.Runspaces
-<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -19,19 +19,19 @@ function Add-DryADPSModulesPath{
     )
 
     try{
-        
-        
+
+
         # Add Path to $env:PSModulePath on the remote system, so functions are
-        # available without explicit import. 
-        
-        # Change double backslash to single, remove trailing backslash, and lastly make all 
+        # available without explicit import.
+
+        # Change double backslash to single, remove trailing backslash, and lastly make all
         # single backslashes double in the regex
-        $Path = ($Path.Replace('\\', '\')).TrimEnd('\')         
+        $Path = ($Path.Replace('\\', '\')).TrimEnd('\')
         $PathRegEx = $Path.Replace('\', '\\')
 
         $InvokePSModPathParams = @{
             ScriptBlock  = $DryAD_SB_PSModPath
-            Session      = $PSSession 
+            Session      = $PSSession
             ArgumentList = @($Path, $PathRegEx)
         }
         $RemotePSModulePaths = Invoke-Command @InvokePSModPathParams
@@ -49,13 +49,13 @@ function Add-DryADPSModulesPath{
 
         if($Modules){
             $ImportModsParams = @{
-                Session      = $PSSession 
-                ScriptBlock  = $DryAD_SB_ImportMods 
+                Session      = $PSSession
+                ScriptBlock  = $DryAD_SB_ImportMods
                 ArgumentList = @($Modules)
-                ErrorAction  = 'Stop' 
-            }   
+                ErrorAction  = 'Stop'
+            }
             $ImportResult = Invoke-Command @ImportModsParams
-    
+
             switch($ImportResult){
                 $true{
                     olad v "The modules '$Modules' were imported into PSSession to $($PSSession.ComputerName)"

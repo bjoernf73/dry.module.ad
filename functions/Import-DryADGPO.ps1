@@ -1,5 +1,5 @@
-﻿Using Namespace System.Management.Automation.Runspaces
-<#  
+Using Namespace System.Management.Automation.Runspaces
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -45,7 +45,7 @@ function Import-DryADGPO{
 
     olad v @('GPO Name', "'$($GPO.TargetName)'")
     olad v @('GPO Type', "'$($GPO.Type)'")
-    
+
     switch($GPO.type){
         'backup'{
             $BackupGPOPath = Join-Path -Path $GPOsPath -ChildPath $GPO.Name
@@ -73,7 +73,7 @@ function Import-DryADGPO{
             }
             $GPOImportResult = $null
             $GPOImportResult = Invoke-Command @InvokeCommandParams
-            
+
             # Log all remote messages to Out-DryADLog regardless of result
             foreach($ResultMessage in $GPOImportResult[2]){
                 olad d "[BACKUPGPO] $ResultMessage"
@@ -93,8 +93,8 @@ function Import-DryADGPO{
             olad v @('GPO File Path', "'$JsonGPOFilePath'")
 
             # Unless the json-gpo specifies a (bool) value for defaultpermissions, it is set to true, meaning
-            # meaning that permissions in the json-GPO is ignored, and the default security descriptor of the 
-            # groupPolicyContainer schema class is used.      
+            # meaning that permissions in the json-GPO is ignored, and the default security descriptor of the
+            # groupPolicyContainer schema class is used.
             if($null -eq $GPO.defaultpermissions){
                 [Bool]$GPODefaultPermissions = $true
             }

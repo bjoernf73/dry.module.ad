@@ -27,7 +27,7 @@ and returns an array of objects each containing a registry setting.
 Parse-PolFile [-Path <string>]  [<CommonParameters>]
 ```
 
-| Parameter Name | Description                                                                            | 
+| Parameter Name | Description                                                                            |
 | ---            | ---                                                                                    |
 | Path           | Specifies the path to the .pol file to be imported.                                    |
 
@@ -46,7 +46,7 @@ Reads given registry entries and returns an array of registry settings.
 Read-RegistryPolicies [-Division <string>] [-Entries <string[]>]  [<CommonParameters>]
 ```
 
-| Parameter Name | Description                                                                                          | 
+| Parameter Name | Description                                                                                          |
 | ---            | ---                                                                                                  |
 | Division       | Specifies the target registry division (LocalMachine, CurrentUser or Users)                          |
 | Entries        | Specifies the list of registry keys to be exported. The default value is set to 'Software\Policies'. |
@@ -71,7 +71,7 @@ This entry can be written in a .pol file later.
 $RegistrySettings = Create-RegistrySettingsEntry [-RegistryPolicy <GPRegistryPolicy[]>
 ```
 
-| Parameter Name | Description                                                                                          | 
+| Parameter Name | Description                                                                                          |
 | ---            | ---                                                                                                  |
 | RegistryPolicy | An instance of internal type 'GPRegistryPolicy'                                                      |
 
@@ -91,7 +91,7 @@ The file must already have a valid header.
 Append-RegistryPolicies [-RegistryPolicies <GPRegistryPolicy[]>] [-Path <string>]
 ```
 
-| Parameter Name   | Description                                                                                          | 
+| Parameter Name   | Description                                                                                          |
 | ---              | ---                                                                                                  |
 | RegistryPolicies | An array of instance of internal type 'GPRegistryPolicy'                                             |
 | Path             | Specifies the path to the .pol file to be imported.                                                  |

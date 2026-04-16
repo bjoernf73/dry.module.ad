@@ -1,11 +1,11 @@
-﻿<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
 #>
 
 [ScriptBlock]$DryAD_SB_JsonGPO_Import ={
-    [CmdLetBinding()] 
+    [CmdLetBinding()]
     param(
         [string]
         $Name,
@@ -26,18 +26,18 @@
         $Replacements
     )
     $Result = @($false, $null, '')
-    
+
     try{
         if(-not($null = get-command -Name 'Import-GroupPolicyToAD' -ErrorAction Ignore)){
             Import-Module -Name 'dry.ad.gpohelper' -Force -ErrorAction 'Stop' | Out-Null
         }
-        
+
         $GPOExistsAlreadyParams = @{
             Name             = $Name
             DomainController = $DomainController
         }
         [Bool]$GPOExistsAlready = Test-GroupPolicyExistenceInAD @GPOExistsAlreadyParams
-    
+
         if($GPOExistsAlready -and (-not $Force)){
             $Result[2] = 'GPO exists already and you didn''t -force (no change)'
             $Result[0] = $true
@@ -53,10 +53,10 @@
                 RemoveLinks             = $true
                 DoNotLinkGPO            = $true
             }
-            
+
             Import-GroupPolicyToAD @ImportGroupPolicyToADParams
             $Result[0] = $true
-            
+
             if($GPOExistsAlready -and $Force){
                 $Result[2] = 'An existing GPO was replaced (original renamed)'
             }
@@ -70,7 +70,7 @@
         $Result[0] = $false
         $Result[1] = $_
         $Result[2] = 'The GPO import failed'
-        return $Result    
+        return $Result
     }
     finally{
         @('GPOExistsAlreadyParams',

@@ -1,6 +1,6 @@
-﻿Using NameSpace System.Management.Automation
+Using NameSpace System.Management.Automation
 Using NameSpace System.Management.Automation.Runspaces
-<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -20,15 +20,15 @@ function Copy-DryADFilesToRemoteTarget{
         [PSSession]
         $PSSession
     )
-    
+
     try{
         olad v @('Copy Type', "$($PSCmdlet.ParameterSetName)")
         olad v @('Source Path', "$SourcePath")
         olad v @('Target Path', "$TargetPath")
-        # The PS Progress Bar is astonsishingly uninformative when copying multiple small 
-        # files - suppress, and bring it back to the original $ProgressPreference in Finally  
+        # The PS Progress Bar is astonsishingly uninformative when copying multiple small
+        # files - suppress, and bring it back to the original $ProgressPreference in Finally
         $OriginalProgressPreference = $ProgressPreference
-        
+
         # Remove any double backslashes and wildcards from target
         while ($TargetPath -match '\\\\'){
             $TargetPath = $TargetPath -Replace '\\\\', '\'
@@ -37,7 +37,7 @@ function Copy-DryADFilesToRemoteTarget{
         $TargetPathTrimmed = $TargetPathTrimmed.TrimEnd('\')
         $TargetPathTrimmed = $TargetPathTrimmed + '\'
         olad v @('Trimmed Target Path', "$TargetPathTrimmed")
-        
+
         # Remove any double backslashes and wildcards from source
         while ($SourcePath -match '\\\\'){
             $SourcePath = $SourcePath -Replace '\\\\', '\'
@@ -78,7 +78,7 @@ function Copy-DryADFilesToRemoteTarget{
         foreach($SourceDirectory in $SourceDirectories){
             $TargetDirectory = $TargetPathTrimmed + $($SourceDirectory.FullName).SubString($SourcePathTrimmed.Length)
             olad d @('Trying to create directory', $TargetDirectory)
-            
+
             $InvokeCommandParams = @{
                 ScriptBlock  = $DryAD_SB_CreateDir
                 ArgumentList = @($TargetDirectory)
@@ -103,7 +103,7 @@ function Copy-DryADFilesToRemoteTarget{
             }
         }
         #>
-        
+
         $ProgressPreference = 'SilentlyContinue'
         $CopyItemParams = @{
             Path        = $SourcePathTrimmed
@@ -118,7 +118,7 @@ function Copy-DryADFilesToRemoteTarget{
                 ToSession = $PSSession
             }
         }
-         
+
         Copy-Item @CopyItemParams
         olad v @('Successfully copied files to directory', $TargetPathTrimmed)
     }
@@ -127,7 +127,7 @@ function Copy-DryADFilesToRemoteTarget{
     }
     finally{
         $ProgressPreference = $OriginalProgressPreference
-        
+
         @('TargetPath',
             'TargetPathTrimmed',
             'SourcePath',

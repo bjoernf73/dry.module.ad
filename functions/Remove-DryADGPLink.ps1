@@ -1,5 +1,5 @@
-﻿Using Namespace System.Management.Automation.Runspaces
-<#  
+Using Namespace System.Management.Automation.Runspaces
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -40,7 +40,7 @@ function Remove-DryADGPLink{
         olad v @('Session Type', 'Local')
         olad v @('Using Domain Controller', "$Server")
     }
-  
+
     # Add the domainDN to $OU if not already done
     if($GPOLinkObject.Path -notmatch "$DomainDN$"){
         if(($GPOLinkObject.Path).Trim() -eq ''){
@@ -51,7 +51,7 @@ function Remove-DryADGPLink{
             $GPOLinkObject.Path = $GPOLinkObject.Path + ',' + $DomainDN
         }
     }
-    olad v @('Linking GPOs to', "$($GPOLinkObject.Path)") 
+    olad v @('Linking GPOs to', "$($GPOLinkObject.Path)")
 
     try{
         $RemoveLinkArgumentList = @($GPOLinkObject.Path, $LinkToRemove, $Server)
@@ -64,8 +64,8 @@ function Remove-DryADGPLink{
                 Session = $PSSession
             }
         }
-        $RemoveLinkRet = Invoke-Command @InvokeRemoveLinkParams 
-        
+        $RemoveLinkRet = Invoke-Command @InvokeRemoveLinkParams
+
         if($RemoveLinkRet[0] -eq $true){
             olad d "Successfully removed link for GPO '$LinkToRemove'"
         }

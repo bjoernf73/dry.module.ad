@@ -6,8 +6,8 @@ A logging and output-to-display module for dry.module.ad
 A logging and output-to-display module for dry.module.ad
 
 .PARAMETER Type
-Types follow Windows Streams, except for stream 6 - we use stream 1 (output) 
-to make it easier for a tool like ansible to comprehend the output. 
+Types follow Windows Streams, except for stream 6 - we use stream 1 (output)
+to make it easier for a tool like ansible to comprehend the output.
     Type 'e' = Error
     Type 'w' = Warning
     Type 'v' = Verbose
@@ -195,7 +195,7 @@ function Out-DryADLog{
 
         if($ADLoggingOptions."$Type".display_location){
             $DisplayLocation = $ADLoggingOptions."$Type".display_location
-        }  
+        }
         # determine the console width
         if($ADLoggingOptions.force_console_width){
             $ConsoleWidth = $ADLoggingOptions.force_console_width
@@ -246,21 +246,21 @@ function Out-DryADLog{
                 }
                 while ($FirstElement.length -lt ($ADLoggingOptions.array_first_element_length + (14-$TypeStringLength)))
             }
-            
+
             if($BlankFirstElement.length -lt ($ADLoggingOptions.array_first_element_length + (14-$TypeStringLength))){
                 do{
                     $BlankFirstElement = "$BlankFirstElement "
                 }
                 while ($BlankFirstElement.length -lt ($ADLoggingOptions.array_first_element_length + (14-$TypeStringLength)))
             }
-            
+
             $ArrayMessage = "$($FirstElement): $($SecondElement)"
-            
+
             if(($TargetMessageLength -gt $ADLoggingOptions.console_width_threshold) -and
                 ($ArrayMessage.Length -gt $TargetMessageLength)){
                 $ArrayMessages = $null
                 [array]$ArrayMessages = Split-DryString -Length ($TargetMessageLength - ("$($FirstElement): ").length ) -String $SecondElement
-                
+
                 switch($ArrayMessages.count){
                    {$_ -eq 1 }{
                         [System.Collections.Generic.List[string]]$Messages = @("$($ArrayMessages[0])")
@@ -275,7 +275,7 @@ function Out-DryADLog{
             }
             else{
                 [System.Collections.Generic.List[string]]$Messages = @("$ArrayMessage")
-            }                
+            }
         }
         foreach($MessageChunk in $Messages){
             if($MessageChunk.length -lt $TargetMessageLength){
@@ -284,7 +284,7 @@ function Out-DryADLog{
                 }
                 while ($MessageChunk.length -lt $TargetMessageLength)
             }
-            
+
             # Attach the pieces
             if($DisplayLocation){
                 $FullMessageChunk = $MessageChunk + $LocationString

@@ -1,6 +1,6 @@
-{	
-	"ou_schema": 
-	[		
+{
+	"ou_schema":
+	[
 		{
 			"alias": "DomainRoot",
 			"description": "Root of domain",
@@ -20,7 +20,7 @@
 			"alias": "Computer-Workstations",
 			"description": "Root OU for Server Computer Objects",
 			"path": "###org###/Workstations"
-			
+
 		},
 		{
 			"alias": "Roles-Root",
@@ -31,7 +31,7 @@
 			"alias": "Roles",
 			"description": "OU for Roles of role '###RoleShortName###'",
             "parent_alias": "Roles-Root",
-            "child_path": "###RoleShortName###"	
+            "child_path": "###RoleShortName###"
 		},
 		{
 			"alias": "Roles-Protected",
@@ -54,7 +54,7 @@
 			"alias": "Rights-Protected",
 			"description": "OU for Protected Rights groups (groups with AdminCount=1)",
             "parent_alias": "Rights-Root",
-            "child_path": "Protected"	
+            "child_path": "Protected"
 		}
 	]
 }

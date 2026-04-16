@@ -1,29 +1,29 @@
-﻿Using NameSpace System.Management.Automation.Runspaces
-<#  
+Using NameSpace System.Management.Automation.Runspaces
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
 #>
 function Get-DryADServiceProperty{
-    [CmdletBinding(DefaultParameterSetName = 'Local')] 
-    param( 
+    [CmdletBinding(DefaultParameterSetName = 'Local')]
+    param(
         [Parameter(Mandatory, HelpMessage = "The property to get")]
-        [string] 
+        [string]
         $Property,
 
         [Parameter(Mandatory, HelpMessage = "Tells which function to run; Get-ADDomain, Get-ADForest or Get-ADRootDse")]
         [ValidateSet('domain', 'forest', 'rootdse')]
-        [string] 
+        [string]
         $Service,
 
         [Parameter(Mandatory, ParameterSetName = 'Remote',
             HelpMessage = "PSSession to run the script blocks in")]
-        [PSSession] 
+        [PSSession]
         $PSSession,
 
         [Parameter(Mandatory, ParameterSetName = 'Local',
             HelpMessage = "For 'Local' sessions, specify the Domain Controller to use")]
-        [string] 
+        [string]
         $DomainController
     )
 
@@ -41,12 +41,12 @@ function Get-DryADServiceProperty{
             }
             'forest'{
                 $ScriptBlock = $DryAD_SB_ADForestProperty_Get
-            } 
+            }
             'rootdse'{
                 $ScriptBlock = $DryAD_SB_ADRootDseProperty_Get
             }
         }
-        
+
         $ArgumentList = @($Property, $Server)
         $InvokeParams = @{
             ScriptBlock  = $ScriptBlock
@@ -57,7 +57,7 @@ function Get-DryADServiceProperty{
                 Session = $PSSession
             }
         }
-        $return = $null; 
+        $return = $null;
         $return = Invoke-Command @InvokeParams
 
         if($return -is [ErrorRecord]){

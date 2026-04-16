@@ -1,4 +1,4 @@
-﻿<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -15,27 +15,27 @@
         [string]
         $Server
     )
-    
+
     try{
-        [string]$DomainDN = (Get-ADDomain -Server $Server -ErrorAction Stop | 
+        [string]$DomainDN = (Get-ADDomain -Server $Server -ErrorAction Stop |
                 Select-Object -Property distinguishedName).distinguishedName
         if($TargetOU -notmatch "$DomainDN$"){
             $TargetOU = $TargetOU + ",$DomainDN"
         }
-        
+
         $GetADComputerParams = @{
             Identity    = $ComputerName
-            Server      = $Server 
+            Server      = $Server
             ErrorAction = 'Stop'
         }
         $TargetComputer = Get-ADComputer @GetADComputerParams
 
         $MoveADObjectParams = @{
             TargetPath  = $TargetOU
-            Server      = $Server 
+            Server      = $Server
             ErrorAction = 'Stop'
         }
-        $TargetComputer | 
+        $TargetComputer |
             Move-ADObject @MoveADObjectParams
         $true
     }

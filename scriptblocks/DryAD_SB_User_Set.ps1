@@ -1,17 +1,17 @@
-﻿<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
 #>
 
-[ScriptBlock]$DryAD_SB_User_Set ={ 
+[ScriptBlock]$DryAD_SB_User_Set ={
     param(
         $UserSpec,
         $ExecutionType,
         $Server,
         $Secret
-    ) 
-    
+    )
+
     try{
         # The function that finds certificate, decrypts, converts to secure string
         function Convert-DryADEncryptedBase64ToSecureString{
@@ -27,18 +27,18 @@
                 #   - a private key accessible
                 #   - of type SHA256 RSA (ECDH does not work)
                 #   - 'Server Authentiaction' as part of the Enhanced Key Usage
-                $Cert = Get-ChildItem -Path Cert:\LocalMachine\My -ErrorAction Stop | 
-                    Where-Object{ 
-                    ($_.HasPrivateKey -eq $true) -and 
+                $Cert = Get-ChildItem -Path Cert:\LocalMachine\My -ErrorAction Stop |
+                    Where-Object{
+                    ($_.HasPrivateKey -eq $true) -and
                     ($_.SignatureAlgorithm.FriendlyName -eq 'SHA256RSA') -and
-                    (@(($_.EnhancedKeyUsageList).FriendlyName) -contains 'Server Authentication')  
+                    (@(($_.EnhancedKeyUsageList).FriendlyName) -contains 'Server Authentication')
                     }
-        
+
                 # If multiple, use first
                 if($Cert -is [array]){
                     $Cert = $Cert[0]
                 }
-                
+
                 if($Cert){
                     $EncryptedByteArray = [Convert]::FromBase64String($EncryptedBase64String)
                     $ClearText = [System.Text.Encoding]::UTF8.GetString($Cert.PrivateKey.Decrypt($EncryptedByteArray, $true))
@@ -57,9 +57,9 @@
         }
 
         # Define variables
-        $ADRootDSE = Get-ADRootDSE 
+        $ADRootDSE = Get-ADRootDSE
         $DomainDN = $ADRootDSE.DefaultNamingContext
-        
+
         # Add DomainDN to path if not already added
         if($UserSpec['Path'] -notmatch "$DomainDN$"){
             $UserSpec['Path'] = $UserSpec['Path'] + ",$DomainDN"

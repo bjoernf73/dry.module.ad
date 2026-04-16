@@ -1,5 +1,5 @@
 Using Namespace System.Management.Automation.Runspaces
-<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -34,4 +34,4 @@ foreach($Exportedfunction in $ExportedFunctions){
 $modulePath = Join-Path -Path $PSScriptRoot -child 'helpers'
 if(-not ($env:PSModulePath -split ";" | ForEach-Object{ $_.Trim() } | Where-Object{ $_ -ieq $modulePath })){
     $env:PSModulePath += ";$modulePath"
-} 
+}

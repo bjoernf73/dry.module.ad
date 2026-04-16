@@ -11,8 +11,8 @@ function Split-DryString{
         [int]$Length,
 
         [Parameter(HelpMessage="In order not to split a sentence in the middle of a word, the function
-        will search the last 10 by default (or the number of `$WhiteSpaceAtEndChars) chars of each line, 
-        for a whitespace. If a whitespace is found within those chars, it will split at the whitespace 
+        will search the last 10 by default (or the number of `$WhiteSpaceAtEndChars) chars of each line,
+        for a whitespace. If a whitespace is found within those chars, it will split at the whitespace
         instead of exactly at `$Length")]
         [int]$WhiteSpaceAtEndChars = 10
     )
@@ -34,8 +34,8 @@ function Split-DryString{
         # If such a whitespace is found, we split at that instead
         if($String.Length -gt ($i+$Line.Length+1)){
             if(
-                ($Line.Length -eq $Length) -and 
-                ($String.Substring($i+$Line.Length,1) -ne ' ') -and 
+                ($Line.Length -eq $Length) -and
+                ($String.Substring($i+$Line.Length,1) -ne ' ') -and
                 ($Line.Substring($Line.Length-1) -ne ' ')
             ){
                 $LastWhiteSpace = ($Line.Substring($Line.Length-$WhiteSpaceAtEndChars)).LastIndexOf(' ')

@@ -1,13 +1,13 @@
-﻿Using Namespace System.Management.Automation.Runspaces
+Using Namespace System.Management.Automation.Runspaces
 Using Namespace Microsoft.Win32
-<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
 #>
 
 function Set-DryADRemoteRegistry{
-    [CmdletBinding()] 
+    [CmdletBinding()]
     param(
         [Parameter()]
         [ValidateSet('HKEY_CLASSES_ROOT', 'HKEY_CURRENT_USER', 'HKEY_LOCAL_MACHINE', 'HKEY_USERS', 'HKEY_CURRENT_CONFIG', 'HKEY_DYN_DATA')]
@@ -25,37 +25,37 @@ function Set-DryADRemoteRegistry{
         [Parameter(Mandatory)]
         [ValidateSet('Binary', 'Dword', 'ExpandString', 'MultiString', 'QWord', 'String')]
         [RegistryValueKind]$ValueType,
-        
+
         [Parameter(HelpMessage = "PSSession to the target system")]
         [PSSession]$PSSession
     )
     try{
-    
+
         switch($BaseKey){
-            'HKEY_CLASSES_ROOT'{ 
-                [uint32]$BaseKeyInt = 2147483648 
+            'HKEY_CLASSES_ROOT'{
+                [uint32]$BaseKeyInt = 2147483648
             }
-            'HKEY_CURRENT_USER'{ 
-                [uint32]$BaseKeyInt = 2147483649 
+            'HKEY_CURRENT_USER'{
+                [uint32]$BaseKeyInt = 2147483649
             }
-            'HKEY_LOCAL_MACHINE'{ 
-                [uint32]$BaseKeyInt = 2147483650 
+            'HKEY_LOCAL_MACHINE'{
+                [uint32]$BaseKeyInt = 2147483650
             }
-            'HKEY_USERS'{ 
-                [uint32]$BaseKeyInt = 2147483651 
+            'HKEY_USERS'{
+                [uint32]$BaseKeyInt = 2147483651
             }
-            'HKEY_CURRENT_CONFIG'{ 
-                [uint32]$BaseKeyInt = 2147483653 
+            'HKEY_CURRENT_CONFIG'{
+                [uint32]$BaseKeyInt = 2147483653
             }
-            'HKEY_DYN_DATA'{ 
-                [uint32]$BaseKeyInt = 2147483654 
+            'HKEY_DYN_DATA'{
+                [uint32]$BaseKeyInt = 2147483654
             }
-            default{ 
+            default{
                 throw "Unknown BaseKey: $BaseKey"
             }
         }
         $LeafKey = $LeafKey.Replace('\\', '\')
-      
+
         switch($ValueType){
             'Binary'{
                 # System.Management.ManagementBaseObject GetBinaryValue(System.UInt32 hDefKey, System.String sSubKeyName, System.String sValueName)
@@ -72,20 +72,20 @@ function Set-DryADRemoteRegistry{
                     )
 
                     $Result = @($false, $null)
-                    try{     
+                    try{
                         $InvokeCimMethodParams = @{
-                            'Namespace'   = 'root\cimv2' 
-                            'ClassName'   = 'StdRegProv' 
-                            'MethodName'  = 'SetDWORDvalue' 
+                            'Namespace'   = 'root\cimv2'
+                            'ClassName'   = 'StdRegProv'
+                            'MethodName'  = 'SetDWORDvalue'
                             'Arguments'   = @{hDefKey = $BaseKeyInt; sSubKeyName = $LeafKey; sValueName = $ValueName; uValue = $ValueData }
                             'ErrorAction' = 'Stop'
                         }
                         Invoke-CimMethod @InvokeCimMethodParams | Out-Null
                         $Result[0] = $true
-                    } 
+                    }
                     catch{
                         $Result[1] = $_
-                    }  
+                    }
                     finally{
                         $Result
                     }
@@ -101,7 +101,7 @@ function Set-DryADRemoteRegistry{
                         'Session' = $PSSession
                     }
                 }
-                $Result = Invoke-Command @InvokeCommandParams    
+                $Result = Invoke-Command @InvokeCommandParams
             }
             'ExpandString'{
                 # System.Management.ManagementBaseObject GetExpandedStringValue(System.UInt32 hDefKey, System.String sSubKeyName, System.String sValueName)
@@ -112,11 +112,11 @@ function Set-DryADRemoteRegistry{
                 # System.Management.ManagementBaseObject GetMultiStringValue(System.UInt32 hDefKey, System.StringsSubKeyName, System.String sValueName)
                 olad e "Value Type 'MultiString' is not implemented"
                 $CurrentValue = $Class.GetMultiStringValue($BaseKeyInt, $LeafKey, $ValueName)
-            } 
+            }
             'QWord'{
                 olad e "Value Type 'Qword' is not implemented"
                 $CurrentValue = $Class.GetQWordValue($BaseKeyInt, $LeafKey, $ValueName)
-            } 
+            }
             'String'{
                 # System.Management.ManagementBaseObject GetStringValue(System.UInt32 hDefKey, System.String sSubKeyName, System.String sValueName)
                 olad e "Value Type 'String' is not implemented"
@@ -138,6 +138,6 @@ function Set-DryADRemoteRegistry{
         $PSCmdlet.ThrowTerminatingError($_)
     }
     finally{
-        
-    } 
+
+    }
 }

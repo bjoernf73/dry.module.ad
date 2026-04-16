@@ -5,15 +5,15 @@ function Convert-DNToUnixPath{
         [switch]$RemoveLeaf
     )
     # Split the DN by commas, filter out 'DC=' components, reverse and replace 'OU='
-    $pathParts = @($DistinguishedName -split "," | 
-        Where-Object{ $_ -notmatch "^DC=" } | 
+    $pathParts = @($DistinguishedName -split "," |
+        Where-Object{ $_ -notmatch "^DC=" } |
         ForEach-Object{ $_ -replace "^OU=", "" })
-    
+
     # remove the object itself - we only want the path
     if($RemoveLeaf){
         $pathParts = $pathParts[1..($pathParts.Length - 1)]
     }
-    
+
     # if there are CN's in the path, we cannot convert to unix path - just delete the DC-part
     $containsCN = $false
     foreach($part in $pathParts){
@@ -23,7 +23,7 @@ function Convert-DNToUnixPath{
     }
 
     if($true -eq $containsCN){
-        # just return the distingushedname without DC-part - but remove the element itself 
+        # just return the distingushedname without DC-part - but remove the element itself
         return ($pathParts -join ",")
     }
     else{

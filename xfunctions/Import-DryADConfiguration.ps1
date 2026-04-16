@@ -1,7 +1,7 @@
-﻿using Namespace System.IO
+using Namespace System.IO
 using Namespace System.Management.Automation
 using Namespace System.Collections.Generic
-<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -9,7 +9,7 @@ using Namespace System.Collections.Generic
 function Import-DryADConfiguration{
     [CmdLetBinding(DefaultParameterSetName = 'Local')]
     param(
-        [Parameter(HelpMessage='Variables are used for to replace "replacement patterns" in configs and GPOs. The replacement-pattern in dry.module.ad is: 
+        [Parameter(HelpMessage='Variables are used for to replace "replacement patterns" in configs and GPOs. The replacement-pattern in dry.module.ad is:
 ###name###
 In your configuration, any value ####MyVar### will be replaced by the value in custom objects created with for instance:
 PS C:\> $MyVariables = @(
@@ -36,7 +36,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -Variables $MyVariables ...')]
         "value": "TheValueToReplaceMyOtherVar"
     }
 ]
-and you call the function like: 
+and you call the function like:
 PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         [ValidateScript({Resolve-Path -Path $_ })]
         [fileinfo]$VariablesPath,
@@ -47,7 +47,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
         [Parameter(HelpMessage = "Array of one or more Types to process. By default, all are processed")]
         [ValidateSet('ou_schema', 'security_groups', 'group_members', 'rights', 'gpo_imports', 'gpo_links',
-        'wmi_filters', 'wmi_filters_links', 'ad_schema', 'netlogon', 'adm_templates', 'users', 'users_memberof')] 
+        'wmi_filters', 'wmi_filters_links', 'ad_schema', 'netlogon', 'adm_templates', 'users', 'users_memberof')]
         [string[]]$Types,
 
         [Parameter(Mandatory, ParameterSetName = 'Local', HelpMessage = "Specify a resolvable name or IP to a Domain Controller to perform AD actions on")]
@@ -69,7 +69,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
         $GlobalDebugPreference = $GLOBAL:DebugPreference
         $GlobalVerbosePreference = $GLOBAL:VerbosePreference
- 
+
         if($PSBoundParameters.ContainsKey('Debug') -or ($GLOBAL:DebugPreference -eq 'Continue')){
             Write-Host "setting to true"
             $GLOBAL:DebugPreference = 'Continue'
@@ -85,14 +85,14 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
         $ConfigurationPath = (Resolve-Path -Path $ConfigurationPath -ErrorAction Stop).Path
         olad i 'ConfigurationPath', "$ConfigurationPath"
-        
+
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   VARIABLES
-        #    
+        #
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        
+
         # Automatic Variables
         if($ExecutionType -eq 'Remote'){
             $ConfigurationPublicCertificatePath = Join-Path -Path $ConfigurationPath -ChildPath "RemoteSystemPublicCertificate.cer"
@@ -112,7 +112,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             $SchemaMaster = Get-DryADServiceProperty -Service 'forest' -Property 'SchemaMaster' -DomainController $DomainController
         }
         $AutomaticVariables = @('DomainDN', 'DomainFQDN', 'DomainNB', 'ConfigurationNC', 'SchemaNC', 'SchemaMaster')
-        
+
         # Variables from json file, $VariablesPath
         if($VariablesPath){
             $VariablesPath = (Resolve-Path -Path $VariablesPath -ErrorAction Stop).Path
@@ -120,7 +120,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             # combine $Variables and objects from $VariablesPath json
             $Variables += Get-DryADJson -File $VariablesPath
         }
-       
+
         # Add the automatic variables to the $Variables array, but warn if they overlap with input variables
         $AutomaticVariables.foreach({
             $CurrentAutomaticVariable = $_
@@ -139,7 +139,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     My value is extracted from the system - is your value wrong, or is it from a different system? Your value will overwrite the `
                     automatic variable, but if you made a mistake, you should quit now (crtl+c), remove the variable, and try again. I'll sleep for `
                     20 seconds to give you some time to think, unless you used the -NoConfirm switch, in which case I'll just continue."
-                    
+
                     if($NoConfirm){
                         olad i "NoConfirm switch is set - continuing without waiting"
                     }
@@ -150,15 +150,15 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                             Write-Progress -Activity "Waiting..." -Status "Countdown: $i seconds remaining" -PercentComplete $percentComplete
                             Start-Sleep -Seconds 1
                         }
-                        $MatchingVariable.Value = $CurrentAutomaticVariableValue 
-                    }    
+                        $MatchingVariable.Value = $CurrentAutomaticVariableValue
+                    }
                 }
                 else{
                     olad w "Variable '$CurrentAutomaticVariable' already exists as an Automatic Variable - you don't have to specify it."
                 }
             }
         })
-        
+
         # For debug - display all variables
         olad i ""
         olad i "Variables" -sh #-air
@@ -170,16 +170,16 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                 olad i @("[input] '$($variable.name)'","'$($variable.Value)'")
             }
             # warn if whitespaces at start or end of name or value
-            if(( $variable.name -match '^\s') -or 
-                ( $variable.name -match '\s$') -or 
-                ( $variable.value -match '^\s') -or 
+            if(( $variable.name -match '^\s') -or
+                ( $variable.name -match '\s$') -or
+                ( $variable.value -match '^\s') -or
                 ( $variable.value -match '\s$')){
                 olad w "Variable '$($variable.name)'='$($variable.value)' contains one or more whitespace characters at the start or end of it's name or value."
             }
         }
-        
+
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   REPLACEMENT HASH
         #   In configurations, patterns matching the format ###name### will be replaced
         #   if there is a variable with name 'name'
@@ -189,9 +189,9 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         foreach($Var in $Variables){
             $ReplacementHash.Add("###$($Var.Name)###", $Var.Value)
         }
-        
+
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   AD CONFIGURATION OBJECT
         #   Pick up all jsons (*.json) in $ConfigurationPath, and merge
         #   into $ADConfiguration
@@ -200,14 +200,14 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         Remove-Variable -Name ADConfiguration, ADConfObject, ConfigurationPathFiles -ErrorAction Ignore
         $ADConfiguration = New-Object -TypeName PSCustomObject
         $ConfigurationPathFiles = @(Get-ChildItem -Path "$ConfigurationPath\*" -Include "*.jsonc", "*.json" -ErrorAction Stop)
-        
+
         foreach($ADConfFile in $ConfigurationPathFiles){
             $ADConfObject = Get-DryADJson -Path $ADConfFile.FullName -ErrorAction Stop
             $ADConfiguration = (Merge-DryADPSObjects -FirstObject $ADConfiguration -SecondObject $ADConfObject)
         }
- 
+
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   CASING
         #   Variables that specifies case modification of OUs, GPOs, groups and users.
         #   Valid values are 'UPPER', lower', 'Capitalized' and 'ignore'. Defaults
@@ -225,10 +225,10 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         if($ADConfiguration.casing.ad_gpo_case){
             [string]$GPOCase = $ADConfiguration.casing.ad_gpo_case
         }
-        if($ADConfiguration.casing.ad_group_case){ 
+        if($ADConfiguration.casing.ad_group_case){
             [string]$GroupCase = $ADConfiguration.casing.ad_group_case
         }
-        if($ADConfiguration.casing.ad_user_case){ 
+        if($ADConfiguration.casing.ad_user_case){
             [string]$UserCase = $ADConfiguration.casing.ad_user_case
         }
 
@@ -238,7 +238,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         olad v 'Casing - Users',  "$UserCase"
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   PROGRESS COUNTERS
         #   Counts configurations to process before start, to show
         #   a progress bar during configuration
@@ -248,90 +248,90 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         [int]$NumberOfElementsToProcess = 0
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   AD SCHEMA
-        #   Action: Get and Count 
+        #   Action: Get and Count
         #   Dataset: $ADConfiguration
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if(Test-Path -Path "$ConfigurationPath\ad_schema" -ErrorAction Ignore){
-            if(($Types -icontains 'ad_schema') -or ($null -eq $Types)){ 
+            if(($Types -icontains 'ad_schema') -or ($null -eq $Types)){
                 $ProcessADSchema = $true
                 $ADSchemaExtensions = @(Get-ChildItem -Path "$ConfigurationPath\ad_schema\*" -Include "*.ldf")
                 $NumberOfElementsToProcess += $ADSchemaExtensions.Count
-            } 
+            }
             $NumberOfADSchemaExtensions = $ADSchemaExtensions.Count
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   NETLOGON
-        #   Action: Count 
+        #   Action: Count
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if(Test-Path -Path "$ConfigurationPath\netlogon" -ErrorAction Ignore){  
-            if(($Types -icontains 'netlogon') -or 
+        if(Test-Path -Path "$ConfigurationPath\netlogon" -ErrorAction Ignore){
+            if(($Types -icontains 'netlogon') -or
                 ($null -eq $Types)){
 
                 $ProcessNETLOGON = $true
                 $NumberOfElementsToProcess++
                 $NumberOfNETLOGONs = 1
-            } 
+            }
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   adm_templates
-        #   Action: Count 
+        #   Action: Count
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if(Test-Path -Path "$ConfigurationPath\adm_templates" -ErrorAction Ignore){  
-            if(($Types -icontains 'adm_templates') -or ($null -eq $Types)){ 
+        if(Test-Path -Path "$ConfigurationPath\adm_templates" -ErrorAction Ignore){
+            if(($Types -icontains 'adm_templates') -or ($null -eq $Types)){
                 $ProcessAdmTemplates = $true
                 $NumberOfElementsToProcess++
-            } 
+            }
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   ORGANIZATIONAL UNITS
         #   Action: Get, Count and String Replacement
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if($ADConfiguration.ou_schema){
             [array]$DomainOUs = @($ADConfiguration.ou_schema)
-            if(($Types -icontains 'ou_schema') -or ($null -eq $Types)){ 
-                $ProcessOUs = $true 
+            if(($Types -icontains 'ou_schema') -or ($null -eq $Types)){
+                $ProcessOUs = $true
                 $NumberOfElementsToProcess += $DomainOUs.Count
             }
         }
 
-        # Resolve replacement patterns 
+        # Resolve replacement patterns
         if($DomainOUs){
             $DomainOUs = Resolve-DryADReplacementPatterns -inputobject $DomainOUs -Variables $Variables
         }
         $NumberOfOUs = $DomainOUs.Count
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   ORGANIZATIONAL UNITS PATHS
         #   Action: Resolve .path from .parent_alias and .child_path
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        
+
         $AnOUWasResolved = $true
         do{
-            $AnOUWasResolved = $false 
+            $AnOUWasResolved = $false
             # Loop through DomainOUs that already have a path
             foreach($ResolvedOU in $DomainOUs | Where-Object{ $null -ne $_.path }){
-                
+
                 # Loop through DomainOUs that do not have a path
                 foreach($UnresolvedOU in $DomainOUs | Where-Object{ $null -eq $_.path }){
                     try{
                         if($UnresolvedOU.parent_alias -eq $ResolvedOU.alias){
                             $Path = ($ResolvedOU.path + '/' + $UnresolvedOU.child_path) -replace '//', '/'
                             $AnOUWasResolved = $true #keeps the loop going
-                            
+
                             # Add Path property and remove parent_alias and child_path
                             $UnresolvedOU | Add-Member -MemberType NoteProperty -Name 'Path' -Value $Path -Force
                             $UnresolvedOU.PSObject.Properties.Remove('parent_alias')
@@ -349,7 +349,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         }
         While ($AnOUWasResolved)
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   ORGANIZATIONAL UNITS PATHS
         #   Action: Display resolved paths
         #
@@ -365,27 +365,27 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                 }
             }
         }
-    
+
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   ORGANIZATIONAL UNITS PATHS
-        #   Action: Convert To 'distinguishedName' 
+        #   Action: Convert To 'distinguishedName'
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         foreach($OU in $DomainOUs){
             $OU.Path = ConvertTo-DryADDistinguishedName -Name $OU.Path -Case $OUcase
-            olad d "Domain OU dN for $($OU.Alias) is: '$($OU.Path)'" 
+            olad d "Domain OU dN for $($OU.Alias) is: '$($OU.Path)'"
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   WMI Filter Imports and Links
         #   Action: Get, Count and String Replacement
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if(($Types -icontains 'wmi_filters') -or 
-            ($Types -icontains 'wmi_filters_links') -or 
-            ($null -eq $Types)){ 
+        if(($Types -icontains 'wmi_filters') -or
+            ($Types -icontains 'wmi_filters_links') -or
+            ($null -eq $Types)){
             if($ADConfiguration.wmi_filters){
                 [array]$DomainWMIFilters += @($ADConfiguration.wmi_filters)
                 $DomainWMIFilters = Resolve-DryADReplacementPatterns -inputobject $DomainWMIFilters -Variables $Variables
@@ -412,7 +412,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   SECURITY GROUPS
         #   Action: Get, Count, String Replacement, Resolve Paths and Convert Case
         #
@@ -420,7 +420,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
         if($ADConfiguration.security_groups){
             $DomainSecurityGroups = @($ADConfiguration.security_groups)
-            if(($Types -icontains 'security_groups') -or ($null -eq $Types)){ 
+            if(($Types -icontains 'security_groups') -or ($null -eq $Types)){
                 $ProcessSecurityGroups = $true
                 $NumberOfElementsToProcess += $DomainSecurityGroups.Count
                 $NumberOfSecurityGroups = $DomainSecurityGroups.Count
@@ -435,7 +435,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                         $Path = Get-DryADOUPathFromAlias -Alias $SecurityGroup.Alias -OUs $DomainOUs
                         $SecurityGroup | Add-Member -MemberType NoteProperty -Name path -Value $Path
                     }
-                    # Convert to $GroupCase 
+                    # Convert to $GroupCase
                     $SecurityGroup.name = ConvertTo-DryADCase -Name $SecurityGroup.name -Case $Groupcase
                 }
                 # Ensure Path is a distinguishedname
@@ -444,14 +444,14 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   GROUP MEMBERS
         #   Action: Count
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         $NumberOfDomainMemberAndMemberOf = 0
-       
-        if(($Types -icontains 'group_members') -or ($null -eq $Types)){ 
+
+        if(($Types -icontains 'group_members') -or ($null -eq $Types)){
             $ProcessGroupMembers = $true
 
             foreach($DomainSecurityGroup in $DomainSecurityGroups){
@@ -462,12 +462,12 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   RIGHTS
         #   Action: Count and Resolve Paths
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if(($Types -icontains 'rights') -or ($null -eq $Types)){ 
+        if(($Types -icontains 'rights') -or ($null -eq $Types)){
             $ProcessRights = $true
             $NumberOfDomainRights = 0
 
@@ -481,51 +481,51 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                         $Path = Get-DryADOUPathFromAlias -Alias $DomainRight.Alias -OUs $DomainOUs
                         $DomainRight | Add-Member -MemberType NoteProperty -Name Path -Value $Path
 
-                        # Once resolved, remove Alias. 
+                        # Once resolved, remove Alias.
                         $DomainRight.PSObject.Properties.Remove('Alias')
                     }
                     # Ensure Path is a distinguishedname
                     $DomainRight.path = ConvertTo-DryADDistinguishedName -Name $DomainRight.path -Case 'Ignore'
                 }
-                
+
             }
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   GROUP POLICY IMPORTS
         #   Action: Count and String replacement
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if(($Types -icontains 'gpo_imports') -or ($null -eq $Types)){  
-            if($ADConfiguration.gpo_imports){   
-                $ProcessGPOImports = $true   
+        if(($Types -icontains 'gpo_imports') -or ($null -eq $Types)){
+            if($ADConfiguration.gpo_imports){
+                $ProcessGPOImports = $true
                 $DomainGPOImports = @($ADConfiguration.gpo_imports)
-                
-                # If the configuration set contains json-gpos... 
+
+                # If the configuration set contains json-gpos...
                 $JsonGPOImports = @($ADConfiguration.gpo_imports | Where-Object{$_.type -eq 'json'})
                 $RequiresGPOHelper = $false
                 if($JsonGPOImports.count -gt 0){
                     $RequiresGPOHelper = $true
                 }
- 
+
                 $NumberOfElementsToProcess += $DomainGPOImports.Count
-                $NumberOfGPOImports += $DomainGPOImports.Count 
+                $NumberOfGPOImports += $DomainGPOImports.Count
                 $DomainGPOImports = Resolve-DryADReplacementPatterns -inputobject $DomainGPOImports -Variables $Variables
             }
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   GROUP POLICY LINKS
         #   Action: Count, String replacement and Resolve paths from aliases
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if(($Types -icontains 'gpo_links') -or ($null -eq $Types)){  
-            if($ADConfiguration.gpo_links){  
+        if(($Types -icontains 'gpo_links') -or ($null -eq $Types)){
+            if($ADConfiguration.gpo_links){
                 $ProcessGPOLinks = $true
                 $DomainGPOLinks = @($ADConfiguration.gpo_links)
-                $DomainGPOLinksCount = 0 
+                $DomainGPOLinksCount = 0
                 foreach($DomainGPOLink in $DomainGPOLinks){
                     $DomainGPOLink.gplinks.foreach({
                         $DomainGPOLinksCount++
@@ -536,7 +536,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
                 # String Replacements
                 $DomainGPOLinks = Resolve-DryADReplacementPatterns -inputobject $DomainGPOLinks -Variables $Variables
-                
+
                 # Resolve Domain Paths from OU schema
                 foreach($DomainGPOLink in $DomainGPOLinks){
                     if($null -eq $DomainGPOLink.path){
@@ -546,27 +546,27 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     # Ensure Path is a distinguishedname
                     $DomainGPOLink.path = ConvertTo-DryADDistinguishedName -Name $DomainGPOLink.path -Case 'Ignore'
                 }
-                
-            } 
+
+            }
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   USERS
         #   Action: Count, String replacement, resolve OUs
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if(($Types -icontains 'users') -or ($null -eq $Types)){  
+        if(($Types -icontains 'users') -or ($null -eq $Types)){
             if($ADConfiguration.users){
-                
+
                 $DomainUsers = @($ADConfiguration.users)
-                if(($Types -icontains 'users') -or ($null -eq $Types)){ 
+                if(($Types -icontains 'users') -or ($null -eq $Types)){
                     $ProcessUsers = $true
                     $NumberOfElementsToProcess += $DomainUsers.Count
                     $NumberOfUsers = $DomainUsers.Count
                 }
 
-                # Replace any replacement pattern 
+                # Replace any replacement pattern
                 if($DomainUsers.count -gt 0){
                     $DomainUsers = @(Resolve-DryADReplacementPatterns -inputobject $DomainUsers -Variables $Variables)
                 }
@@ -583,18 +583,18 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
                     # Ensure Path is a distinguishedname
                     $User.path = ConvertTo-DryADDistinguishedName -Name $User.path -Case 'Ignore'
-                }  
+                }
             }
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   USER'S GROUP MEMBERSHIPS
         #   Action: Count
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        if(($Types -icontains 'users_memberof') -or ($null -eq $types)){  
-            
+        if(($Types -icontains 'users_memberof') -or ($null -eq $types)){
+
             $ProcessUserMemberOf = $true
             # Count User's MemberOfs
             $NumberOfDomainUserMemberOf = 0
@@ -605,13 +605,13 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   AD DRIVE
-        #   Action: Make sure the AD Drive on the executing system is created when 
+        #   Action: Make sure the AD Drive on the executing system is created when
         #   importing the ActiveDirectory module, and that it points to the correct
-        #   Domain Controller.  
-        #   - If Remote execution, we remote into a Domain Controller, and the AD 
-        #     drive should be pointed to localhost. 
+        #   Domain Controller.
+        #   - If Remote execution, we remote into a Domain Controller, and the AD
+        #     drive should be pointed to localhost.
         #   - If Local execution, the AD Drive should point to $DomainController
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -627,9 +627,9 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                 Set-DryADDrive -DomainController $DomainController
             }
         }
-        
+
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   AD WEB SERVICES ON DOMAIN CONTROLLER
         #   Action: Test, and wait for the service to become available
         #
@@ -640,9 +640,9 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   SCHEMA UPDATES 
-        #   Action: Invoke/Update. Will only work when 'Remote' and $DomainController 
+        #
+        #   SCHEMA UPDATES
+        #   Action: Invoke/Update. Will only work when 'Remote' and $DomainController
         #   is the Schema Master
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -656,10 +656,10 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                 $WriteProgressParameters = @{
                     Activity        = 'Configuring Active Directory'
                     Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Schema extension: $($ADSchemaExtension.BaseName)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
                 }
                 Write-Progress @WriteProgressParameters
-                
+
                 $ADSchemaExtJson = Get-Content -Path (Join-Path -Path (Split-Path -Path $ADSchemaExtension.FullName) -ChildPath "$($ADSchemaExtension.BaseName).json") |
                     ConvertFrom-Json -ErrorAction 'Stop'
 
@@ -670,14 +670,14 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     SuccessCount = $ADSchemaExtJson.success_string_match_count
                     Content      = $ADSchemaExtContent
                     Variables    = $Variables
-                    SchemaMaster = $SchemaMaster 
+                    SchemaMaster = $SchemaMaster
                 }
                 if($ExecutionType -eq 'Remote'){
                     $ExtendDryADSchemaParams += @{
                         PSSession = $PSSession
                     }
                 }
-                
+
                 olad i 'Extending AD Schema, type', "$($ADSchemaExtension.BaseName)"
                 Set-DryADSchemaExtension @ExtendDryADSchemaParams
             }
@@ -689,9 +689,9 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         } # if($ProcessSchema)
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   NETLOGON
-        #   Action: Configure 
+        #   Action: Configure
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if($ProcessNETLOGON){
@@ -702,7 +702,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             $WriteProgressParameters = @{
                 Activity        = 'Configuring Active Directory'
                 Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): NETLOGON"
-                PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
             }
             Write-Progress @WriteProgressParameters
             $NETLOGONSourcePath = Join-Path -Path $ConfigurationPath -ChildPath 'netlogon'
@@ -719,19 +719,19 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
             $CopyNETLOGONParams = @{
                 Path        = "$NETLOGONSourcePath\*"
-                Destination = "$NETLOGONTargetPath" 
-                Recurse     = $true 
+                Destination = "$NETLOGONTargetPath"
+                Recurse     = $true
                 Force       = $true
                 ErrorAction = 'Stop'
             }
             if($ExecutionType -eq 'Remote'){
                 $CopyNETLOGONParams += @{
-                    ToSession = $PSSession        
+                    ToSession = $PSSession
                 }
             }
-            
+
             Copy-Item @CopyNETLOGONParams
-        
+
             $DebugCounter += $NumberOfNETLOGONs
             if($ElementsCounter -ne $DebugCounter){
                 throw "Elementscounter is $ElementsCounter, but was supposed to be $DebugCounter"
@@ -739,9 +739,9 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
+        #
         #   adm_templates
-        #   Action: Configure 
+        #   Action: Configure
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if($ProcessAdmTemplates){
@@ -752,12 +752,12 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             $WriteProgressParameters = @{
                 Activity        = 'Configuring Active Directory'
                 Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Administrative Templates"
-                PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
             }
             Write-Progress @WriteProgressParameters
-            
+
             $AdmTemplatesSourcePath = "$ConfigurationPath\adm_templates\*"
-            switch($ExecutionType){ 
+            switch($ExecutionType){
                 'Local'{
                     $AdmTemplatesTargetPath = "\\\\$DomainFQDN\\SYSVOL\\$DomainFQDN\\Policies\\PolicyDefinitions\\"
                 }
@@ -770,18 +770,18 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             olad i "adm_templates target path", $AdmTemplatesTargetPath
 
             $CopyDryFilesToRemoteTargetParams = @{
-                SourcePath = "$AdmTemplatesSourcePath" 
-                TargetPath = "$AdmTemplatesTargetPath" 
+                SourcePath = "$AdmTemplatesSourcePath"
+                TargetPath = "$AdmTemplatesTargetPath"
             }
-            
+
             if($PSSession){
                 $CopyDryFilesToRemoteTargetParams += @{
                     PSSession = $PSSession
-                }   
+                }
             }
-            Copy-DryADFilesToRemoteTarget @CopyDryFilesToRemoteTargetParams | 
+            Copy-DryADFilesToRemoteTarget @CopyDryFilesToRemoteTargetParams |
                 Out-Null
-        
+
             $DebugCounter += 1
             if($ElementsCounter -ne $DebugCounter){
                 throw "Elementscounter is $ElementsCounter, but was supposed to be $DebugCounter"
@@ -790,8 +790,8 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   ORGANIZATIONAL UNITS 
+        #
+        #   ORGANIZATIONAL UNITS
         #   Action: Create
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -805,13 +805,13 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                 $WriteProgressParameters = @{
                     Activity        = 'Configuring Active Directory'
                     Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Creating OU: $($OU.Path)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
                 }
                 Write-Progress @WriteProgressParameters
-    
+
                 # Create instance of class OU and invoke method CreateOU()
                 olad i "Creating OU", "$($OU.path)"
-                
+
                 switch($ExecutionType){
                     'Local'{
                         [OU]$OUObject = [OU]::new("$($OU.path)", "$DomainFQDN", $DomainController)
@@ -821,8 +821,8 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     }
                 }
                 $OUObject.CreateOU()
-                
-                Remove-Variable -Name OUObject -ErrorAction Ignore            
+
+                Remove-Variable -Name OUObject -ErrorAction Ignore
             }
 
             $DebugCounter += $NumberOfOUs
@@ -834,8 +834,8 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   WMI FILTERS 
+        #
+        #   WMI FILTERS
         #   Action: Create
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -847,36 +847,36 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             # Make sure 'Allow System Only Change' in registry on domain controller is 1
             # If it isn't, WMIFilter creation will fail with access denied
             olad d "Calling 'Set-DryADRemoteRegistry' to set 'Allow System Only Change' to 1"
-            
+
             $AllowSystemOnlyChangeParameters = @{
-                BaseKey     = 'HKEY_LOCAL_MACHINE' 
-                LeafKey     = 'System\\CurrentControlSet\\Services\\NTDS\\Parameters' 
-                ValueName   = 'Allow System Only Change' 
-                ValueData   = 1 
+                BaseKey     = 'HKEY_LOCAL_MACHINE'
+                LeafKey     = 'System\\CurrentControlSet\\Services\\NTDS\\Parameters'
+                ValueName   = 'Allow System Only Change'
+                ValueData   = 1
                 ValueType   = 'DWORD'
                 PSSession   = $PSSession
                 ErrorAction = 'Stop'
             }
-            
+
             Set-DryADRemoteRegistry @AllowSystemOnlyChangeParameters
-            
+
             # $DomainWMIfilters
             foreach($GPOWMIFilter in $DomainWMIfilters){
-                
+
                 # Progress
-                $ElementsCounter++  
+                $ElementsCounter++
                 $WriteProgressParameters = @{
                     Activity        = 'Configuring Active Directory'
                     Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Importing WMIFilter '$($GPOWMIFilter.Name)'"
                     PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
                 }
                 Write-Progress @WriteProgressParameters
-            
+
                 # Any GPMC command must run in a remote session, since the cmdlets lack the -credentials parameter
                 $NewDryWmiFilterParameters = @{
-                    Name        = $GPOWMIFilter.Name 
-                    Description = $GPOWMIFilter.Description 
-                    Query       = [array]$GPOWMIFilter.Queries 
+                    Name        = $GPOWMIFilter.Name
+                    Description = $GPOWMIFilter.Description
+                    Query       = [array]$GPOWMIFilter.Queries
                 }
                 switch($ExecutionType){
                     'Local'{
@@ -902,15 +902,15 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   SECURITY GROUPS 
+        #
+        #   SECURITY GROUPS
         #   Action: Create
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if($ProcessSecurityGroups){
             olad i ''
             olad i "Security Groups ($($DomainSecurityGroups.count) tasks)" -sh #-air
- 
+
             foreach($SecurityGroup in $DomainSecurityGroups){
 
                 # increment the element counter and update progress
@@ -918,7 +918,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                 $WriteProgressParameters = @{
                     Activity        = 'Configuring Active Directory'
                     Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Security Group: $($SecurityGroup.name)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
 
                 }
                 Write-Progress @WriteProgressParameters
@@ -952,24 +952,24 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         } # if($ProcessSecurityGroups)
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   GROUP'S GROUP MEMBERS 
+        #
+        #   GROUP'S GROUP MEMBERS
         #   Action: Add Role Groups to SecurityGroups
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if($ProcessGroupMembers){
             olad i ''
             olad i "Group Members ($NumberOfDomainMemberAndMemberOf  tasks)" -sh #-air
-            
+
             foreach($DomainSecurityGroup in $DomainSecurityGroups){
                 foreach($DomainSecurityGroupMember in $DomainSecurityGroup.Member){
                     # increment the element counter and update progress
-                    
+
                     $ElementsCounter++
                     $WriteProgressParameters = @{
                         Activity        = 'Configuring Active Directory'
                         Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Group Member: $($DomainSecurityGroup.name)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
                     }
                     Write-Progress @WriteProgressParameters
 
@@ -994,13 +994,13 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
                 }
                 foreach($DomainSecurityGroupMemberOf in $DomainSecurityGroup.MemberOf){
-                    
+
                     # increment the element counter and update progress
                     $ElementsCounter++
                     $WriteProgressParameters = @{
                         Activity        = 'Configuring Active Directory'
                         Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Group Member Of: $($DomainSecurityGroup.name)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
                     }
                     Write-Progress @WriteProgressParameters
 
@@ -1034,9 +1034,9 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   USERS 
-        #   Action: Getting the connection point's public certificate. 
+        #
+        #   USERS
+        #   Action: Getting the connection point's public certificate.
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if($ProcessUsers){
@@ -1052,8 +1052,8 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             }
 
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-            # 
-            #   USERS 
+            #
+            #   USERS
             #   Action: Create
             #
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -1066,7 +1066,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                 $WriteProgressParameters = @{
                     Activity        = 'Configuring Active Directory'
                     Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): User: $($User.name)"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
 
                 }
                 Write-Progress @WriteProgressParameters
@@ -1089,7 +1089,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                         }
                     }
                 }
-                olad i "Creating User", "$($User.name)" 
+                olad i "Creating User", "$($User.name)"
                 New-DryADUser @NewDryADUserParams
             }
 
@@ -1101,28 +1101,28 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   USER'S GROUP MEMBERSHIPS 
+        #
+        #   USER'S GROUP MEMBERSHIPS
         #   Action: Add Users to Groups
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if($ProcessUserMemberOf){
             olad i ''
             olad i "User's Group Memberships ($NumberOfDomainUserMemberOf tasks)" -sh #-air
-            
-            # Security Groups may have .member and .memberof 
+
+            # Security Groups may have .member and .memberof
             foreach($DomainUser in $DomainUsers){
                 foreach($DomainUserMemberOf in $DomainUser.MemberOf){
-                    
+
                     # increment the element counter and update progress
                     $ElementsCounter++
                     $WriteProgressParameters = @{
                         Activity        = 'Configuring Active Directory'
                         Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): $($DomainUser.name) member of: $DomainUserMemberOf"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
                     }
                     Write-Progress @WriteProgressParameters
-        
+
                     # Add $DomainUser to each MemberOf
                     $AddDryADGroupMemberParams = @{
                         Group  = $DomainUserMemberOf
@@ -1145,8 +1145,8 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     Remove-Variable -Name AddDryADGroupMemberParams -ErrorAction Ignore
                 }
             }
-        
-        
+
+
             $DebugCounter += $NumberOfDomainUserMemberOf
             if($ElementsCounter -ne $DebugCounter){
                 throw "Elementscounter is $ElementsCounter, but was supposed to be $DebugCounter"
@@ -1154,11 +1154,11 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   ACTIVE DIRECTORY RIGHTS 
+        #
+        #   ACTIVE DIRECTORY RIGHTS
         #   Action: Delegate Rights in AD
         #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if($ProcessRights){
             olad i ''
             olad i "Rights ($NumberOfDomainRights tasks)" -sh #-air
@@ -1167,11 +1167,11 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             foreach($DomainSecurityGroup in $DomainSecurityGroups){
                 foreach($DomainRight in $DomainSecurityGroup.Rights){
                     olad v "Setting rights for group '$($DomainSecurityGroup.name)'"
-                    
-                    # create hash from properties of the object 
+
+                    # create hash from properties of the object
                     Remove-Variable -Name SetDryADAccessRuleParams -ErrorAction Ignore
                     $SetDryADAccessRuleParams = @{}
-                    
+
                     # Add all properties to the rights hash
                     $DomainRight.PSObject.Properties | foreach-Object{
                         $SetDryADAccessRuleParams.Add($_.Name, $_.Value)
@@ -1197,23 +1197,23 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     $WriteProgressParameters = @{
                         Activity        = 'Configuring Active Directory'
                         Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Domain Right: $($DomainRight.Path)"
-                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                        PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
                     }
                     Write-Progress @WriteProgressParameters
-                    
+
                     # Set the right
                     olad i "$($DomainSecurityGroup.name)", "$($DomainRight.Path)"
                     #olad i "ACL - granted on target", "$($DomainRight.Path)"
                     if((Set-DryADAccessRule @SetDryADAccessRuleParams) -eq $true){
                         #olad i '',''
-                    } 
+                    }
                     else{
                         olad e @("Rights", "Group '$($DomainSecurityGroup.name)', Target '$($DomainRight.Path)'")
                         throw "Failed: domain '$DomainFQDN': Group '$($DomainSecurityGroup.name)', Target '$($DomainRight.Path)'"
                     }
 
                     # Clean up
-                    Remove-Variable -Name SetDryADAccessRuleParams, WriteProgressParameters -ErrorAction Ignore   
+                    Remove-Variable -Name SetDryADAccessRuleParams, WriteProgressParameters -ErrorAction Ignore
                 }
             }
 
@@ -1224,8 +1224,8 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
         }
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   GROUP POLICIES 
+        #
+        #   GROUP POLICIES
         #   Action: Define paths, copy helper modules and GPOs to remote target if
         #   ExecutionType 'Remote'
         #
@@ -1243,9 +1243,11 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     # Only invoke if json-gpos in configuration
                     if($RequiresGPOHelper){
                         olad i "Copying helper modules to remote target"
-                        $DryADGPOHelpersPath = Join-Path -Path (Split-Path -Path ((Get-Module -Name dry.module.ad).Path)) -ChildPath 'helpers\dry.ad.gpohelper' 
+                        $DryADGPOHelpersPath = Join-Path -Path (Split-Path -Path $PSScriptRoot -Parent) -ChildPath 'helpers\dry.ad.gpohelper'
+                        olad v "DryADGPOHelpersPath: $DryADGPOHelpersPath"
                         Copy-DryADFilesToRemoteTarget -PSSession $PSSession -TargetPath $RemoteModulesPath -SourcePath $DryADGPOHelpersPath | Out-Null
-                        $DryADGPRegistryPolicyParserPath = Join-Path -Path (Split-Path -Path ((Get-Module -Name dry.module.ad).Path)) -ChildPath 'helpers\GPRegistryPolicyParser' 
+                        $DryADGPRegistryPolicyParserPath = Join-Path -Path (Split-Path -Path $PSScriptRoot -Parent) -ChildPath 'helpers\GPRegistryPolicyParser'
+                        olad v "DryADGPRegistryPolicyParserPath: $DryADGPRegistryPolicyParserPath"
                         Copy-DryADFilesToRemoteTarget -PSSession $PSSession -TargetPath $RemoteModulesPath -SourcePath $DryADGPRegistryPolicyParserPath | Out-Null
                     }
 
@@ -1255,11 +1257,11 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                 'Local'{
                     [string]$GPOsPath = $SourceGPOsPath
                 }
-            }  
+            }
 
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-            # 
-            #   GROUP POLICIES 
+            #
+            #   GROUP POLICIES
             #   Action: Import
             #
             # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -1267,7 +1269,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             olad i "GPO Imports ($($DomainGPOImports.count) tasks)" -sh #-air
             foreach($GPO in $DomainGPOImports){
                 # Ensure TargetName exists, and is converted to the desired case
-                if($null -eq $GPO.TargetName){ 
+                if($null -eq $GPO.TargetName){
                     $GPO | Add-Member -MemberType NoteProperty -Name 'TargetName' -Value $(ConvertTo-DryADCase -Name $GPO.Name -Case $GPOcase)
                 }
                 else{
@@ -1279,13 +1281,13 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                 $WriteProgressParameters = @{
                     Activity        = 'Configuring Active Directory'
                     Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Importing GPO '$($GPO.TargetName)'"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
                 }
                 Write-Progress @WriteProgressParameters
-                
+
                 $ImportDryADGPOParams = @{
-                    GPO             = $GPO 
-                    GPOsPath        = $GPOsPath 
+                    GPO             = $GPO
+                    GPOsPath        = $GPOsPath
                     ReplacementHash = $ReplacementHash
                 }
 
@@ -1302,7 +1304,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     }
                 }
                 olad i "GPO Import", "$($GPO.Name)"
-                Import-DryADGPO @ImportDryADGPOParams      
+                Import-DryADGPO @ImportDryADGPOParams
             }
 
             $DebugCounter += $NumberOfGPOImports
@@ -1314,8 +1316,8 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
 
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   GROUP POLICIES 
+        #
+        #   GROUP POLICIES
         #   Action: Links
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -1324,16 +1326,16 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             olad i ''
             olad i "GPO Links ($NumberOfGPOLinks tasks)" -sh #-air
             foreach($DomainGPOLink in $DomainGPOLinks | Where-Object{ $_.defined_in -eq 'OS' }){
-                
+
                 # increment the element counter and update progress
                 $ElementsCounter += $DomainGPOLink.gplinks.count
                 $WriteProgressParameters = @{
                     Activity        = 'Configuring Active Directory'
                     Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Linking GPOs to '$($DomainGPOLink.Path)'"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
                 }
                 Write-Progress @WriteProgressParameters
-                 
+
                 $SetDryGPLinkParams = @{
                     GPOLinkObject = $DomainGPOLink
                     DomainDN      = $DomainDN
@@ -1358,20 +1360,20 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     $DomainGPOLinkPath = '<domain root>'
                 }
                 olad i "Link GPOs to OU", "$DomainGPOLinkPath"
-                Set-DryADGPLink @SetDryGPLinkParams 
+                Set-DryADGPLink @SetDryGPLinkParams
             }
 
             foreach($DomainGPOLink in $DomainGPOLinks | Where-Object{ $_.defined_in -ne 'OS' }){
-                
+
                 # increment the element counter and update progress
                 $ElementsCounter += $DomainGPOLink.gplinks.count
                 $WriteProgressParameters = @{
                     Activity        = 'Configuring Active Directory'
                     Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Linking GPOs to '$($DomainGPOLink.Path)'"
-                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )   
+                    PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
                 }
                 Write-Progress @WriteProgressParameters
-                 
+
                 $SetDryGPLinkParams = @{
                     GPOLinkObject = $DomainGPOLink
                     DomainDN      = $DomainDN
@@ -1395,7 +1397,7 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                     $DomainGPOLinkPath = '<domain root>'
                 }
                 olad i "Link GPOs to OU", "$DomainGPOLinkPath"
-                Set-DryADGPLink @SetDryGPLinkParams 
+                Set-DryADGPLink @SetDryGPLinkParams
             }
 
             $DebugCounter += $NumberOfGPOLinks
@@ -1403,10 +1405,10 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
                 throw "Elementscounter is $ElementsCounter, but was supposed to be $DebugCounter"
             }
         } # if($ProcessGPOLinks)
-        
+
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # 
-        #   Wmi Filter Links 
+        #
+        #   Wmi Filter Links
         #   Action: Link to GPOs
         #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -1417,14 +1419,14 @@ PS C:\> .\Import-DryADConfiguration.ps1 -VariablePath .\path\to\vars.json...')]
             foreach($GPOWMIFilter in $DomainWMIFilters){
                 foreach($GPOWMIFilterLink in $GPOWMIFilter.links){
                     # Progress
-                    $ElementsCounter++  
+                    $ElementsCounter++
                     $WriteProgressParameters = @{
                         Activity        = 'Configuring Active Directory'
                         Status          = "Item ($ElementsCounter / $NumberOfElementsToProcess): Linking WMIFilter '$($GPOWMIFilter.Name)'"
                         PercentComplete = (($ElementsCounter / $NumberOfElementsToProcess) * 100 )
                     }
                     Write-Progress @WriteProgressParameters
-                
+
                     $SetDryWmiFilterLinkParams = @{
                         GPOName       = $GPOWMIFilterLink
                         WMIFilterName = $GPOWMIFilter.Name

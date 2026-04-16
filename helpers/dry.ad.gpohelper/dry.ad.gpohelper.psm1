@@ -28,7 +28,7 @@ class GroupPolicy : BaseSettings{
         $this.ObjectType = "GroupPolicy"
         $this.PolicySettings = [PolicySettings]::new()
     }
-    
+
     # Get GPO from AD and save it to json-file all in one go
     GroupPolicy (
         [string]$Name,
@@ -79,16 +79,16 @@ class GroupPolicy : BaseSettings{
                 }
             }
         } while ($Retry)
-    
+
         $version = [uint32]$gpContainer.versionNumber
         $inifilepath = "\\$DomainController\SYSVOL\$DomainFQDN\Policies\{$id}\GPT.INI"
         $version=$version+$IncrementBy
-    
+
         # first update ad
         try{
             Set-ADObject -identity $gpContainer.distinguishedname -Replace @{versionNumber=$version} -ErrorAction Stop -Server $DomainController
         } catch{}
-    
+
         # Then update filesystem (SYSVOL)
         try{
             $count = 0
@@ -98,9 +98,9 @@ class GroupPolicy : BaseSettings{
                 if($count -gt 60){
                     throw "Timeout waiting for the creation of '$inifilepath'"
                 }
-                
+
             } while (!(Test-Path -path $inifilepath))
-            
+
             $inifile = $Utils.GetIniFile($inifilepath)
             $inifile.General.Version = $version
             $Utils.WriteIniFile($inifilepath, $inifile, 'UTF8NoBOM', $false, $true) # FilePath, InputObject, Encoding, Append, Force
@@ -122,7 +122,7 @@ class GroupPolicy : BaseSettings{
         #$AllowedTrusteeTypes = @('User', 'Group', 'Computer')
         $Utils = [Utils]::new()
         $defaultNamingContext = (Get-ADRootDSE).defaultNamingContext
-        
+
         # Read file. If $Replacements, replace
         if($Replacements -and ($Replacements.count -gt 0)){
             $jsonRaw = Get-Content -Path $FileName -Encoding Default -Raw -ErrorAction Stop
@@ -141,7 +141,7 @@ class GroupPolicy : BaseSettings{
         $this.UserSettingsEnabled = $jsonImport.UserSettingsEnabled
         $this.gPCMachineExtensionNames = $jsonImport.gPCMachineExtensionNames
         $this.gPCUserExtensionNames = $jsonImport.gPCUserExtensionNames
-        
+
         ## GPO Comments
         if($jsonImport.PolicySettings.GPOComments){
             foreach($item in $jsonImport.PolicySettings.GPOComments){
@@ -153,14 +153,14 @@ class GroupPolicy : BaseSettings{
         ## AdmTemplates Machine Settings Comments
         if($jsonImport.PolicySettings.MachineComments){
             foreach($item in $jsonImport.PolicySettings.MachineComments){
-                $this.PolicySettings.MachineComments += $item 
+                $this.PolicySettings.MachineComments += $item
             }
         }
 
         ## AdmTemplates User Settings Comments
         if($jsonImport.PolicySettings.UserComments){
             foreach($item in $jsonImport.PolicySettings.UserComments){
-                $this.PolicySettings.UserComments += $item 
+                $this.PolicySettings.UserComments += $item
             }
         }
 
@@ -209,7 +209,7 @@ class GroupPolicy : BaseSettings{
                 $this.PolicySettings.FolderRedirection += $item
             }
         }
-        
+
         ## Folder Redirection version One (user only-setting) ##
         if($jsonImport.PolicySettings.FolderRedirection1){
             foreach($item1 in $jsonImport.PolicySettings.FolderRedirection1){
@@ -262,9 +262,9 @@ class GroupPolicy : BaseSettings{
     ){
         $Utils = [Utils]::new()
         $this.Name = $Name
-        
+
         Import-Module -Name GPRegistryPolicyParser -ErrorAction Stop -WarningAction Continue
-        
+
         $GPO = Get-GPO -Name $Name
         $PolicyGuid = "{$($GPO.Id.Guid)}"
 
@@ -311,7 +311,7 @@ class GroupPolicy : BaseSettings{
             $this.PolicySettings.UserComments = $arrUserCommentsContent
         }
 
-        
+
         ## Registry settings - Machine ##
         $PolFilePath = "\\$($Domain)\SYSVOL\$($Domain)\Policies\$($PolicyGuid)\Machine\Registry.pol"
         if((Test-Path -Path $PolFilePath)){
@@ -360,7 +360,7 @@ class GroupPolicy : BaseSettings{
             foreach($item in $AuditCSV){
                 try{
                     # Machine Name,Policy Target,Subcategory,Subcategory GUID,Inclusion Setting,Exclusion Setting,Setting Value
-                    $AuditSetting = [AuditSetting]::new($item.{Machine Name}, $item.{Policy Target}, $item.Subcategory, $item.{SubCategory GUID}, $item.{Inclusion Setting}, $item.{Exclusion Setting}, $item.{Setting Value}) 
+                    $AuditSetting = [AuditSetting]::new($item.{Machine Name}, $item.{Policy Target}, $item.Subcategory, $item.{SubCategory GUID}, $item.{Inclusion Setting}, $item.{Exclusion Setting}, $item.{Setting Value})
                     $this.PolicySettings.Add($AuditSetting)
                 } catch{
                     throw "Failed to add audit settings - $($_.Exception.Message)"
@@ -425,7 +425,7 @@ class GroupPolicy : BaseSettings{
             if((Test-Path -Path $ScriptsPath)){
                 $NewScript = [Script]::new()
                 $NewScript.Target = $source
-                
+
                 # Read psscripts.ini
                 if((Test-Path -Path $ScriptsPath\psscripts.ini)){
                     $NewScript.PSScriptsIni = $Utils.GetIniFile("$ScriptsPath\psscripts.ini")
@@ -463,7 +463,7 @@ class GroupPolicy : BaseSettings{
                     $GPP = [GroupPolicyPreference]::new()
                     $GPP.Type = $Folder.Name
                     $GPP.Target = $source
-                    
+
                     $Files = Get-ChildItem -Path $Folder.FullName -File -Force
                     foreach($File in $Files){
                         $GPP.XmlFileName = $File.Name
@@ -480,7 +480,7 @@ class GroupPolicy : BaseSettings{
                         } catch{
                             throw "Failed to get GGP file $($Folder.Name).xml - $($_.Exception.Message)"
                         }
-                        
+
                         $this.PolicySettings.GroupPolicyPreferences += $GPP
                     }
                 }
@@ -513,7 +513,7 @@ class GroupPolicy : BaseSettings{
             $AllLinkLocations = @(Get-ADObject -Filter "(objectClass -eq 'organizationalUnit' -or objectClass -eq 'domain' -or objectClass -eq 'site') -and gpLink -like '*$dn*'" -Properties gPLink)
             $AllLinkLocations += Get-ADObject -Filter "objectClass -eq 'site' -and gpLink -like '*$dn*'" -SearchBase "CN=Sites,$((Get-ADRootDSE).configurationNamingContext)" -Properties gPLink
 
-            foreach($item in $AllLinkLocations){ 
+            foreach($item in $AllLinkLocations){
                 $dn = $item.distinguishedName -ireplace $defaultNamingContext,'####defaultNamingContext####'
                 $arrPolicies = $item.gPLink.Split('][', [System.StringSplitOptions]::RemoveEmptyEntries)
 
@@ -524,7 +524,7 @@ class GroupPolicy : BaseSettings{
                 for ($i = 0; $i -lt $arrPolicies.Count; $i++){
                     if($arrPolicies[$i] -match $PolicyGUID){
                         $LinkOrder = $i + 1
-                        
+
                         # 0 = Enabled
                         # 1 = Disabled
                         # 2 = Enabled + Enforced
@@ -576,7 +576,7 @@ class GroupPolicy : BaseSettings{
             throw $_
         }
     }
-    
+
     [void]WritePolicyToAD(
         [bool]$Overwrite,
         [bool]$Backup,
@@ -588,15 +588,15 @@ class GroupPolicy : BaseSettings{
         $Domain = [Domain]::GetComputerDomain().Name
         $defaultNamingContext = (Get-ADRootDSE).defaultNamingContext
         $PolicyServerId = (Get-CertificateEnrollmentPolicyServer -Scope All -Context Machine).Id
-        
+
         # Does it exist a GPO with the same name?
         $GPO = Get-GPO -Name $this.Name -ErrorAction SilentlyContinue -Server $DomainController
         if($GPO){
             # Yes, it exists
             # What to do? Quit, delete or rename and disable link, then create a new GPO.
 
-            if(!$Overwrite){ 
-                return 
+            if(!$Overwrite){
+                return
             }
 
             if($Backup){
@@ -608,12 +608,12 @@ class GroupPolicy : BaseSettings{
 
                 for ($i = 0; $i -lt $AllOUs.Count; $i++){
                     $gPLink = $AllOUs[$i].gPLink
-                    
+
                     if($gPLink){
                         $arrGPLink = @($gPLink.Split('][',[System.StringSplitOptions]::RemoveEmptyEntries))
 
                         foreach($item in $arrGPLink){
-                            if($item -imatch $GPO.Path){ 
+                            if($item -imatch $GPO.Path){
                                 $LinkedOUs += $AllOUs[$i].distinguishedName
                             }
                         }
@@ -663,7 +663,7 @@ class GroupPolicy : BaseSettings{
              # The file can contain no more than 2047 carachters, where each line break counts as 2 (\r\n)
             if($Utils.CommentInSpec($this.PolicySettings.GPOComments)){
                 $GPOCommentsPath = "\\$($Domain)\SYSVOL\$($Domain)\Policies\$($PolicyGuid)\GPO.cmt"
-                
+
                 try{
                     $this.PolicySettings.GPOComments | Out-File -FilePath $GPOCommentsPath -Encoding unicode
                 } catch{
@@ -673,7 +673,7 @@ class GroupPolicy : BaseSettings{
             else{
                 Write-Warning "The GPO Comment section may only contain 2047 carachters (new line counts 2)"
                 throw "The GPO Comment section may only contain 2047 carachters (new line counts 2)"
-            } 
+            }
         }
 
         # Apply Administrative Templates Machine Settings Comments
@@ -683,7 +683,7 @@ class GroupPolicy : BaseSettings{
                 $this.PolicySettings.MachineComments | Out-File -FilePath $MachineCommentsPath -Encoding UTF8
             } catch{
                 throw "Failed to save Machine\comment.cmtx - $($_.Exception.Message)"
-            } 
+            }
         }
 
        # Apply Administrative Templates User Settings Comments
@@ -693,15 +693,15 @@ class GroupPolicy : BaseSettings{
                 $this.PolicySettings.UserComments | Out-File -FilePath $UserCommentsPath -Encoding UTF8
             } catch{
                 throw "Failed to save User\comment.cmtx - $($_.Exception.Message)"
-            } 
+            }
         }
-        
+
         # Apply registry settings if specified
         if($this.PolicySettings.RegistrySettings){
             # Registry settings found in policy. Starting to apply them.
 
             Import-Module -Name GPRegistryPolicyParser -ErrorAction Stop -WarningAction Continue
-        
+
             $MachinePolFileExists = $false
             $UserPolFileExists = $false
             $arrMachinePolicies = @()
@@ -733,16 +733,16 @@ class GroupPolicy : BaseSettings{
                 $RegSettings = @{}
                 $RegSettings.Add("keyName",$setting.KeyName)
                 $RegSettings.Add("valueType",$setting.ValueType)
-                if($null -ne $setting.ValueName) 
-               { 
+                if($null -ne $setting.ValueName)
+               {
                     if($Setting.ValueName.Length -eq 1){
                         if(([byte][char]$setting.ValueName) -ne 0){
-                            $RegSettings.Add("valueName",$setting.ValueName)     
+                            $RegSettings.Add("valueName",$setting.ValueName)
                         } else{
                             $RegSettings.Add("valueName","")
                         }
                     } else{
-                        $RegSettings.Add("valueName",$setting.ValueName) 
+                        $RegSettings.Add("valueName",$setting.ValueName)
                     }
                 }
 
@@ -751,16 +751,16 @@ class GroupPolicy : BaseSettings{
                     switch($setting.ValueType.ToLower()){
                         "reg_dword"{ $ValueData = [uint32]$Setting.ValueData }
                         "reg_qword"{ $ValueData = [uint64]$Setting.ValueData }
-                        default{ 
+                        default{
                             $ValueData = $Utils.ReplaceNames($Setting.ValueData,$false)
                             $ValueData = $ValueData -ireplace '####PolicyServerId####', $PolicyServerId
                         }
-                        
+
                     }
-                    
+
                     $Regsettings.Add("valueData", $ValueData)
                 }
-                    
+
                 if($setting.Target -imatch 'machine'){ $arrMachinePolicies += New-GPRegistryPolicy @RegSettings }
                 if($setting.Target -imatch 'user'){ $arrUserPolicies += New-GPRegistryPolicy @RegSettings }
             }
@@ -788,13 +788,13 @@ class GroupPolicy : BaseSettings{
         if($this.PolicySettings.AuditSettings){
             $AuditPath = "\\$($DomainController)\SYSVOL\$($Domain)\Policies\$($PolicyGuid)\Machine\Microsoft\Windows NT\Audit"
             if( (Test-Path -Path $AuditPath) -eq $false ){ New-Item -Path $AuditPath -ItemType Directory  }
-            
+
             # The ObjectType property is meta information, not part of audit.csv
-            $AuditFileContent = $this.PolicySettings.AuditSettings | 
-            Select-Object -Property * -ExcludeProperty ObjectType | 
-            ConvertTo-Csv -NoTypeInformation -Delimiter "," | 
-            foreach-Object{ $_.Replace('"', '') } 
-            
+            $AuditFileContent = $this.PolicySettings.AuditSettings |
+            Select-Object -Property * -ExcludeProperty ObjectType |
+            ConvertTo-Csv -NoTypeInformation -Delimiter "," |
+            foreach-Object{ $_.Replace('"', '') }
+
             try{
                 $AuditFileContent | Out-File -FilePath $AuditPath\audit.csv -Encoding utf8 -ErrorAction Stop
             } catch{
@@ -871,11 +871,11 @@ class GroupPolicy : BaseSettings{
 
                     # Create psscripts.ini
                     $PSScriptsIniHash = $Utils.ConvertPSCustomObjectToHashTable($Script.PSScriptsIni)
-                    $Utils.WriteIniFile("$ScriptsPath\psscripts.ini", $PSScriptsIniHash, "UTF8", $false, $true) # FilePath, InputObject, Encoding, Append, Force 
-            
+                    $Utils.WriteIniFile("$ScriptsPath\psscripts.ini", $PSScriptsIniHash, "UTF8", $false, $true) # FilePath, InputObject, Encoding, Append, Force
+
                     # Create scripts.ini
                     $ScriptsIniHash = $Utils.ConvertPSCustomObjectToHashTable($Script.ScriptsIni)
-                    $Utils.WriteIniFile("$ScriptsPath\scripts.ini", $ScriptsIniHash, "UTF8", $false, $true) # FilePath, InputObject, Encoding, Append, Force 
+                    $Utils.WriteIniFile("$ScriptsPath\scripts.ini", $ScriptsIniHash, "UTF8", $false, $true) # FilePath, InputObject, Encoding, Append, Force
 
                     # Create subfolders and scripts
                     foreach($ScriptFile in $Script.ScriptFiles){
@@ -950,7 +950,7 @@ class GroupPolicy : BaseSettings{
                     throw "Failed to save client side extension for user - $($_.Exception.Message)"
                 }
             }
-            
+
             # Enable / disable user and computersettings as needed
             # flags:
             # 0 - Enabled
@@ -965,7 +965,7 @@ class GroupPolicy : BaseSettings{
                     throw "Failed to save flags - $($_.Exception.Message)"
                 }
             }
-            
+
             if($this.ComputerSettingsEnabled -and $this.UserSettingsEnabled -eq $false){
                 try{
                     Set-ADObject -identity $gpcObject.distinguishedname -Replace @{flags=1} -ErrorAction 'Stop' -Server $DomainController
@@ -1002,7 +1002,7 @@ class GroupPolicy : BaseSettings{
                 }
             }
         }
-        
+
         # Link the policy to the listed OUs
         if($DoNotLinkGPO -eq $false){
             foreach($LinkTarget in $this.LinkTargets){
@@ -1060,7 +1060,7 @@ class GroupPolicy : BaseSettings{
         $guid = ("{" + (New-Guid).Guid + "}").ToUpper()
         $Path = "CN=SOM,CN=WMIPolicy,CN=System,$DomainDN"
         $distinguishedName = "CN=$guid,$Path"
-        
+
         $now = (Get-Date).ToUniversalTime()
         $year = ($now.Year).ToString("0000")
         $month = ($now.month).ToString("00")
@@ -1070,7 +1070,7 @@ class GroupPolicy : BaseSettings{
         $second = ($now.second).ToString("00")
         $millisecond = ($now.millisecond * 1000).ToString("000000")
         $CreationDate = "$year$month$day$hour$minute$second.$millisecond-000" #20191023212335.425000-000
-        
+
         $OtherAttribs = @{
             cn = $guid
             distinguishedName = $distinguishedName
@@ -1085,13 +1085,13 @@ class GroupPolicy : BaseSettings{
         }
 
         if($Filter.Description){ $OtherAttribs.Add('msWMI-Parm1', $Filter.Description) }
-        
+
         try{
             $result = New-ADObject -Name $guid -Type 'msWMI-Som' -Path $Path -OtherAttributes $OtherAttribs -PassThru -Server $DomainController
         } catch{
             throw $_
         }
-        
+
         return $result
     }
 
@@ -1099,11 +1099,11 @@ class GroupPolicy : BaseSettings{
         [string]$DomainController
     ){
         try{
-            $GPO = Get-GPO -Name $this.Name -Server $DomainController -ErrorAction 'Ignore' 
+            $GPO = Get-GPO -Name $this.Name -Server $DomainController -ErrorAction 'Ignore'
             if($GPO){
                 $GPO | Remove-GPO -Server $DomainController -ErrorAction 'Stop'
             }
-        } 
+        }
         catch{
             throw $_
         }
@@ -1123,7 +1123,7 @@ class Utils : BaseSettings{
         if(!(Test-Path $File.FullName)){
             throw "$($File.FullName) - File not found"
         }
-        
+
         $CommentCount = $null
         $NameValue = $null
         $Section = $null
@@ -1133,7 +1133,7 @@ class Utils : BaseSettings{
                 $ini[$section] = @{}
                 $CommentCount = 0
             }
-            
+
             "^(;.*)$"{ # comment
                 $Value = $Matches[1]
                 $CommentCount = $CommentCount + 1
@@ -1146,17 +1146,17 @@ class Utils : BaseSettings{
                 if($value.Gettype().name -eq "String"){
                     $Value = $value.Trim()
                 }
-                
+
                 if($Value -eq "true"){
                     $Value = $true
                 } elseif($Value -eq "false"){
                     $Value = $false
                 }
-                
+
                 $ini[$Section][$NameValue] = $Value
             }
         }
-        
+
         return $ini
     }
 
@@ -1176,7 +1176,7 @@ class Utils : BaseSettings{
                 $CommentCount = 0
                 $ValueCount = 0
             }
-            
+
             "^(;.*)$"{ # comment
                 $Value = $Matches[1]
                 $CommentCount = $CommentCount + 1
@@ -1192,19 +1192,19 @@ class Utils : BaseSettings{
                 $ini[$Section][$NameValue] = $Value
             }
         }
-        
+
         return $ini
     }
 
     [void]WriteIniFile (
 	    [string]$FilePath,
-	    [Hashtable]$InputObject, 
-	    [string]$Encoding, 
-        [bool]$Append, 
-        [bool]$Force 
+	    [Hashtable]$InputObject,
+	    [string]$Encoding,
+        [bool]$Append,
+        [bool]$Force
     ){
         $FileEncoding = $null
-        
+
         switch($Encoding){
             "Unicode"{ $FileEncoding = New-Object System.Text.UnicodeEncoding }
             "UTF7"{ $FileEncoding = New-Object System.Text.UTF7Encoding }
@@ -1216,16 +1216,16 @@ class Utils : BaseSettings{
             "Default"{ $FileEncoding = New-Object [System.Text.Encoding]::Default  }
             "OEM"{ $FileEncoding = New-Object [System.Text.Encoding]::OEM }
         }
-        
+
         if($append){
             $OutFile = Get-Item $FilePath
         } else{
             $OutFile = New-Item -ItemType file -Path $Filepath -Force:$Force
-        } 
-        
+        }
+
         foreach($i in $InputObject.keys){
             if(!($($InputObject[$i].GetType().Name) -eq "Hashtable")){
-                #No Sections 
+                #No Sections
                 $Errorcount = 0
                 do{
                     try{
@@ -1237,9 +1237,9 @@ class Utils : BaseSettings{
                         $Errorcount++
                     }
                 } while ($Errorcount -lt 10)
-                
+
             } else{
-                #Sections 
+                #Sections
                 $Errorcount = 0
                 do{
                     try{
@@ -1251,7 +1251,7 @@ class Utils : BaseSettings{
                         $Errorcount++
                     }
                 } while ($Errorcount -lt 10)
-                
+
                 foreach($j in $($InputObject[$i].keys | Sort-Object)){
                     if($j -match "^Comment[\d]+"){
                         $Errorcount = 0
@@ -1264,7 +1264,7 @@ class Utils : BaseSettings{
                                 Start-Sleep -Milliseconds 500
                                 $Errorcount++
                             }
-                        } 
+                        }
                         while ($Errorcount -lt 10)
                     } else{
                         $Errorcount = 0
@@ -1278,9 +1278,9 @@ class Utils : BaseSettings{
                                 $Errorcount++
                             }
                         } while ($Errorcount -lt 10)
-                    }   
-                } 
-                
+                    }
+                }
+
                 do{
                     try{
                         $Lineout =  "`r`n"
@@ -1291,8 +1291,8 @@ class Utils : BaseSettings{
                         $Errorcount++
                     }
                 } while ($Errorcount -lt 10)
-            } 
-        } 
+            }
+        }
     }
 
     [string]ReplaceSIDs (
@@ -1307,8 +1307,8 @@ class Utils : BaseSettings{
                     # Convert SID into name
                     $objSID = New-Object System.Security.Principal.SecurityIdentifier($value)
                     try{
-                        # Added back the 'Domain'-part to security principals, so NT AUTHORITY, NT SERVICE etc can be resolved. 
-                        $ActualDomain,$ActualName = ($objSID.Translate( [System.Security.Principal.NTAccount] )).Value.Split('\') 
+                        # Added back the 'Domain'-part to security principals, so NT AUTHORITY, NT SERVICE etc can be resolved.
+                        $ActualDomain,$ActualName = ($objSID.Translate( [System.Security.Principal.NTAccount] )).Value.Split('\')
                         # If ActualDomain is the the domain name, replace with 'DOMAIN'
                         if( ($ActualDomain -eq (Get-ADDomain).DnsRoot) -or ($ActualDomain -eq (Get-ADDomain).NetBIOSName)){
                             # ActualDomain is the DomainFQDN or DomainNB - replace with 'DOMAIN'
@@ -1322,12 +1322,12 @@ class Utils : BaseSettings{
                 }
             }
         }
-        
+
         return $InputString
     }
 
     # The $LowerCase switch is used by policies that require a lower case SID, i.e. s-1-5... as opposed to S-1-5....
-    # The folder redirection file fdeploy1.ini always uses lower-case SIDs. 
+    # The folder redirection file fdeploy1.ini always uses lower-case SIDs.
     [string]ReplaceNames (
         [string]$InputString,
         [switch]$LowerCase
@@ -1342,11 +1342,11 @@ class Utils : BaseSettings{
                     if($domain -eq 'DOMAIN'){
                         $domain = (Get-ADDomain).NetBIOSName #.Name is incorrect if .Name -ne .NetBIOSName. Can be either .NetBIOSName or .DnsRoot (Domain FQDN)
                     }
-                
+
                     try{
                         $objUser = New-Object System.Security.Principal.NTAccount("$domain", "$usr")
                         $objSID = $objUser.Translate([System.Security.Principal.SecurityIdentifier])
-                        
+
                         if($objSID){
                             $SID = $objSID.Value
                             if($LowerCase){
@@ -1364,7 +1364,7 @@ class Utils : BaseSettings{
                 }
             }
         }
-        
+
         $InputString = $InputString.Replace('####Replace', '')
         return $InputString
     }
@@ -1386,7 +1386,7 @@ class Utils : BaseSettings{
             }
 
             return $hash
-        } else{ 
+        } else{
             return $PSCustomObject
         }
 
@@ -1410,7 +1410,7 @@ class Utils : BaseSettings{
             }
 
             return $hash
-        } else{ 
+        } else{
             return $PSCustomObject
         }
 
@@ -1421,14 +1421,14 @@ class Utils : BaseSettings{
         [xml]$Xml,
         [int]$Indent
     ){
-        $StringWriter = New-Object System.IO.StringWriter 
-        $XmlWriter = New-Object System.XMl.XmlTextWriter $StringWriter 
-        $xmlWriter.Formatting = "indented" 
+        $StringWriter = New-Object System.IO.StringWriter
+        $XmlWriter = New-Object System.XMl.XmlTextWriter $StringWriter
+        $xmlWriter.Formatting = "indented"
         $xmlWriter.Indentation = $Indent
-        
-        $xml.WriteContentTo($XmlWriter) 
-        $XmlWriter.Flush();$StringWriter.Flush() 
-        
+
+        $xml.WriteContentTo($XmlWriter)
+        $XmlWriter.Flush();$StringWriter.Flush()
+
         $arrFormatedXml = $StringWriter.ToString().Split("`r`n", [System.StringSplitOptions]::RemoveEmptyEntries)
         return $arrFormatedXml
     }
@@ -1480,47 +1480,47 @@ class Utils : BaseSettings{
         switch($ScriptType){
             Startup{
                 switch($PowerShell){
-                    $false{  
+                    $false{
                         $Target = $Policy.PolicySettings.Scripts | Where-Object{ $_.Target -eq $Scope }
                         $ScriptCmd = $Target.ScriptsIni.Startup
                     }
-                    $true{  
+                    $true{
                         $Target = $Policy.PolicySettings.Scripts | Where-Object{ $_.Target -eq $Scope }
                         $ScriptCmd = $Target.PSScriptsIni.Startup
                     }
                 }
             }
-            Shutdown{  
+            Shutdown{
                 switch($PowerShell){
-                    $false{  
+                    $false{
                         $Target = $Policy.PolicySettings.Scripts | Where-Object{ $_.Target -eq $Scope }
                         $ScriptCmd = $Target.ScriptsIni.Shutdown
                     }
-                    $true{  
+                    $true{
                         $Target = $Policy.PolicySettings.Scripts | Where-Object{ $_.Target -eq $Scope }
                         $ScriptCmd = $Target.PSScriptsIni.Shutdown
                     }
                 }
             }
-            Logon{  
+            Logon{
                 switch($PowerShell){
-                    $false{  
+                    $false{
                         $Target = $Policy.PolicySettings.Scripts | Where-Object{ $_.Target -eq $Scope }
                         $ScriptCmd = $Target.ScriptsIni.Logon
                     }
-                    $true{  
+                    $true{
                         $Target = $Policy.PolicySettings.Scripts | Where-Object{ $_.Target -eq $Scope }
                         $ScriptCmd = $Target.PSScriptsIni.Logon
                     }
                 }
             }
-            Logoff{  
+            Logoff{
                 switch($PowerShell){
-                    $false{  
+                    $false{
                         $Target = $Policy.PolicySettings.Scripts | Where-Object{ $_.Target -eq $Scope }
                         $ScriptCmd = $Target.ScriptsIni.Logoff
                     }
-                    $true{  
+                    $true{
                         $Target = $Policy.PolicySettings.Scripts | Where-Object{ $_.Target -eq $Scope }
                         $ScriptCmd = $Target.PSScriptsIni.Logoff
                     }
@@ -1531,12 +1531,12 @@ class Utils : BaseSettings{
         # Get all scripts
         $allScripts = $Utils.ConvertPSCustomObjectToOrderedHashTable($ScriptCmd)
         $cmd = [string]::Empty;
-        
+
         $param = [string]::Empty;
         foreach($item in $allScripts.Keys){
             if($item -imatch 'CmdLine'){ $cmd = $allScripts[$item] }
-            if($item -imatch 'Parameters'){ 
-                $param = $allScripts[$item] 
+            if($item -imatch 'Parameters'){
+                $param = $allScripts[$item]
 
                 # Get script content
                 $ScriptContent = ($Target.ScriptFiles | Where-Object{ $_.Name -eq $cmd }).Content -join "`r`n"
@@ -1569,7 +1569,7 @@ class Utils : BaseSettings{
         }
         else {
             return $true
-        }  
+        }
     }
 }
 
@@ -1593,7 +1593,7 @@ class Linktarget : BaseSettings{
         $this.Enforced = $false
         $this.ObjectType = "LinkTarget"
     }
-    
+
     LinkTarget (
         [string]$Target,
         [int]$LinkOrder,
@@ -1621,7 +1621,7 @@ class PolicySettings : BaseSettings{
     [string[]]$UserComments
     [Script[]]$Scripts
     [GroupPolicyPreference[]]$GroupPolicyPreferences
-    
+
     PolicySettings (){
         $this.ObjectType = "PolicySettings"
     }
@@ -1712,10 +1712,10 @@ class RegistrySetting : BaseSettings{
         $this.ValueType = $ValueType
         $this.ValueName = $ValueName
         $this.ValueData = $ValueData
-        
+
         # Need to verify if value contains a SID other than well known SIDs
         #$Utils = [Utils]::new()
-        #$this.ValueData = $Utils.ReplaceSIDs($ValueData) 
+        #$this.ValueData = $Utils.ReplaceSIDs($ValueData)
     }
 }
 
@@ -1816,7 +1816,7 @@ function Export-GroupPolicyFromAD{
     } catch{
         throw "Failed to get policy from AD - $($_.Exception.Message)"
     }
-    
+
     try{
         $GPO.WritePolicyToJson($Filename)
     } catch{
@@ -1831,10 +1831,10 @@ function Test-GroupPolicyExistenceInAD{
         [string]$DomainController = $([DomainController]::findone($($(New-Object DirectoryContext("domain",$([Domain]::GetComputerDomain().Name)))),$([ActiveDirectorySite]::GetComputerSite()).Name).Name)
     )
     try{
-        Get-GPO -Name $Name -Server $DomainController -ErrorAction 'Stop' | 
+        Get-GPO -Name $Name -Server $DomainController -ErrorAction 'Stop' |
         Out-Null
         $true
-    } 
+    }
     catch{
         $false
     }
@@ -1854,7 +1854,7 @@ function Import-GroupPolicyToAD{
     )
 
     $GPO = [GroupPolicy]::new()
-    
+
     try{
         $GPO.GetPolicyFromJson($FileName,$Replacements, $false)
     } catch{

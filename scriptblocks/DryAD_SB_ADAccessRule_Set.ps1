@@ -1,4 +1,4 @@
-﻿<#  
+<#
     This is an AD Config module for use with DryDeploy, or by itself.
     Copyright (C) 2021  Bjørn Henrik Formo (bjornhenrikformo@gmail.com)
     LICENSE: https://raw.githubusercontent.com/bjoernf73/dry.module.ad/main/LICENSE
@@ -7,11 +7,11 @@
 [ScriptBlock]$DryAD_SB_ADAccessRule_Set ={
     [CmdletBinding()]
     param(
-       
+
         [Parameter(Position = 0)]
         [string]
         $Path,
-     
+
         [Parameter(Position = 1)]
         [string]
         $TargetName,
@@ -62,19 +62,19 @@
         $DebugReturnStrings += @("'ActiveDirectorySecurityInheritance' = '$ActiveDirectorySecurityInheritance'")
         $DebugReturnStrings += @("'ExecutionType'                      = '$ExecutionType'")
         $DebugReturnStrings += @("'Server'                             = '$Server'")
-        
+
         # Remove any blank optional parameter value to ensure correct constructor of System.DirectoryServices.ActiveDirectoryAccessRule
-        if($ObjectType -eq ''){ 
+        if($ObjectType -eq ''){
             $DebugReturnStrings += "Removing 'ObjectType' (it is blank)"
-            Remove-Variable -Name ObjectType 
+            Remove-Variable -Name ObjectType
         }
-        if($InheritedObjectType -eq ''){ 
+        if($InheritedObjectType -eq ''){
             $DebugReturnStrings += "Removing 'InheritedObjectType' (it is blank)"
-            Remove-Variable -Name InheritedObjectType 
+            Remove-Variable -Name InheritedObjectType
         }
-        if($ActiveDirectorySecurityInheritance -eq ''){ 
+        if($ActiveDirectorySecurityInheritance -eq ''){
             $DebugReturnStrings += "Removing 'ActiveDirectorySecurityInheritance' (it is blank)"
-            Remove-Variable -Name ActiveDirectorySecurityInheritance 
+            Remove-Variable -Name ActiveDirectorySecurityInheritance
         }
 
         # Make sure ActiveDirectory module is loaded, so the AD drive is mounted
@@ -92,20 +92,20 @@
             $DebugReturnStrings += @("The AD PSModule was already loaded in session")
         }
 
-        # However, that is not necessarily the case. That ActiveDirectory module is a bit sloppy 
+        # However, that is not necessarily the case. That ActiveDirectory module is a bit sloppy
         try{
-            Get-PSDrive -Name 'AD' -ErrorAction Stop | 
+            Get-PSDrive -Name 'AD' -ErrorAction Stop |
                 Out-Null
             $DebugReturnStrings += @("The AD Drive exists already")
         }
         Catch [System.Management.Automation.DriveNotFoundException]{
             $DebugReturnStrings += @("The AD Drive does not exist - trying to create it")
-            
+
             try{
                 $NewPSDriveParams = @{
-                    Name        = 'AD' 
-                    PSProvider  = 'ActiveDirectory' 
-                    Root        = '//RootDSE/' 
+                    Name        = 'AD'
+                    PSProvider  = 'ActiveDirectory'
+                    Root        = '//RootDSE/'
                     ErrorAction = 'Stop'
                 }
                 New-PSDrive @NewPSDriveParams | Out-Null
@@ -121,17 +121,17 @@
         }
 
         # Make sure the AD-drive is connected to $Server. This ensures that Set-ACL operates on a Domain Controller
-        # that have the OUs, groups, users or any other AD object that the configuration set creates and configures, 
-        # without the need for a full AD replication to have happened 
+        # that have the OUs, groups, users or any other AD object that the configuration set creates and configures,
+        # without the need for a full AD replication to have happened
         $ADDrive = Get-PSDrive -Name 'AD' -ErrorAction Stop
         $ADDrive.Server = "$Server"
-    
+
         $RootDSE = Get-ADRootDSE -ErrorAction Stop
         $DomainDN = $RootDSE.defaultNamingContext
 
         # Create a hashtable to store the GUID value of each schema class and attribute
         $ObjectTypeGUIDs = @{}
-        Get-ADObject -SearchBase ($RootDSE.SchemaNamingContext) -LDAPFilter "(schemaidguid=*)" -Properties lDAPDisplayName, schemaIDGUID -ErrorAction Stop | 
+        Get-ADObject -SearchBase ($RootDSE.SchemaNamingContext) -LDAPFilter "(schemaidguid=*)" -Properties lDAPDisplayName, schemaIDGUID -ErrorAction Stop |
             foreach-Object{
                 $ObjectTypeGUIDs[$_.lDAPDisplayName] = [System.GUID]$_.schemaIDGUID
             }
@@ -140,7 +140,7 @@
 
         # Create a hashtable to store the GUID value of each extended right in the forest
         $ExtendedRightsMap = @{}
-        Get-ADObject -SearchBase ($RootDSE.ConfigurationNamingContext) -LDAPFilter "(&(objectclass=controlAccessRight)(rightsguid=*))" -Properties displayName, rightsGuid -ErrorAction Stop | 
+        Get-ADObject -SearchBase ($RootDSE.ConfigurationNamingContext) -LDAPFilter "(&(objectclass=controlAccessRight)(rightsguid=*))" -Properties displayName, rightsGuid -ErrorAction Stop |
             foreach-Object{
                 $ExtendedRightsMap[$_.displayName] = [System.GUID]$_.rightsGuid
             }
@@ -158,7 +158,7 @@
             'group'{
                 $ADGroup = Get-ADGroup -Identity $TargetName -ErrorAction Stop -Properties SID
                 [System.Security.Principal.IdentityReference]$Target = $ADGroup.SID
-                
+
 
             }
             'user'{
@@ -174,11 +174,11 @@
             $ObjectTypeGUID = [GUID]($ObjectTypeGUIDs.$($ObjectType))
             $DebugReturnStrings += "ObjectTypeGUID: $($ObjectTypeGUID.ToString())"
         }
-        
+
         $InheritedObjectTypeGUID = $null
         if($InheritedObjectType){
             $DebugReturnStrings += "Finding GUID of InheritedObjectType: '$InheritedObjectType'"
-            $InheritedObjectTypeGUID = [GUID]($ObjectTypeGUIDs.$($InheritedObjectType)) 
+            $InheritedObjectTypeGUID = [GUID]($ObjectTypeGUIDs.$($InheritedObjectType))
             $DebugReturnStrings += "InheritedObjectTypeGUID: $($InheritedObjectTypeGUID.ToString())"
         }
 
@@ -188,7 +188,7 @@
             $ACL = Get-Acl -Path "AD:\$($PathObject.DistinguishedName)" -ErrorAction Stop
             $DebugReturnStrings += "Success getting current ACL"
             $AccessRule = $null
-                
+
             # if $ActiveDirectoryRight is an Extended Right, then $ActiveDirectoryRight becomes "ExtendedRight",
             # the GUID of the original right becomes the $ObjectTypeGuid, and GUID of $ObjectType becomes $InheritedObjectTypeGuid
             if($ExtendedRightsMap.ContainsKey($ActiveDirectoryRight)){
@@ -212,50 +212,50 @@
 
             # Now we're able to find the constructor
             if(
-                ($null -eq $ActiveDirectorySecurityInheritance) -and 
-                ($null -eq $ObjectTypeGUID) -and 
+                ($null -eq $ActiveDirectorySecurityInheritance) -and
+                ($null -eq $ObjectTypeGUID) -and
                 ($null -eq $InheritedObjectTypeGUID)
-            ){ 
-                
+            ){
+
                 $DebugReturnStrings += "Constructor: 1 (Target, ActiveDirectoryRight, AccessControlType)"
                 $AccessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule($Target, $ActiveDirectoryRight, $AccessControlType) -ErrorAction Stop
             }
             elseif(
-                ($null -ne $ActiveDirectorySecurityInheritance) -and 
-                ($null -eq $ObjectTypeGUID) -and 
+                ($null -ne $ActiveDirectorySecurityInheritance) -and
+                ($null -eq $ObjectTypeGUID) -and
                 ($null -eq $InheritedObjectTypeGUID)
-            ){ 
+            ){
                 $DebugReturnStrings += "Constructor: 2 (Target, ActiveDirectoryRight, AccessControlType, ActiveDirectorySecurityInheritance)"
                 $AccessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule($Target, $ActiveDirectoryRight, $AccessControlType, $ActiveDirectorySecurityInheritance) -ErrorAction Stop
             }
             elseif(
-                ($null -ne $ActiveDirectorySecurityInheritance) -and 
-                ($null -eq $ObjectTypeGUID) -and 
+                ($null -ne $ActiveDirectorySecurityInheritance) -and
+                ($null -eq $ObjectTypeGUID) -and
                 ($null -ne $InheritedObjectTypeGUID)
-            ){ 
+            ){
                 $DebugReturnStrings += "Constructor: 3 (Target, ActiveDirectoryRight, AccessControlType, ActiveDirectorySecurityInheritance, InheritedObjectTypeGUID)"
                 $AccessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule($Target, $ActiveDirectoryRight, $AccessControlType, $ActiveDirectorySecurityInheritance, $InheritedObjectTypeGUID) -ErrorAction Stop
             }
             elseif(
-                ($null -eq $ActiveDirectorySecurityInheritance) -and 
-                ($null -ne $ObjectTypeGUID) -and 
+                ($null -eq $ActiveDirectorySecurityInheritance) -and
+                ($null -ne $ObjectTypeGUID) -and
                 ($null -eq $InheritedObjectTypeGUID)
-            ){ 
+            ){
                 $DebugReturnStrings += "Constructor: 4 (Target, ActiveDirectoryRight, AccessControlType, ObjectTypeGuid)"
                 $AccessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule($Target, $ActiveDirectoryRight, $AccessControlType, $ObjectTypeGuid) -ErrorAction Stop
             }
             elseif(
-                ($null -ne $ActiveDirectorySecurityInheritance) -and 
-                ($null -ne $ObjectTypeGUID) -and 
+                ($null -ne $ActiveDirectorySecurityInheritance) -and
+                ($null -ne $ObjectTypeGUID) -and
                 ($null -eq $InheritedObjectTypeGUID)
-            ){ 
+            ){
                 $DebugReturnStrings += "Constructor: 5 (Target, ActiveDirectoryRight, AccessControlType, ObjectTypeGuid, ActiveDirectorySecurityInheritance)"
                 $AccessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule($Target, $ActiveDirectoryRight, $AccessControlType, $ObjectTypeGuid, $ActiveDirectorySecurityInheritance) -ErrorAction Stop
             }
             elseif(
-                ($null -ne $ActiveDirectorySecurityInheritance) -and 
-                ($null -ne $ObjectTypeGUID) -and 
-                ($null -ne $InheritedObjectTypeGUID)){ 
+                ($null -ne $ActiveDirectorySecurityInheritance) -and
+                ($null -ne $ObjectTypeGUID) -and
+                ($null -ne $InheritedObjectTypeGUID)){
                 #Type = 6
                 $DebugReturnStrings += "Constructor: 6 (Target, ActiveDirectoryRight, AccessControlType, ObjectTypeGuid, ActiveDirectorySecurityInheritance, InheritedObjectTypeGUID)"
                 $AccessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule($Target, $ActiveDirectoryRight, $AccessControlType, $ObjectTypeGuid, $ActiveDirectorySecurityInheritance, $InheritedObjectTypeGUID) -ErrorAction Stop
@@ -264,7 +264,7 @@
                 throw "Unable to determine constructor"
             }
 
-            try{ 
+            try{
                 $DebugReturnStrings += "Trying to add ACE to current ACL"
                 $ACL.AddAccessRule($AccessRule)
                 $DebugReturnStrings += "Successfully added ACE to current ACL"
@@ -273,7 +273,7 @@
                 Set-Acl -AclObject $ACL -Path ("AD:\$($PathObject.DistinguishedName)") -ErrorAction Stop
                 $DebugReturnStrings += "Successfully submitted the ACL!"
             }
-            catch{ 
+            catch{
                 $PSCmdlet.ThrowTerminatingError($_)
             }
         }

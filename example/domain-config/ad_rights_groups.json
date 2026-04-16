@@ -1,11 +1,11 @@
-{ 
+{
 	"security_groups": [
 		{
 			"Name": "Right-AD-Group-DomainAdmins-Member",
 			"alias": "Rights-Protected",
 			"Description": "Member of Domain Admins in domain '###DomainFQDN###'",
 			"GroupScope": "global",
-			"MemberOf": [ 
+			"MemberOf": [
 					"Domain Admins"
 			]
 		},
@@ -49,7 +49,7 @@
 				"Denied RODC Password Replication Group"
 			]
 		},
-	
+
 		{
 			"Name": "Right-AD-Group-CertPublishers-Member",
 			"alias": "Rights",
@@ -59,7 +59,7 @@
 				"Cert Publishers"
 			]
 		},
-		
+
 		{
 			"Name": "Right-AD-Group-DNSAdmins-Member",
 			"alias": "Rights",
@@ -99,7 +99,7 @@
 				"Key Admins"
 			]
 		},
-		
+
 		{
 			"Name": "Right-AD-Group-ProtectedUsers-Member",
 			"alias": "Rights",
@@ -119,13 +119,13 @@
 				"RAS and IAS Servers"
 			]
 		},
-	
+
 		{
 			"Name": "Right-AD-Computer-Servers-CreMoDel",
 			"alias": "Rights",
 			"Description": "Right to CREate, MODify and DELete Server computer objects",
 			"GroupScope": "domainlocal",
-			"Rights": 
+			"Rights":
 			[
 				{
 					"alias": "Computer-Servers",
@@ -143,14 +143,14 @@
 					"InheritedObjectType":  "Computer",
 					"ActiveDirectoryRights":  "WriteProperty"
 				}
-			]	
+			]
 		},
 		{
 			"Name": "Right-AD-Computer-Servers-Windows-CreMoDel",
 			"alias": "Rights",
 			"Description": "Right to CREate, MODify and DELete Windows Server computer objects",
 			"GroupScope": "domainlocal",
-			"Rights": 
+			"Rights":
 			[
 				{
 					"alias": "Computer-Servers-Win",
@@ -175,7 +175,7 @@
 			"alias": "Rights",
 			"Description": "Right to Read LAPS Password on Windows Server computer objects",
 			"GroupScope": "domainlocal",
-			"Rights": 
+			"Rights":
 			[
 				{
 					"alias": "Computer-Servers-Win",
@@ -192,7 +192,7 @@
 			"alias": "Rights",
 			"Description": "Right to Read and Modify LAPS Password on Windows Server computer objects",
 			"GroupScope": "domainlocal",
-			"Rights": 
+			"Rights":
 			[
 				{
 					"alias": "Computer-Servers-Win",
@@ -217,7 +217,7 @@
 			"alias": "Rights",
 			"Description": "Right to CREate, MODify and DELete Linux Server computer objects",
 			"GroupScope": "domainlocal",
-			"Rights": 
+			"Rights":
 			[
 				{
 					"alias": "Computer-Servers-Lin",
@@ -235,15 +235,15 @@
 					"InheritedObjectType":  "Computer",
 					"ActiveDirectoryRights":  "WriteProperty"
 				}
-			]	
+			]
 		},
-		
+
 		{
 			"Name": "Right-AD-Computer-Workstations-CreMoDel",
 			"alias": "Rights",
 			"Description": "Right to CREate, MODify and DELete Workstation computer objects",
 			"GroupScope": "domainlocal",
-			"Rights": 
+			"Rights":
 			[
 				{
 					"alias": "Computer-Workstations",
@@ -261,14 +261,14 @@
 					"InheritedObjectType":  "Computer",
 					"ActiveDirectoryRights":  "WriteProperty"
 				}
-			]	
+			]
 		},
 		{
 			"Name": "Right-AD-Computer-ComputersCN-CreMoDel",
 			"alias": "Rights",
 			"Description": "Right to CREate, MODify and DELete computer objects in the CN=Computers Container, used in manual domain join (and move to role OU)",
 			"GroupScope": "domainlocal",
-			"Rights": 
+			"Rights":
 			[
 				{
 					"Path": "CN=Computers",
@@ -286,15 +286,15 @@
 					"InheritedObjectType":  "Computer",
 					"ActiveDirectoryRights":  "WriteProperty"
 				}
-			]	
+			]
 		},
-		
+
 		{
 			"Name": "Right-AD-Group-EndUser-CreMoDel",
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete AD groups below OU \u0027EndUserGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -319,7 +319,7 @@
 			"alias": "Rights",
 			"Description":   "Right to Modify Members of AD Groups below OU \u0027EndUserGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -337,7 +337,7 @@
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027AppGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -362,7 +362,7 @@
 			"alias": "Rights",
 			"Description":   "Right to Modify Members of AD Groups below OU \u0027AppGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -380,7 +380,7 @@
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027ProjectGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -405,7 +405,7 @@
 			"alias": "Rights",
 			"Description":   "Right to Modify Members of AD Groups below OU \u0027ProjectGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -423,7 +423,7 @@
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027DepartmentGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -449,7 +449,7 @@
 			"alias": "Rights",
 			"Description":   "Right to Modify Members of AD Groups below OU \u0027DepartmentGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -467,7 +467,7 @@
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027DistributionGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -493,7 +493,7 @@
 			"alias": "Rights",
 			"Description":   "Right to Modify Members of AD Groups below OU \u0027DistributionGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -511,7 +511,7 @@
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027CooperationGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -536,7 +536,7 @@
 			"alias": "Rights",
 			"Description":   "Right to Modify Members of AD Groups below OU \u0027CooperationGroups\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -554,7 +554,7 @@
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027Rights\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -579,7 +579,7 @@
 			"alias": "Rights",
 			"Description":   "Right to Modify Members of AD Groups below OU \u0027Rights\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -591,13 +591,13 @@
 				}
 			]
 		},
-		
+
 		{
 			"Name": "Right-AD-Group-Roles-CreMoDel",
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete AD Groups below OU \u0027Roles\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -622,7 +622,7 @@
 			"alias": "Rights",
 			"Description":   "Right to Modify Members of AD Groups below OU \u0027Roles\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -640,7 +640,7 @@
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete Users below OU \u0027Users\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -666,7 +666,7 @@
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete Users below OU \u0027Users-AdmUsers\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -692,7 +692,7 @@
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete Users below OU \u0027Users-EndUsers\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -718,7 +718,7 @@
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete Users below OU \u0027Users-SvcUsers\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -738,13 +738,13 @@
 				}
 			]
 		},
-		
+
 		{
 			"Name": "Right-AD-Users-MsaUsers-CreMoDel",
 			"alias": "Rights",
 			"Description":   "Right to CREate, MODify and DELete Users below OU \u0027Users-MsaUsers\u0027. ",
 			"GroupScope":  "DomainLocal",
-			"Rights":  
+			"Rights":
 			[
 				{
 					"AccessControlType":  "Allow",
@@ -770,7 +770,7 @@
 			"alias": "Rights",
 			"Description": "Full access to 'CN=Public Key Services,CN=Services,CN=Configuration'. Used by Certificate Services",
 			"GroupScope": "domainlocal",
- 			"Rights": [ 
+ 			"Rights": [
 				{
 					"Path": "CN=Public Key Services,CN=Services,CN=Configuration",
 					"ActiveDirectoryRights": "GenericAll",
